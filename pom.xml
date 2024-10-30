@@ -13,7 +13,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>5.10.2</junit.version>
     <jacoco.version>0.8.10</jacoco.version> <!-- Updated to the latest version -->
-    <mssql.version>9.4.0.jre11</mssql.version> <!-- Adjust based on your Java version -->
+    <mssql.version>12.8.1.jre11</mssql.version> <!-- Adjust based on your Java version -->
   </properties>
 
   <dependencies>
