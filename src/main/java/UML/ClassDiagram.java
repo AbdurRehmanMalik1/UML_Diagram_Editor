@@ -5,18 +5,18 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.control.Button;
 import javafx.scene.Group;
 import java.util.ArrayList;
 import java.util.List;
+
 public class ClassDiagram extends Group {
     private VBox detailsBox;           // VBox for class details (name, attributes, methods)
     private Label className;
-    private VBox attributeBox;
     private List<Label> attributes;
     private List<Label> methods;
+    private VBox attributeBox;
     private VBox methodBox;
-    private CustomPoint point;         // Used for moving
+    private final CustomPoint point;         // Used for moving
     private ClassDiagramController controller;
 
     public ClassDiagram() {
