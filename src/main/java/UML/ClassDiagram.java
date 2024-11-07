@@ -9,27 +9,27 @@ import javafx.scene.Group;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassDiagram extends Group {
-    private VBox detailsBox;           // VBox for class details (name, attributes, methods)
+public class ClassDiagram extends UMLDiagram {
+
+    private Group groupDiagram;
+    private VBox detailsBox;
     private Label className;
     private List<Label> attributes;
     private List<Label> methods;
     private VBox attributeBox;
     private VBox methodBox;
-    private final CustomPoint point;         // Used for moving
     private ClassDiagramController controller;
 
     public ClassDiagram() {
-        point = new CustomPoint(getLayoutX(), getLayoutY());
-
-        // Initialize and add components
+        super();
+        groupDiagram = new Group();
         initComponents();
 
-        addMouseEvents();
+        groupDiagram.getChildren().add(controller);
 
-        // Pass className to the controller when creating it
 
-        getChildren().add(controller);
+        //Finally add the group to the ClassDiagram Object
+        getChildren().add(groupDiagram);
     }
 
     private void initComponents() {
@@ -42,7 +42,9 @@ public class ClassDiagram extends Group {
         HBox classNameWrapper = new HBox(className);
         classNameWrapper.setAlignment(Pos.BASELINE_CENTER);
         detailsBox.getChildren().add(classNameWrapper);
-        controller = new ClassDiagramController(this,classNameWrapper);
+
+        controller = new ClassDiagramController(this, classNameWrapper);
+
         // Attribute Box
         attributeBox = new VBox();
         attributes = new ArrayList<>();
@@ -61,7 +63,7 @@ public class ClassDiagram extends Group {
         detailsBox.getChildren().add(methodBox);
 
         // Add the detailsBox to the Group
-        getChildren().add(detailsBox);
+        groupDiagram.getChildren().add(detailsBox);
     }
 
     public void addAttribute(String temp) {
@@ -74,20 +76,5 @@ public class ClassDiagram extends Group {
         Label method = new Label(temp);
         methods.add(method);
         methodBox.getChildren().add(method);
-    }
-
-    private void addMouseEvents() {
-        setOnMousePressed(event -> {
-            point.setLocation(event.getSceneX(), event.getSceneY());
-        });
-        setOnMouseDragged(event -> {
-            double deltaX = event.getSceneX() - point.getX();
-            double deltaY = event.getSceneY() - point.getY();
-
-            setLayoutX(getLayoutX() + deltaX);
-            setLayoutY(getLayoutY() + deltaY);
-
-            point.setLocation(event.getSceneX(), event.getSceneY());
-        });
     }
 }
