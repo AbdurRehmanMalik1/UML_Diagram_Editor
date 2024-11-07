@@ -11,11 +11,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 public class ClassDiagram extends UMLDiagram {
     private final Group groupDiagram;
@@ -48,16 +48,10 @@ public class ClassDiagram extends UMLDiagram {
             if(event.getClickCount()>=1)
                 requestFocus();
         });
-        this.layoutBoundsProperty().addListener((observable, oldValue, newValue) ->{
-            Platform.runLater(this::resizeOuterRect);
-        });
+        this.layoutBoundsProperty().addListener((observable, oldValue, newValue) ->
+                Platform.runLater(this::resizeOuterRect));
         this.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-               outerRect.setVisible(true);
-            }
-            else{
-                outerRect.setVisible(false);
-            }
+            outerRect.setVisible(newValue);
         });
     }
 
