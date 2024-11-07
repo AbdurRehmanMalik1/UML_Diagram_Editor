@@ -39,9 +39,11 @@ public class ClassDiagramController extends VBox {
     private void addButtonEvents() {
         addAttributeButton.setOnMouseClicked(event -> {
             parentClass.addAttribute("New Attribute1313131");
+            parentClass.resizeOuterRect();
         });
         addMethodButton.setOnMouseClicked(event -> {
             parentClass.addMethod("New Method3111111111111111111111111");
+            parentClass.resizeOuterRect();
         });
     }
 
