@@ -1,34 +1,32 @@
 package UML;
 
-import Controllers.ClassDiagramController;
+import Controllers.InterfaceDiagramController;
 import UML.UI_Components.EditableField;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.Group;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class ClassDiagram extends UMLDiagram {
+public class InterfaceDiagram extends UMLDiagram {
     private final Group groupDiagram;
     private VBox detailsBox;
+    private VBox topBox;
     private EditableField className;
-    private List<StackPane> attributes;
     private List<StackPane> methods;
-    private VBox attributeBox;
     private VBox methodBox;
-    private ClassDiagramController controller;
+    private InterfaceDiagramController controller;
 
     public void unfocusSelf(){
         setFocused(false);
     }
-    public ClassDiagram() {
+    public InterfaceDiagram() {
         super();
         groupDiagram = new Group();
 
@@ -46,11 +44,8 @@ public class ClassDiagram extends UMLDiagram {
                 requestFocus();
         });
 
-        this.layoutBoundsProperty().addListener((observable, oldValue, newValue)->
-                Platform.runLater(this::resizeOuterRect)
-        );
-
-
+        this.layoutBoundsProperty().addListener((observable, oldValue, newValue) ->
+                Platform.runLater(this::resizeOuterRect));
 
 
         this.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -70,29 +65,25 @@ public class ClassDiagram extends UMLDiagram {
         detailsBox.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-        EditableField classNameField = new EditableField("Class Name");
-        classNameField.setAlignment(Pos.BASELINE_CENTER);
-        className = classNameField;
+        topBox = new VBox();
+        Label interfaceLabel =  new Label("<<interface>>");
+        interfaceLabel.setAlignment(Pos.BASELINE_CENTER);
+        HBox interfaceLabelWrapper = new HBox(interfaceLabel);
+        interfaceLabelWrapper.setAlignment(Pos.BASELINE_CENTER);
+        className = new EditableField("Interface Name");
         HBox classNameWrapper = new HBox(className);
         classNameWrapper.setAlignment(Pos.BASELINE_CENTER);
-        detailsBox.getChildren().add(classNameWrapper);
 
-        controller = new ClassDiagramController(this, classNameWrapper);
+        topBox.getChildren().addAll(interfaceLabelWrapper,classNameWrapper);
+        detailsBox.getChildren().add(topBox);
 
-        attributeBox = new VBox();
-        attributeBox.setPadding(new Insets(5,0,5,0));
-        attributes = new ArrayList<>();
-        addAttribute("Attribute 1");
-        addAttribute("Attribute 2");
-
-        attributeBox.setBorder(new Border(new BorderStroke(Color.BLACK,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1, 0, 1, 0))));
-
-        detailsBox.getChildren().add(attributeBox);
+        controller = new InterfaceDiagramController(this, interfaceLabelWrapper);
 
         methodBox = new VBox();
         methodBox.setPadding(new Insets(5,0,5,0));
         methods = new ArrayList<>();
+        methodBox.setBorder(new Border(new BorderStroke(Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1, 0, 0, 0))));
         addMethod("Method():string");
         addMethod("Method():int");
         detailsBox.getChildren().add(methodBox);
@@ -100,16 +91,12 @@ public class ClassDiagram extends UMLDiagram {
         groupDiagram.getChildren().add(detailsBox);
     }
 
-    public void addAttribute(String temp) {
-        StackPane attribute = new EditableField(temp);
-        attribute.setFocusTraversable(true);
-        attributes.add(attribute);
-        attributeBox.getChildren().add(attribute);
-    }
+
 
     public void addMethod(String temp) {
         StackPane method = new EditableField(temp);
         methods.add(method);
         methodBox.getChildren().add(method);
     }
+
 }

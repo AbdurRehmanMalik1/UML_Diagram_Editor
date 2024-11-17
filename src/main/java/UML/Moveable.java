@@ -1,48 +1,41 @@
 package UML;
 
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Moveable extends Parent {
     CustomPoint point;
-    public OuterRectangle outerRect;
+
 
     public Moveable(){
         point = new CustomPoint(getLayoutX(),getLayoutY());
         addMouseEvents();
-        outerRect = new OuterRectangle();
     }
     private void addMouseEvents() {
-    setOnMousePressed(event -> {
-        point.setLocation(event.getSceneX(), event.getSceneY());
-    });
-    setOnMouseDragged(event -> {
-        double deltaX = event.getSceneX() - point.getX();
-        double deltaY = event.getSceneY() - point.getY();
+        setOnMousePressed(event -> {
+            point.setLocation(event.getSceneX(), event.getSceneY());
+        });
+        setOnMouseDragged(event -> {
+            double deltaX = event.getSceneX() - point.getX();
+            double deltaY = event.getSceneY() - point.getY();
 
-        setLayoutX(getLayoutX() + deltaX);
-        setLayoutY(getLayoutY() + deltaY);
+            double newPointX = getLayoutX() + deltaX;
+            double newPointY = getLayoutY() + deltaY;
 
-        point.setLocation(event.getSceneX(), event.getSceneY());
-    });
-    }
+            double parentWidth = getParent().getLayoutBounds().getWidth();
+            double parentHeight = getParent().getLayoutBounds().getHeight();
 
+            if (newPointX >= 0 && newPointX + getBoundsInParent().getWidth() <= parentWidth) {
+                setLayoutX(newPointX);
+            }
 
-    public static class OuterRectangle extends  Rectangle {
-        OuterRectangle(){
-            setFill(Color.TRANSPARENT);
-            setStroke(Color.BLACK);
-            setStrokeWidth(1);
-        }
-
-        public void setLocation(double x, double y) {
-            setLayoutX(x);
-            setLayoutX(y);
-        }
-        public void setSize(double width, double height){
-            setWidth(width);
-            setHeight(height);
-        }
+            if (newPointY >= 0 && newPointY + getBoundsInParent().getHeight() <= parentHeight) {
+                setLayoutY(newPointY);
+            }
+            point.setLocation(event.getSceneX(), event.getSceneY());
+        });
     }
 }
