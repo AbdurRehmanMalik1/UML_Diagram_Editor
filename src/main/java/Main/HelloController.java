@@ -1,4 +1,4 @@
-package main;
+package Main;
 
 import Models.ClassModel;
 import Models.Model;

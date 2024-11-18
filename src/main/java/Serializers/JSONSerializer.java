@@ -45,7 +45,7 @@ public class JSONSerializer implements Serializer {
 
 
     void writeToFile(String object){
-        try(PrintWriter pw = new PrintWriter(new FileWriter("./src/main/resources/storage/uml.txt",true))){
+        try(PrintWriter pw = new PrintWriter(new FileWriter("./src/Main/resources/storage/uml.txt",true))){
             pw.println(object);
         }
         catch(IOException e){

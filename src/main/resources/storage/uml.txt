@@ -11,3 +11,9 @@
 {"x":0.0,"y":0.0,"className":"Class Name","attributes":[],"methods":[]}
 {"x":0.0,"y":0.0,"className":"Class Name","attributes":[],"methods":[]}
 {"x":12.666666666666657,"y":32.666666666666686,"className":"Class Name","attributes":["New Attribute"],"methods":["New Method"]}
+{"x":164.66666666666666,"y":20.0,"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","New Method"]}
+{"x":227.33333333333331,"y":38.0,"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","New Method"]}
+{"x":227.33333333333331,"y":38.0,"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","New Method"]}
+{"x":227.33333333333331,"y":38.0,"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","New Method"]}
+{"x":227.33333333333331,"y":38.0,"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","New Method"]}
+{"x":227.33333333333331,"y":38.0,"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","New Method"]}
