@@ -8,10 +8,14 @@ module Main {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.dataformat.xml;
+    requires jakarta.persistence;
+    requires org.hibernate.orm.core;
 
+
+    opens Models to org.hibernate.orm.core, com.fasterxml.jackson.databind;
     // Make the UML package accessible for Jackson to serialize/deserialize
     opens UML to com.fasterxml.jackson.databind;  // Open UML package to Jackson
-    opens Models to com.fasterxml.jackson.databind;
+
     // Make the Main package (holding the application) accessible to JavaFX
     opens Main to javafx.fxml;
 

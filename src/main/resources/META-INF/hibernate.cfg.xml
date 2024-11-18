@@ -12,7 +12,7 @@
 
         <!-- Connection properties for SQL Server -->
         <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <property name="connection.url">jdbc:sqlserver://localhost:1434;databaseName=Library;trustServerCertificate=true</property>
+        <property name="connection.url">jdbc:sqlserver://localhost:1434;databaseName=UmlEditor;trustServerCertificate=true</property>
         <property name="connection.username">developer</property>
         <property name="connection.password">12345678</property>
 

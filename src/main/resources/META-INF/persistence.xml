@@ -5,14 +5,13 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
 
-    <persistence-unit name="libraryPU" transaction-type="RESOURCE_LOCAL">
-
+    <persistence-unit name="UML_Persistence_Unit" transaction-type="RESOURCE_LOCAL">
         <class>Models.ClassModel</class>
         <!-- JDBC Connection Properties -->
         <properties>
             <!-- Database connection properties -->
             <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1434;databaseName=Library;trustServerCertificate=true"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1434;databaseName=UmlEditor;trustServerCertificate=true"/>
             <property name="jakarta.persistence.jdbc.user" value="developer"/>
             <property name="jakarta.persistence.jdbc.password" value="12345678"/>
 
@@ -30,10 +29,6 @@
             <property name="hibernate.c3p0.log" value="false"/>
 
         </properties>
-
-        <!-- Managed Classes -->
-
-
     </persistence-unit>
 
 </persistence>
