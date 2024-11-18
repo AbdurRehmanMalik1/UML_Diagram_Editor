@@ -12,4 +12,7 @@ module org.example.scdproject {
     opens org.example.scdproject to javafx.fxml;
 
     exports org.example.scdproject;
+    opens UML.Objects to com.fasterxml.jackson.databind;
+    opens UML.Diagrams to com.fasterxml.jackson.databind;
+
 }

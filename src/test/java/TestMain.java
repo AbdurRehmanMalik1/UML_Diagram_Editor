@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import UML.ClassDiagram;
+import UML.Objects.ClassObject;
 import org.example.scdproject.HelloController;
 
 public class TestMain {
@@ -18,7 +18,7 @@ public class TestMain {
         // Test logic directly without UI interaction
         helloController.onAddClassDiagramClick();  // This method should perform logic to add the diagram
         // Verify that the class diagram was added to the canvas
-        ClassDiagram classDiagram = (ClassDiagram) helloController.canvas.getChildren().get(0);
+        ClassObject classDiagram = (ClassObject) helloController.canvas.getChildren().getFirst();
         String originalModel = classDiagram.getClassModel().toString();
         assertEquals("dawd", originalModel);
     }

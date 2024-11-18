@@ -1,18 +1,18 @@
 package Controllers;
 
-import UML.InterfaceDiagram;
+import UML.Objects.InterfaceObject;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class InterfaceDiagramController extends VBox {
-    private final InterfaceDiagram parentClass;
+    private final InterfaceObject parentClass;
     private final HBox classNameWrapper;
 
     private Button addMethodButton;
 
-    public InterfaceDiagramController(InterfaceDiagram parentClass, HBox classNameWrapper) {
+    public InterfaceDiagramController(InterfaceObject parentClass, HBox classNameWrapper) {
         this.parentClass = parentClass;
         this.classNameWrapper = classNameWrapper;
 

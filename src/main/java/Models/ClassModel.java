@@ -15,6 +15,7 @@ public class ClassModel extends Model{
     private List<String> methods;
 
 
+
     public ClassModel(){
         className = "";
         attributes = new ArrayList<>();
@@ -70,5 +71,6 @@ public class ClassModel extends Model{
 
         return sb.toString();
     }
+
 
 }

@@ -1,4 +1,4 @@
-package main;
+package org.example.scdproject;
 
 import Models.ClassModel;
 import Models.Model;
@@ -7,7 +7,7 @@ import Serializers.Serializer;
 import UML.Objects.ClassObject;
 import UML.Objects.InterfaceObject;
 import UML.Objects.UMLObject;
-import UML.UseCase;
+import UML.Objects.UseCaseObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -41,7 +41,7 @@ public class HelloController {
     }
 
     public void onAddUseCaseClick() {
-        UseCase newUseCase = new UseCase();
+        UseCaseObject newUseCase = new UseCaseObject();
         newUseCase.setFocusTraversable(true);
         umlObjects.add(newUseCase);
         canvas.getChildren().add(newUseCase);

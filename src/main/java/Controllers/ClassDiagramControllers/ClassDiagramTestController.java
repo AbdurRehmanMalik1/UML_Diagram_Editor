@@ -1,21 +1,21 @@
 package Controllers.ClassDiagramControllers;
 
 import Models.ClassModel;
-import UML.ClassDiagram;
+import UML.Objects.ClassObject;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class ClassDiagramTestController extends VBox implements ClassDController{
-    private final ClassDiagram parentClass;
+    private final ClassObject parentClass;
     private final HBox classNameWrapper;
 
     private Button addAttributeButton;
     private Button addMethodButton;
     private Button printModelButton;  // New button
 
-    public ClassDiagramTestController(ClassDiagram parentClass, HBox classNameWrapper) {
+    public ClassDiagramTestController(ClassObject parentClass, HBox classNameWrapper) {
         this.parentClass = parentClass;
         this.classNameWrapper = classNameWrapper;
 
