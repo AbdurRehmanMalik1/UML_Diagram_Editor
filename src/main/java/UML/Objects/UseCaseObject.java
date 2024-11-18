@@ -1,4 +1,4 @@
-package UML;
+package UML.Objects;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,14 +11,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
-public class UseCase extends UMLObject {
+public class UseCaseObject extends UMLObject {
     private final StackPane box;
     private final Ellipse ellipse;
     private final EditableField field;
     private double radiusX = 70;
     private double radiusY = 50;
 
-    public UseCase(String initialText) {
+    public UseCaseObject(String initialText) {
         super();
         box = new StackPane();
         ellipse = new Ellipse();
@@ -40,7 +40,7 @@ public class UseCase extends UMLObject {
         outerRect.setLocation(box.getLayoutX()-5,box.getLayoutY()-5);
     }
 
-    public UseCase() {
+    public UseCaseObject() {
         this("Use Case");
     }
 

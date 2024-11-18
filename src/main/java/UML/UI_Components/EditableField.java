@@ -57,4 +57,9 @@ public class EditableField extends StackPane {
         else
             return textField.getText();
     }
+
+    public void setText(String text) {
+        label.setText(text);
+        textField.setText(text);
+    }
 }

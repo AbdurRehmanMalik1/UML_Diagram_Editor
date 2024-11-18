@@ -1,0 +1,5 @@
+{"x":165.33333333333334,"y":34.0,"className":"Class Name321313","attributes":["New Attribute"],"methods":["New Method"]}
+{"x":202.66666666666666,"y":40.66666666666663,"className":"Class Name","attributes":[],"methods":[]}
+{"x":202.66666666666666,"y":40.66666666666663,"className":"Class Name","attributes":["New Attribute","New Attribute","New Attribute","New Attribute"],"methods":["New Method","New Method","New Method","New Method"]}
+{"x":128.0,"y":34.0,"className":"Class Name","attributes":["New Attribute"],"methods":["New Method"]}
+{"x":7.333333333333336,"y":152.66666666666669,"className":"Class Name","attributes":["New Attribute"],"methods":["New Method"]}

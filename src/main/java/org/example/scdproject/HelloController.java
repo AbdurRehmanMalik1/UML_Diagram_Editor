@@ -1,12 +1,12 @@
-package org.example.scdproject;
+package main;
 
 import Models.ClassModel;
 import Models.Model;
 import Serializers.JSONSerializer;
 import Serializers.Serializer;
-import UML.ClassDiagram;
-import UML.InterfaceDiagram;
-import UML.UMLObject;
+import UML.Objects.ClassObject;
+import UML.Objects.InterfaceObject;
+import UML.Objects.UMLObject;
 import UML.UseCase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +27,7 @@ public class HelloController {
 
     @FXML
     public void onAddClassDiagramClick() {
-        ClassDiagram newClassDiagram = new ClassDiagram();
+        ClassObject newClassDiagram = new ClassObject();
         newClassDiagram.setFocusTraversable(true);
         umlObjects.add(newClassDiagram);
         canvas.getChildren().add(newClassDiagram);
@@ -36,8 +36,8 @@ public class HelloController {
 
     public void onUnfocusClick(ActionEvent actionEvent) {
         for(UMLObject cd : umlObjects)
-            if(cd instanceof ClassDiagram)
-                ((ClassDiagram) cd).unfocusSelf();
+            if(cd instanceof ClassObject)
+                ((ClassObject) cd).unfocusSelf();
     }
 
     public void onAddUseCaseClick() {
@@ -48,7 +48,7 @@ public class HelloController {
     }
 
     public void onAddInterfaceDiagramClick() {
-        InterfaceDiagram interfaceDiagram = new InterfaceDiagram();
+        InterfaceObject interfaceDiagram = new InterfaceObject();
         interfaceDiagram.setFocusTraversable(true);
         umlObjects.add(interfaceDiagram);
         canvas.getChildren().add(interfaceDiagram);
@@ -56,16 +56,23 @@ public class HelloController {
 
     public void onSaveDiagram() {
         Serializer jsonSerializer = new JSONSerializer();
-        ClassDiagram classDiagram = (ClassDiagram) umlObjects.getFirst();
+        ClassObject classDiagram = (ClassObject) umlObjects.getFirst();
         classDiagram.reloadClassModel();
+        classDiagram.getClassModel().setCoordinate(classDiagram.getLayoutX(),classDiagram.getLayoutY());
         Model model = classDiagram.getClassModel();
         jsonSerializer.serialize(model);
     }
 
     public void onLoadDiagram() {
         Serializer jsonSerializer = new JSONSerializer();
-        String model = "{\"className\":\"Class Name\",\"attributes\":[\"New Attribute\",\"New Attribute\"],\"methods\":[\"New Method\",\"+ getAge()\",\"setAge()\"]}";
-        jsonSerializer.deserialize(model, ClassModel.class);
+        String model = "{\"x\":250,\"y\":80.66666666666669,\"className\":\"Class Name\",\"attributes\":[\"dlawdlad\",\"New Attribute\"],\"methods\":[\"21321321\",\"New Met2131313hod\",\"New Method\"]}\n";
+        Model classDiagramModel =  jsonSerializer.deserialize(model, ClassModel.class);
 
+        ClassObject newClassDiagram = new ClassObject();
+        newClassDiagram.setFocusTraversable(true);
+        newClassDiagram.setClassModel((ClassModel) classDiagramModel);
+        newClassDiagram.reloadClassModel();
+        umlObjects.add(newClassDiagram);
+        canvas.getChildren().add(newClassDiagram);
     }
 }

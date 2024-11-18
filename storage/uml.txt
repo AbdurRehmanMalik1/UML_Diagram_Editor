@@ -1,9 +1,0 @@
-{"className":""}
-{"className":"Class Name"}
-{"className":"Class Name"}
-{"className":"Class Name"}
-{"className":"Class Name"}
-{"className":"Class Name"}
-{"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","New Method"]}
-{"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","New Method","New Method"]}
-{"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","+ getAge()","setAge()"]}

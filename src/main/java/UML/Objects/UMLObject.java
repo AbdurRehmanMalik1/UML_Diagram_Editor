@@ -1,15 +1,14 @@
-package UML;
+package UML.Objects;
 
+import UML.Moveable;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-import java.io.Serializable;
-
 public abstract class UMLObject extends Moveable {
     transient public OuterRectangle outerRect;
-    UMLObject(){
+    public UMLObject(){
         super();
         outerRect = new OuterRectangle();
     }

@@ -1,4 +1,4 @@
-package UML;
+package UML.Objects;
 
 import Controllers.InterfaceDiagramController;
 import UML.UI_Components.EditableField;
@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InterfaceDiagram extends UMLDiagram {
+public class InterfaceObject extends UMLObject {
     private final Group groupDiagram;
     private VBox detailsBox;
     private VBox topBox;
@@ -26,7 +26,7 @@ public class InterfaceDiagram extends UMLDiagram {
     public void unfocusSelf(){
         setFocused(false);
     }
-    public InterfaceDiagram() {
+    public InterfaceObject() {
         super();
         groupDiagram = new Group();
 

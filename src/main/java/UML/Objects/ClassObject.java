@@ -1,4 +1,4 @@
-package UML;
+package UML.Objects;
 
 import Controllers.ClassDiagramControllers.ClassDController;
 import Controllers.ClassDiagramControllers.ClassDiagramController;
@@ -17,20 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ClassDiagram extends UMLDiagram {
-    private transient final Group groupDiagram;
-    private transient  VBox detailsBox;
-    private transient EditableField className;
-    private transient List<StackPane> attributes;
-    private transient List<StackPane> methods;
-    private transient VBox attributeBox;
-    private transient VBox methodBox;
-    private transient ClassDController controller;
+public class ClassObject extends UMLObject {
+    private final Group groupDiagram;
+    private VBox detailsBox;
+    private EditableField className;
+    private List<StackPane> attributes;
+    private List<StackPane> methods;
+    private VBox attributeBox;
+    private VBox methodBox;
+    private ClassDController controller;
     private ClassModel classModel;
     public void unfocusSelf(){
         setFocused(false);
     }
-    public ClassDiagram() {
+    public ClassObject() {
         super();
         classModel = new ClassModel();
         groupDiagram = new Group();
@@ -59,6 +59,23 @@ public class ClassDiagram extends UMLDiagram {
     }
     public ClassModel getClassModel(){
         return classModel;
+    }
+    public void setClassModel(ClassModel model) {
+        this.classModel = model;
+
+        if (model.getClassName() != null && !model.getClassName().isEmpty()) {
+            className.setText(model.getClassName());
+        }
+
+        for (String attribute : model.getAttributes()) {
+            addAttribute(attribute);
+        }
+
+        for (String method : model.getMethods()) {
+            addMethod(method);
+        }
+        this.setLayoutX(model.getX());
+        this.setLayoutY(model.getY());
     }
     public void resizeOuterRect() {
         Bounds boundsInScene  = detailsBox.localToScene(detailsBox.getBoundsInLocal());
