@@ -1,7 +1,6 @@
 package UML;
 
 import java.awt.geom.Point2D;
-
 public class CustomPoint extends Point2D.Double {
 
     public CustomPoint(double layoutX, double layoutY) {
