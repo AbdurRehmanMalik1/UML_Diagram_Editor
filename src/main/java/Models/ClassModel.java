@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ClassModel extends Model{
 
     @JsonInclude(JsonInclude.Include.ALWAYS)
@@ -13,8 +14,6 @@ public class ClassModel extends Model{
     private List<String> attributes;
     @JsonInclude(JsonInclude.Include.ALWAYS)
     private List<String> methods;
-
-
 
     public ClassModel(){
         className = "";

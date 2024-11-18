@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 5.3//EN"
+        "https://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+        <property name="hibernate.transform_hbm_xml.enabled">true</property>
+        <!-- Update schema automatically -->
+        <property name="hbm2ddl.auto">update</property>
+
+        <!-- Connection properties for SQL Server -->
+        <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+        <property name="connection.url">jdbc:sqlserver://localhost:1434;databaseName=Library;trustServerCertificate=true</property>
+        <property name="connection.username">developer</property>
+        <property name="connection.password">12345678</property>
+
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>
+        <property name="hibernate.c3p0.log">false</property>
+
+        <mapping class="Models.ClassModel"/>
+    </session-factory>
+
+</hibernate-configuration>

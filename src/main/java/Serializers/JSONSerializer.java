@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class JSONSerializer implements Serializer {
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     @Override
     public void serialize(Model model) {
         try {

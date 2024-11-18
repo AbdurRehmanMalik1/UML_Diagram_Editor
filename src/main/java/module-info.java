@@ -2,11 +2,11 @@ module org.example.scdproject {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
-
+    requires java.desktop;
+    requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.dataformat.xml;
-    requires java.desktop;
 
     // Make the UML package accessible for Jackson to serialize/deserialize
     opens UML to com.fasterxml.jackson.databind;  // Open UML package to Jackson
