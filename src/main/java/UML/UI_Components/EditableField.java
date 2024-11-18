@@ -6,13 +6,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
-
 public class EditableField extends StackPane {
-
     private final Label label;
     private final TextField textField;
-
+    private Runnable onCommitCallback;
     public EditableField(String s) {
+        this(s,null);
+    }
+    public EditableField(String s, Runnable onCommitCallback) {
+        this.onCommitCallback = onCommitCallback;  // Set the callback
+
         setAlignment(Pos.BASELINE_LEFT);
         setPadding(new Insets(0, 5, 0, 5));
         label = new Label(s);
@@ -41,6 +44,17 @@ public class EditableField extends StackPane {
             getChildren().remove(textField);
             label.setText(textField.getText()); // Set label text to TextField content
             getChildren().add(label);
+
+            if (onCommitCallback != null) {
+                onCommitCallback.run(); // Call the parent callback when commit happens
+            }
         }
+    }
+
+    public String getText(){
+        if(getChildren().contains(label))
+            return label.getText();
+        else
+            return textField.getText();
     }
 }

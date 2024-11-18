@@ -5,9 +5,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public abstract class UMLObjects extends Moveable{
-    public OuterRectangle outerRect;
-    UMLObjects(){
+import java.io.Serializable;
+
+public abstract class UMLObject extends Moveable {
+    transient public OuterRectangle outerRect;
+    UMLObject(){
         super();
         outerRect = new OuterRectangle();
     }

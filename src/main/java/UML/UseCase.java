@@ -1,6 +1,5 @@
 package UML;
 
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -12,7 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
-public class UseCase extends UMLObjects {
+public class UseCase extends UMLObject {
     private final StackPane box;
     private final Ellipse ellipse;
     private final EditableField field;

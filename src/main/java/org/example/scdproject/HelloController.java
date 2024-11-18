@@ -1,15 +1,17 @@
 package org.example.scdproject;
 
+import Models.ClassModel;
+import Models.Model;
+import Serializers.JSONSerializer;
+import Serializers.Serializer;
 import UML.ClassDiagram;
 import UML.InterfaceDiagram;
-import UML.UMLObjects;
+import UML.UMLObject;
 import UML.UseCase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.Group;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +23,10 @@ public class HelloController {
 
     @FXML
     private Label welcomeText;
-    List<UMLObjects> umlObjects = new ArrayList<>();
+    List<UMLObject> umlObjects = new ArrayList<>();
 
     @FXML
-    protected void onAddClassDiagramClick() {
+    public void onAddClassDiagramClick() {
         ClassDiagram newClassDiagram = new ClassDiagram();
         newClassDiagram.setFocusTraversable(true);
         umlObjects.add(newClassDiagram);
@@ -33,7 +35,7 @@ public class HelloController {
     }
 
     public void onUnfocusClick(ActionEvent actionEvent) {
-        for(UMLObjects cd : umlObjects)
+        for(UMLObject cd : umlObjects)
             if(cd instanceof ClassDiagram)
                 ((ClassDiagram) cd).unfocusSelf();
     }
@@ -50,5 +52,20 @@ public class HelloController {
         interfaceDiagram.setFocusTraversable(true);
         umlObjects.add(interfaceDiagram);
         canvas.getChildren().add(interfaceDiagram);
+    }
+
+    public void onSaveDiagram() {
+        Serializer jsonSerializer = new JSONSerializer();
+        ClassDiagram classDiagram = (ClassDiagram) umlObjects.getFirst();
+        classDiagram.reloadClassModel();
+        Model model = classDiagram.getClassModel();
+        jsonSerializer.serialize(model);
+    }
+
+    public void onLoadDiagram() {
+        Serializer jsonSerializer = new JSONSerializer();
+        String model = "{\"className\":\"Class Name\",\"attributes\":[\"New Attribute\",\"New Attribute\"],\"methods\":[\"New Method\",\"+ getAge()\",\"setAge()\"]}";
+        jsonSerializer.deserialize(model, ClassModel.class);
+
     }
 }

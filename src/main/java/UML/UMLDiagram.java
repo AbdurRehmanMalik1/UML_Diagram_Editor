@@ -1,6 +1,6 @@
 package UML;
 
-public abstract class UMLDiagram extends UMLObjects {
+public abstract class UMLDiagram extends UMLObject {
     UMLDiagram(){
         super();
     }

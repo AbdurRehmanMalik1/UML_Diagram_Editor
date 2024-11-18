@@ -7,9 +7,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Moveable extends Parent {
-    CustomPoint point;
-
-
+    transient CustomPoint point;
     public Moveable(){
         point = new CustomPoint(getLayoutX(),getLayoutY());
         addMouseEvents();
