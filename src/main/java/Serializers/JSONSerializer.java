@@ -2,11 +2,10 @@ package Serializers;
 
 import Models.ClassModel;
 import Models.Model;
-import UML.UMLObject;
+import UML.Objects.UMLObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,10 +24,10 @@ public class JSONSerializer implements Serializer {
     }
 
     @Override
-    public void deserialize(String s, Class<ClassModel> clazz) {
+    public Model deserialize(String s, Class<ClassModel> clazz) {
         try {
-            Model modelASString =  objectMapper.readValue(s,clazz);
-            System.out.println(modelASString);
+            Model deserializedModel =  objectMapper.readValue(s,clazz);
+            return deserializedModel;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -46,7 +45,7 @@ public class JSONSerializer implements Serializer {
 
 
     void writeToFile(String object){
-        try(PrintWriter pw = new PrintWriter(new FileWriter("./storage/uml.txt",true))){
+        try(PrintWriter pw = new PrintWriter(new FileWriter("./src/main/resources/storage/uml.txt",true))){
             pw.println(object);
         }
         catch(IOException e){
