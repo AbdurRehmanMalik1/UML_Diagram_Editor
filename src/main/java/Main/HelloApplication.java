@@ -37,6 +37,7 @@ public class HelloApplication extends Application {
         finally {
             JPAUtil.shutdown();
             HibernateUtil.shutdown();
+            System.out.println("Entity Manager Factories Shutting Down");
         }
     }
 }
