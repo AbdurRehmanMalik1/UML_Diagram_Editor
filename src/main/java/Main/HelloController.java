@@ -25,7 +25,7 @@ public class HelloController {
     @FXML
     private Label welcomeText;
     List<UMLObject> umlObjects = new ArrayList<>();
-    ClassModelService classModelService = new ClassModelService();
+    //ClassModelService classModelService = new ClassModelService();
 
     @FXML
     public void onAddClassDiagramClick() {
@@ -33,7 +33,7 @@ public class HelloController {
         newClassDiagram.setFocusTraversable(true);
         umlObjects.add(newClassDiagram);
         canvas.getChildren().add(newClassDiagram);
-        classModelService.saveClass(newClassDiagram.getClassModel());
+        //classModelService.saveClass(newClassDiagram.getClassModel());
     }
 
     public void onUnfocusClick(ActionEvent actionEvent) {

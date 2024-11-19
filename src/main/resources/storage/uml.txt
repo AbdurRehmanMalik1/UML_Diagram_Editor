@@ -1,1 +1,3 @@
 {"x":110.66666666666669,"y":40.666666666666686,"id":0,"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","New Method"]}
+{"x":0.0,"y":0.0,"id":0,"className":"Class Name","attributes":["New Attribute"],"methods":["New Method"]}
+{"x":0.0,"y":0.0,"id":0,"className":"Class Name","attributes":["New Attribute"],"methods":["New Method"]}
