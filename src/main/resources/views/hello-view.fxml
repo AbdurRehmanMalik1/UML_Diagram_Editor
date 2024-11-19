@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ScrollPane?>
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:controller="Main.HelloController">
   <VBox  spacing="20.0"  alignment="BASELINE_LEFT" >
@@ -21,8 +22,10 @@
     <Button text="Remove Focus" onAction="#onUnfocusClick"/>
 
       <HBox style="-fx-border-color: black; -fx-border-width: 2;"  prefWidth="500" prefHeight="800">
-        <Pane fx:id="canvas"  prefWidth="500" prefHeight="800">
-        </Pane>
+        <ScrollPane>
+          <Pane fx:id="canvas"  prefWidth="500" prefHeight="800">
+          </Pane>
+        </ScrollPane>
       </HBox>
   </VBox>
 </GridPane>

@@ -29,10 +29,18 @@ public class HelloController {
 
     @FXML
     public void onAddClassDiagramClick() {
+       addClassDiagram(100,100);
+    }
+    void addToCanvas(UMLObject umlObject,double x , double y){
+        umlObject.setFocusTraversable(true);
+        umlObjects.add(umlObject);
+        canvas.getChildren().add(umlObject);
+        umlObject.setLayoutX(x);
+        umlObject.setLayoutY(y);
+    }
+    void addClassDiagram(double x , double y){
         ClassObject newClassDiagram = new ClassObject();
-        newClassDiagram.setFocusTraversable(true);
-        umlObjects.add(newClassDiagram);
-        canvas.getChildren().add(newClassDiagram);
+        addToCanvas(newClassDiagram , x , y);
         classModelService.saveClass(newClassDiagram.getClassModel());
     }
 
@@ -57,6 +65,7 @@ public class HelloController {
     }
 
     public void onSaveDiagram() {
+
         Serializer jsonSerializer = new JSONSerializer();
         ClassObject classDiagram = (ClassObject) umlObjects.getFirst();
         classDiagram.reloadClassModel();
