@@ -24,6 +24,7 @@
         <property name="hibernate.c3p0.log">false</property>
 
         <mapping class="Models.ClassModel"/>
+        <mapping class="Models.AssociationModel"/>
     </session-factory>
 
 </hibernate-configuration>

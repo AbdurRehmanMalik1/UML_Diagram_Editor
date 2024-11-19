@@ -15,7 +15,7 @@ public class ClassModel extends Model{
     private int id ;
 
     @JsonInclude(JsonInclude.Include.ALWAYS)
-    @Column(name = "class_name")
+    @Column(name = "class_name" ,nullable = false)
     private String className;
 
     @JsonInclude(JsonInclude.Include.ALWAYS)
@@ -28,8 +28,15 @@ public class ClassModel extends Model{
     @ElementCollection
     @CollectionTable(name = "class_methods", joinColumns = @JoinColumn(name = "class_id"))
     @Column(name = "method")
-
     private List<String> methods;
+
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @OneToMany(mappedBy = "startModel",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AssociationModel> incomingAssociations =new ArrayList<>();
+
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @OneToMany(mappedBy = "endModel",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AssociationModel> outgoingAssociations =new ArrayList<>();
 
     public ClassModel(){
         className = "";
@@ -94,5 +101,19 @@ public class ClassModel extends Model{
         return sb.toString();
     }
 
+    public List<AssociationModel> getOutgoingAssociations() {
+        return outgoingAssociations;
+    }
 
+    public void setOutgoingAssociations(List<AssociationModel> outgoingAssociations) {
+        this.outgoingAssociations = outgoingAssociations;
+    }
+
+    public List<AssociationModel> getIncomingAssociations() {
+        return incomingAssociations;
+    }
+
+    public void setIncomingAssociations(List<AssociationModel> incomingAssociations) {
+        this.incomingAssociations = incomingAssociations;
+    }
 }

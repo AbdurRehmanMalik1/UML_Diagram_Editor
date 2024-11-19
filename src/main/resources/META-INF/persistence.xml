@@ -7,6 +7,7 @@
 
     <persistence-unit name="UML_Persistence_Unit" transaction-type="RESOURCE_LOCAL">
         <class>Models.ClassModel</class>
+        <class>Models.AssociationModel</class>
         <!-- JDBC Connection Properties -->
         <properties>
             <!-- Database connection properties -->
