@@ -31,12 +31,12 @@ public class HelloApplication extends Application {
     }
     public static void main(String[] args) {
         try {
-            settingUpLogging();
+            //settingUpLogging();
             launch();
         }
         finally {
-            JPAUtil.shutdown();
-            HibernateUtil.shutdown();
+            //JPAUtil.shutdown();
+            //HibernateUtil.shutdown();
             System.out.println("Entity Manager Factories Shutting Down");
         }
     }
