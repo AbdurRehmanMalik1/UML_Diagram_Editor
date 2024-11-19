@@ -12,6 +12,10 @@ public abstract class UMLObject extends Moveable {
         super();
         outerRect = new OuterRectangle();
     }
+    public abstract double getWidth();
+
+    public abstract double getHeight();
+
     public class OuterRectangle extends Rectangle {
         private final Circle topLeft;
         private final Circle topRight;

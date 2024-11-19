@@ -57,6 +57,17 @@ public class ClassObject extends UMLObject {
             outerRect.setVisibility(newValue);
         });
     }
+
+    @Override
+    public double getWidth() {
+        return detailsBox.getWidth();
+    }
+
+    @Override
+    public double getHeight() {
+        return detailsBox.getHeight();
+    }
+
     public ClassModel getClassModel(){
         return classModel;
     }

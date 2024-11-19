@@ -36,12 +36,22 @@ public class UseCaseObject extends UMLObject {
 
         getChildren().add(box);
 
-        outerRect.setSize(box.getLayoutBounds().getWidth()+10,box.getLayoutBounds().getHeight()+10);
-        outerRect.setLocation(box.getLayoutX()-5,box.getLayoutY()-5);
+        outerRect.setSize(ellipse.getRadiusX()*2+4,ellipse.getRadiusY()*2+4);
+        outerRect.setLocation(box.getLayoutX()-1,box.getLayoutY()-1);
     }
 
     public UseCaseObject() {
         this("Use Case");
+    }
+
+    @Override
+    public double getWidth() {
+        return ellipse.getRadiusX()*2;
+    }
+
+    @Override
+    public double getHeight() {
+        return ellipse.getRadiusY()*2;
     }
 
     public void setRadii(double newRadiusX, double newRadiusY) {
@@ -62,10 +72,9 @@ public class UseCaseObject extends UMLObject {
 
     public void setPosition(double x, double y) {
         setLayoutX(x);
-        setLayoutY(y); // Update position of the entire UseCase object
+        setLayoutY(y);
     }
 
-    // Inner class for editable field
     private class EditableField extends StackPane {
         private final Label label;
         private final TextField textField;

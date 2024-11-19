@@ -53,6 +53,16 @@ public class InterfaceObject extends UMLObject {
         });
     }
 
+    @Override
+    public double getWidth() {
+        return detailsBox.getWidth();
+    }
+
+    @Override
+    public double getHeight() {
+        return detailsBox.getHeight();
+    }
+
     public void resizeOuterRect() {
         Bounds boundsInScene  = detailsBox.localToScene(detailsBox.getBoundsInLocal());
         Bounds boundsInGroup = groupDiagram.sceneToLocal(boundsInScene);

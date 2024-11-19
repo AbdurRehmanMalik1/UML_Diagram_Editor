@@ -9,13 +9,18 @@ import UML.Objects.ClassObject;
 import UML.Objects.InterfaceObject;
 import UML.Objects.UMLObject;
 import UML.Objects.UseCaseObject;
+import Util.DistanceCalc;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-
+import UML.Line.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static Util.DistanceCalc.getShortestDistance;
 
 public class HelloController {
 
@@ -23,30 +28,41 @@ public class HelloController {
     public Pane canvas;
 
     @FXML
+    public void initialize() {
+        canvas.setFocusTraversable(false);
+        canvas.focusedProperty().removeListener((observable, oldValue, newValue) -> {
+        });
+    }
+
+    @FXML
     private Label welcomeText;
     List<UMLObject> umlObjects = new ArrayList<>();
     ClassModelService classModelService = new ClassModelService();
+    private UMLObject selectedObject1 = null;  // To store the first selected object
+
 
     @FXML
     public void onAddClassDiagramClick() {
-       addClassDiagram(100,100);
+        addClassDiagram(100, 100);
     }
-    void addToCanvas(UMLObject umlObject,double x , double y){
+
+    void addToCanvas(UMLObject umlObject, double x, double y) {
         umlObject.setFocusTraversable(true);
         umlObjects.add(umlObject);
         canvas.getChildren().add(umlObject);
         umlObject.setLayoutX(x);
         umlObject.setLayoutY(y);
     }
-    void addClassDiagram(double x , double y){
+
+    void addClassDiagram(double x, double y) {
         ClassObject newClassDiagram = new ClassObject();
-        addToCanvas(newClassDiagram , x , y);
+        addToCanvas(newClassDiagram, x, y);
         classModelService.saveClass(newClassDiagram.getClassModel());
     }
 
     public void onUnfocusClick(ActionEvent actionEvent) {
-        for(UMLObject cd : umlObjects)
-            if(cd instanceof ClassObject)
+        for (UMLObject cd : umlObjects)
+            if (cd instanceof ClassObject)
                 ((ClassObject) cd).unfocusSelf();
     }
 
@@ -69,7 +85,7 @@ public class HelloController {
         Serializer jsonSerializer = new JSONSerializer();
         ClassObject classDiagram = (ClassObject) umlObjects.getFirst();
         classDiagram.reloadClassModel();
-        classDiagram.getClassModel().setCoordinate(classDiagram.getLayoutX(),classDiagram.getLayoutY());
+        classDiagram.getClassModel().setCoordinate(classDiagram.getLayoutX(), classDiagram.getLayoutY());
         Model model = classDiagram.getClassModel();
         jsonSerializer.serialize(model);
     }
@@ -77,7 +93,7 @@ public class HelloController {
     public void onLoadDiagram() {
         Serializer jsonSerializer = new JSONSerializer();
         String model = "{\"x\":250,\"y\":80.66666666666669,\"className\":\"Class Name\",\"attributes\":[\"dlawdlad\",\"New Attribute\"],\"methods\":[\"21321321\",\"New Met2131313hod\",\"New Method\"]}\n";
-        Model classDiagramModel =  jsonSerializer.deserialize(model, ClassModel.class);
+        Model classDiagramModel = jsonSerializer.deserialize(model, ClassModel.class);
 
         ClassObject newClassDiagram = new ClassObject();
         newClassDiagram.setFocusTraversable(true);
@@ -86,4 +102,98 @@ public class HelloController {
         umlObjects.add(newClassDiagram);
         canvas.getChildren().add(newClassDiagram);
     }
+
+    public void onDrawAssociationClick(ActionEvent actionEvent) {
+        handleLineDrawing("Association");
+    }
+
+    public void onDrawInheritanceClick(ActionEvent actionEvent) {
+        handleLineDrawing("Inheritance");
+    }
+
+    public void onDrawAggregationClick(ActionEvent actionEvent) {
+        handleLineDrawing("Aggregation");
+    }
+
+    public void onDrawCompositionClick(ActionEvent actionEvent) {
+        handleLineDrawing("Composition");
+    }
+
+    private void handleLineDrawing(String lineType) {
+        drawLineBetweenObjects(umlObjects.getFirst(), umlObjects.getLast(), lineType);
+
+//        if (selectedObject1 == null) {
+//            // No object selected yet, so set the first selected object
+//            canvas.setOnMouseClicked(event -> {
+//                //selectedObject1 = getObjectAtMousePosition(event.getX(), event.getY());
+//                selectedObject1 = umlObjects.get(1);
+//                if (selectedObject1 != null) {
+//                    System.out.println("Object selected: " + selectedObject1);
+//                }
+//            });
+//        } else {
+//            // Select the second object
+//            canvas.setOnMouseClicked(event -> {
+//                //UMLObject selectedObject2 = getObjectAtMousePosition(event.getX(), event.getY());
+//                UMLObject selectedObject2 = umlObjects.getFirst();
+//                if (selectedObject2 != null && selectedObject1 != selectedObject2) {
+//                    System.out.println("Second object selected: " + selectedObject2);
+//                    drawLineBetweenObjects(selectedObject1, selectedObject2, lineType);
+//                    selectedObject1 = null; // Reset selection for next drawing
+//                }
+//            });
+//        }
+    }
+
+    private UMLObject getObjectAtMousePosition(double x, double y) {
+        for (UMLObject umlObject : umlObjects) {
+            if (umlObject.contains(x, y)) { // Assuming UMLObject has a `contains` method
+                return umlObject;
+            }
+        }
+        return null;
+    }
+
+    private void drawLineBetweenObjects(UMLObject object1, UMLObject object2, String lineType) {
+
+        System.out.println(object1.toString() + object2.toString());
+
+        //DistanceCalc.ResultPoint result = getShortestDistance(object1, object2);
+
+        double startX = object1.getLayoutX() + object1.getWidth() / 2;
+        double startY = object1.getLayoutY();
+        double endX = object2.getLayoutX() + object2.getWidth() / 2;
+        double endY = object2.getLayoutY();
+
+        System.out.println("Line coordinates: " + startX + ", " + startY + " to " + endX + ", " + endY);
+
+        // Create the appropriate line object based on the lineType
+        Line line = null;
+        switch (lineType) {
+            case "Association":
+                line = new Association(startX, startY, endX, endY, canvas);
+                break;
+            case "Aggregation":
+                line = new Aggregation(startX, startY, endX, endY, canvas);
+                break;
+            case "Composition":
+                line = new Composition(startX, startY, endX, endY, canvas);
+                break;
+            case "Inheritance":
+                line = new Inheritance(startX, startY, endX, endY, canvas);
+                break;
+            default:
+                System.out.println("Invalid line type");
+                return; // If the line type is not recognized, return without drawing
+        }
+        if (line != null) {
+            canvas.getChildren().add(line);
+        }
+        //ClassObject classObject = (ClassObject) object1;
+
+        System.out.println("Line has been added");
+    }
+
+
+
 }
