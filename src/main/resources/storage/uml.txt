@@ -1,3 +1,1 @@
-{"x":110.66666666666669,"y":40.666666666666686,"id":0,"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","New Method"]}
-{"x":317.3333333333333,"y":65.33333333333331,"id":0,"className":"Class Name","attributes":["New Attribute","New Attribute"],"methods":["New Method","New Method"]}
-{"x":198.66666666666666,"y":89.33333333333331,"id":0,"className":"Class Name","attributes":["New Attribute"],"methods":["New Method"],"incomingAssociations":[],"outgoingAssociations":[]}
+{"id":9,"type":"Class","x":142.0,"y":170.0,"incomingAssociations":[],"outgoingAssociations":[],"className":"Class Name","attributes":[],"methods":[]}

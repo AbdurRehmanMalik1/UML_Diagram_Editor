@@ -1,6 +1,7 @@
 package UML.Objects;
 
 import Controllers.InterfaceDiagramController;
+import Models.Model;
 import UML.UI_Components.EditableField;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -53,6 +54,10 @@ public class InterfaceObject extends UMLObject {
         });
     }
 
+    @Override
+    public Model getModel(){
+        return null;
+    }
     @Override
     public double getWidth() {
         return detailsBox.getWidth();

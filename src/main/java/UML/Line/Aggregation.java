@@ -1,5 +1,7 @@
 package UML.Line;
 
+import Models.AssociationModel;
+import UML.Objects.UMLObject;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.layout.Pane;
@@ -7,11 +9,12 @@ import javafx.scene.layout.Pane;
 public class Aggregation extends Line {
 
     // Constructor to initialize line properties
-    public Aggregation(double startX, double startY, double endX, double endY, Pane parentPane) {
-        super(startX, startY, endX, endY, parentPane); // Call the superclass (Line) constructor
-        this.setStroke(Color.BLACK);  // Set the line color
-        this.setStrokeWidth(3);       // Set the line thickness
-        customDraw();  // Call customDraw to draw the line and the diamond shape
+    public Aggregation(double startX, double startY, double endX, double endY,
+                       Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
+        super(startX, startY, endX, endY, parentPane, associationModel,startObject,endObject); // Call the superclass (Line) constructor
+        this.setStroke(Color.BLACK);      // Set the line color
+        this.setStrokeWidth(3);           // Set the line thickness
+        customDraw();                     // Call customDraw to draw the line and the diamond shape
     }
 
     @Override

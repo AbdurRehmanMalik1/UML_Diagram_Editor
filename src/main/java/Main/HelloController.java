@@ -1,10 +1,12 @@
 package Main;
 
+import Models.AssociationModel;
 import Models.ClassModel;
 import Models.Model;
 import Serializers.JSONSerializer;
 import Serializers.Serializer;
 import Services.ClassModelService;
+import UML.Diagrams.ClassDiagram;
 import UML.Objects.ClassObject;
 import UML.Objects.InterfaceObject;
 import UML.Objects.UMLObject;
@@ -57,6 +59,7 @@ public class HelloController {
     void addClassDiagram(double x, double y) {
         ClassObject newClassDiagram = new ClassObject();
         addToCanvas(newClassDiagram, x, y);
+        newClassDiagram.reloadClassModel();
         classModelService.saveClass(newClassDiagram.getClassModel());
     }
 
@@ -156,43 +159,52 @@ public class HelloController {
 
     private void drawLineBetweenObjects(UMLObject object1, UMLObject object2, String lineType) {
 
-        System.out.println(object1.toString() + object2.toString());
+        System.out.println(object1.toString() + " to " + object2.toString());
 
-        //DistanceCalc.ResultPoint result = getShortestDistance(object1, object2);
-
+        // Calculate the coordinates for the start and end points
         double startX = object1.getLayoutX() + object1.getWidth() / 2;
         double startY = object1.getLayoutY();
         double endX = object2.getLayoutX() + object2.getWidth() / 2;
         double endY = object2.getLayoutY();
 
-        System.out.println("Line coordinates: " + startX + ", " + startY + " to " + endX + ", " + endY);
+        // Assuming AssociationModel is a class that links the objects
+        AssociationModel associationModel = new AssociationModel();  // Create or fetch your association model here
+
+        // Set start and end models in the association model (optional based on your design)
+        associationModel.setStartModel(object1.getModel());
+        associationModel.setEndModel(object2.getModel());
+
+        classModelService.saveClass(((ClassObject)object1).getClassModel());
+        classModelService.saveClass(((ClassObject)object2).getClassModel());
 
         // Create the appropriate line object based on the lineType
         Line line = null;
         switch (lineType) {
             case "Association":
-                line = new Association(startX, startY, endX, endY, canvas);
+                line = new Association(startX, startY, endX, endY, canvas, associationModel, object1, object2);
                 break;
             case "Aggregation":
-                line = new Aggregation(startX, startY, endX, endY, canvas);
+                line = new Aggregation(startX, startY, endX, endY, canvas, associationModel, object1, object2);
                 break;
             case "Composition":
-                line = new Composition(startX, startY, endX, endY, canvas);
+                line = new Composition(startX, startY, endX, endY, canvas, associationModel, object1, object2);
                 break;
             case "Inheritance":
-                line = new Inheritance(startX, startY, endX, endY, canvas);
+                line = new Inheritance(startX, startY, endX, endY, canvas, associationModel, object1, object2);
                 break;
             default:
                 System.out.println("Invalid line type");
                 return; // If the line type is not recognized, return without drawing
         }
+
+        // Add the line to the canvas if it's not null
         if (line != null) {
             canvas.getChildren().add(line);
         }
-        //ClassObject classObject = (ClassObject) object1;
 
-        System.out.println("Line has been added");
+        System.out.println("Line coordinates: " + startX + ", " + startY + " to " + endX + ", " + endY);
     }
+
 
 
 

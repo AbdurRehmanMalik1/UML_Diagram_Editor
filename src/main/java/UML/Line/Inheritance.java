@@ -1,5 +1,7 @@
 package UML.Line;
 
+import Models.AssociationModel;
+import UML.Objects.UMLObject;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -7,8 +9,9 @@ import javafx.scene.shape.Polygon;
 public class Inheritance extends Line {
 
     // Constructor for Inheritance line that initializes the line and the parent pane
-    public Inheritance(double startX, double startY, double endX, double endY, Pane parentPane) {
-        super(startX, startY, endX, endY, parentPane);  // Initialize the line with start and end points
+    public Inheritance(double startX, double startY, double endX, double endY,
+                       Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
+        super(startX, startY, endX, endY, parentPane, associationModel,startObject,endObject);
         this.setStroke(Color.BLACK);  // Set line color for Inheritance
         this.setStrokeWidth(2);       // Set stroke width for the line
     }

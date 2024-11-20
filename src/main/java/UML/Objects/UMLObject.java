@@ -1,5 +1,6 @@
 package UML.Objects;
 
+import Models.Model;
 import UML.Moveable;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -15,7 +16,7 @@ public abstract class UMLObject extends Moveable {
     public abstract double getWidth();
 
     public abstract double getHeight();
-
+    public abstract Model getModel();
     public class OuterRectangle extends Rectangle {
         private final Circle topLeft;
         private final Circle topRight;

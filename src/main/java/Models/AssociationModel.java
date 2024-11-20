@@ -1,17 +1,17 @@
 package Models;
 
-
 import jakarta.persistence.*;
 
 @Entity
-@Table(name= "associations")
+@Table(name = "associations")
 public class AssociationModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "association_id")
     private int id;
-    @Column(name = "type")
+
+    @Column(name = "type", nullable = false)
     private String type;
 
     @Column(name = "start_x")
@@ -26,26 +26,28 @@ public class AssociationModel {
     @Column(name = "end_y")
     private double endY;
 
-    @Column(name = "startMultiplicity" , nullable = true)
+    @Column(name = "startMultiplicity", nullable = true)
     private Integer startMultiplicity;
-    @Column(name = "endMultiplicity",nullable = true)
+
+    @Column(name = "endMultiplicity", nullable = true)
     private Integer endMultiplicity;
 
     @ManyToOne
-    @JoinColumn(name = "start_object_id", referencedColumnName = "class_id", nullable = false)
-    private ClassModel startModel;
+    @JoinColumn(name = "start_object_id", nullable = false)
+    private Model startModel; // Generalized to Model
 
     @ManyToOne
-    @JoinColumn(name = "end_object_id", referencedColumnName = "class_id", nullable = false)
-    private ClassModel endModel;
+    @JoinColumn(name = "end_object_id", nullable = false)
+    private Model endModel; // Generalized to Model
 
-
-    public AssociationModel() {
-    }
+    public AssociationModel() {}
 
     public AssociationModel(String type) {
         this.type = type;
     }
+
+    // Getters and setters for all fields
+
     public String getType() {
         return type;
     }
@@ -101,18 +103,28 @@ public class AssociationModel {
     public void setStartX(double startX) {
         this.startX = startX;
     }
-    public ClassModel getStartModel() {
+
+    public Model getStartModel() {
         return startModel;
     }
 
-    public void setStartModel(ClassModel startModel) {
+    public void setStartModel(Model startModel) {
         this.startModel = startModel;
     }
 
-    public ClassModel getEndModel() {
+    public Model getEndModel() {
         return endModel;
     }
-    public void setEndModel(ClassModel endModel) {
+
+    public void setEndModel(Model endModel) {
         this.endModel = endModel;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

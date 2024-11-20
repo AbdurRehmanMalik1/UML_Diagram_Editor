@@ -1,5 +1,6 @@
 package UML.Objects;
 
+import Models.Model;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -44,6 +45,10 @@ public class UseCaseObject extends UMLObject {
         this("Use Case");
     }
 
+    @Override
+    public Model getModel(){
+        return null;
+    }
     @Override
     public double getWidth() {
         return ellipse.getRadiusX()*2;

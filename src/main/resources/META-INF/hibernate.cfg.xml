@@ -8,7 +8,7 @@
     <session-factory>
         <property name="hibernate.transform_hbm_xml.enabled">true</property>
         <!-- Update schema automatically -->
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">none</property>
 
         <!-- Connection properties for SQL Server -->
         <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>

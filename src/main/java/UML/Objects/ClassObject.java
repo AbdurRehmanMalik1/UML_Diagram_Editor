@@ -3,6 +3,7 @@ package UML.Objects;
 import Controllers.ClassDiagramControllers.ClassDController;
 import Controllers.ClassDiagramControllers.ClassDiagramController;
 import Models.ClassModel;
+import Models.Model;
 import UML.UI_Components.EditableField;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -53,14 +54,17 @@ public class ClassObject extends UMLObject {
                 Platform.runLater(this::resizeOuterRect)
         );
 
-        this.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            outerRect.setVisibility(newValue);
-        });
+        this.focusedProperty().addListener((observable, oldValue, newValue) ->
+            outerRect.setVisibility(newValue));
     }
 
     @Override
+    public Model getModel(){
+        return classModel;
+    }
+    @Override
     public double getWidth() {
-        return detailsBox.getWidth();
+        return className.getWidth();
     }
 
     @Override
@@ -140,6 +144,7 @@ public class ClassObject extends UMLObject {
     }
     public void reloadClassModel(){
         ClassModel reloadedModel = new ClassModel();
+        reloadedModel.setId(classModel.getId());
         reloadedModel.setClassName(className.getText());
         for(StackPane attributeStackPane : attributes) {
             EditableField editableField = (EditableField)attributeStackPane;

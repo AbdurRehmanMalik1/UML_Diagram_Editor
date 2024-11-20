@@ -1,29 +1,26 @@
 package Repositories;
 
-
-import Models.ClassModel;
+import Models.AssociationModel;
 import Util.OrmUtil.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
-public class ClassModelRepository {
-
-    public int save(ClassModel classModel) {
+public class AssociationModelRepository {
+    public int save(AssociationModel associationModel) {
         EntityTransaction transaction = null;
         EntityManager em = null;
         try {
             em = JPAUtil.getEntityManager();
             transaction = em.getTransaction();
             transaction.begin();
-            if (classModel.getId() == 0) {
-                em.persist(classModel);
-            }
-            else{
-                em.merge(classModel);
+            if (associationModel.getId() == 0) {
+                em.persist(associationModel);
+            } else {
+                em.merge(associationModel);
             }
 
             transaction.commit();
-            return classModel.getId();
+            return associationModel.getId();
 
         } catch (Exception e) {
             if (transaction != null && transaction.isActive()) {

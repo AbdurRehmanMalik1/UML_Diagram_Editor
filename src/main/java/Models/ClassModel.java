@@ -30,16 +30,8 @@ public class ClassModel extends Model{
     @Column(name = "method")
     private List<String> methods;
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
-    @OneToMany(mappedBy = "startModel",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AssociationModel> incomingAssociations =new ArrayList<>();
-
-    @JsonInclude(JsonInclude.Include.ALWAYS)
-    @OneToMany(mappedBy = "endModel",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AssociationModel> outgoingAssociations =new ArrayList<>();
-
     public ClassModel(){
-        className = "";
+        super("Class");
         attributes = new ArrayList<>();
         methods = new ArrayList<>();
     }
@@ -99,21 +91,5 @@ public class ClassModel extends Model{
         }
 
         return sb.toString();
-    }
-
-    public List<AssociationModel> getOutgoingAssociations() {
-        return outgoingAssociations;
-    }
-
-    public void setOutgoingAssociations(List<AssociationModel> outgoingAssociations) {
-        this.outgoingAssociations = outgoingAssociations;
-    }
-
-    public List<AssociationModel> getIncomingAssociations() {
-        return incomingAssociations;
-    }
-
-    public void setIncomingAssociations(List<AssociationModel> incomingAssociations) {
-        this.incomingAssociations = incomingAssociations;
     }
 }
