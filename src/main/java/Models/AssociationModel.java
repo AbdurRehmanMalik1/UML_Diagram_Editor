@@ -34,11 +34,11 @@ public class AssociationModel {
 
     @ManyToOne
     @JoinColumn(name = "start_object_id", nullable = false)
-    private Model startModel; // Generalized to Model
+    private Model startModel;
 
     @ManyToOne
     @JoinColumn(name = "end_object_id", nullable = false)
-    private Model endModel; // Generalized to Model
+    private Model endModel;
 
     public AssociationModel() {}
 

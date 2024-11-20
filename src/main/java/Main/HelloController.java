@@ -5,6 +5,7 @@ import Models.ClassModel;
 import Models.Model;
 import Serializers.JSONSerializer;
 import Serializers.Serializer;
+import Services.AssociationModelService;
 import Services.ClassModelService;
 import UML.Diagrams.ClassDiagram;
 import UML.Objects.ClassObject;
@@ -40,6 +41,7 @@ public class HelloController {
     private Label welcomeText;
     List<UMLObject> umlObjects = new ArrayList<>();
     ClassModelService classModelService = new ClassModelService();
+    AssociationModelService associationModelService = new AssociationModelService();
     private UMLObject selectedObject1 = null;  // To store the first selected object
 
 
@@ -169,13 +171,22 @@ public class HelloController {
 
         // Assuming AssociationModel is a class that links the objects
         AssociationModel associationModel = new AssociationModel();  // Create or fetch your association model here
-
+        associationModel.setType(lineType);
+        associationModel.setStartX(startX);
+        associationModel.setStartY(startY);
+        associationModel.setEndX(endX);
+        associationModel.setEndY(endY);
         // Set start and end models in the association model (optional based on your design)
         associationModel.setStartModel(object1.getModel());
         associationModel.setEndModel(object2.getModel());
 
-        classModelService.saveClass(((ClassObject)object1).getClassModel());
-        classModelService.saveClass(((ClassObject)object2).getClassModel());
+        ClassModel startModel = ((ClassObject)object1).getClassModel();
+        ClassModel endModel =((ClassObject)object2).getClassModel();
+        classModelService.saveClass(startModel);
+        classModelService.saveClass(endModel);
+        System.out.println(startModel.getModelId());
+        System.out.println(endModel.getModelId());
+        associationModelService.saveAssociation(associationModel);
 
         // Create the appropriate line object based on the lineType
         Line line = null;

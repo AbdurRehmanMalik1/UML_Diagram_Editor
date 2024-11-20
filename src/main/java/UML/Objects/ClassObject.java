@@ -142,18 +142,33 @@ public class ClassObject extends UMLObject {
         methods.add(method);
         methodBox.getChildren().add(method);
     }
-    public void reloadClassModel(){
-        ClassModel reloadedModel = new ClassModel();
-        reloadedModel.setId(classModel.getId());
-        reloadedModel.setClassName(className.getText());
-        for(StackPane attributeStackPane : attributes) {
-            EditableField editableField = (EditableField)attributeStackPane;
-            reloadedModel.addAttribute(editableField.getText());
+    public void reloadClassModel() {
+        // Update the class name directly
+        classModel.setClassName(className.getText());
+
+        // Clear the existing attributes and replace them with the updated values
+        if (classModel.getAttributes() != null) {
+            classModel.getAttributes().clear();
         }
-        for(StackPane methodStackPane : methods) {
-            EditableField editableField = (EditableField) methodStackPane;
-            reloadedModel.addMethod(editableField.getText());
+        for (StackPane attributeStackPane : attributes) {
+            // Ensure the element is an instance of EditableField
+            if (attributeStackPane instanceof EditableField) {
+                EditableField editableField = (EditableField) attributeStackPane;
+                classModel.addAttribute(editableField.getText());
+            }
         }
-        classModel = reloadedModel;
+
+        // Clear the existing methods and add the new ones
+        if (classModel.getMethods() != null) {
+            classModel.getMethods().clear();
+        }
+        for (StackPane methodStackPane : methods) {
+            // Ensure the element is an instance of EditableField
+            if (methodStackPane instanceof EditableField) {
+                EditableField editableField = (EditableField) methodStackPane;
+                classModel.addMethod(editableField.getText());
+            }
+        }
     }
+
 }

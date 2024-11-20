@@ -4,9 +4,8 @@ import Models.AssociationModel;
 import Repositories.AssociationModelRepository;
 
 public class AssociationModelService {
-    private AssociationModelRepository associationModelRepository;
+    private final AssociationModelRepository associationModelRepository;
 
-    // Constructor to initialize the repository
     public AssociationModelService() {
         associationModelRepository = new AssociationModelRepository();
     }

@@ -2,6 +2,7 @@ package UML.Line;
 
 import Models.AssociationModel;
 import UML.Objects.UMLObject;
+import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
 
 public abstract class Line extends javafx.scene.shape.Line {
@@ -21,8 +22,33 @@ public abstract class Line extends javafx.scene.shape.Line {
         this.associationModel = associationModel;
         this.startObject = startObject;
         this.endObject = endObject;
+        customDraw();
 
-        customDraw();  // Call to abstract method for custom drawing logic
+        // Listener for startObject's bounds changes
+        startObject.layoutBoundsProperty().addListener((observable, oldValue, newValue) -> {
+            updateLineStart();
+        });
+
+        // Listener for endObject's bounds changes
+        endObject.layoutBoundsProperty().addListener((observable, oldValue, newValue) -> {
+            updateLineEnd();
+        });
+    }
+
+    // Method to update the start position of the line based on the startObject
+    private void updateLineStart() {
+        Bounds bounds = startObject.getLayoutBounds();
+        this.setStartX(bounds.getCenterX());
+        this.setStartY(bounds.getCenterY());
+        customDraw();
+    }
+
+    // Method to update the end position of the line based on the endObject
+    private void updateLineEnd() {
+        Bounds bounds = endObject.getLayoutBounds();
+        this.setEndX(bounds.getCenterX());
+        this.setEndY(bounds.getCenterY());
+        customDraw();
     }
 
     // Abstract method for custom drawing logic specific to each subclass
@@ -46,6 +72,7 @@ public abstract class Line extends javafx.scene.shape.Line {
     // Setter for the start object
     public void setStartObject(UMLObject startObject) {
         this.startObject = startObject;
+        updateLineStart();
     }
 
     // Getter for the end object
@@ -56,5 +83,6 @@ public abstract class Line extends javafx.scene.shape.Line {
     // Setter for the end object
     public void setEndObject(UMLObject endObject) {
         this.endObject = endObject;
+        updateLineEnd();
     }
 }

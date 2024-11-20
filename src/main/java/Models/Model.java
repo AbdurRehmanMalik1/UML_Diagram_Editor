@@ -37,19 +37,17 @@ public abstract class Model implements Serializable {
     @OneToMany(mappedBy = "endModel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AssociationModel> outgoingAssociations = new ArrayList<>();
 
-    // Default constructor for JPA
     protected Model() {
     }
 
     public Model(String type) {
         this.type = type;
     }
-
-    public int getId() {
+    public int getModelId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setModelId(int id) {
         this.id = id;
     }
 
