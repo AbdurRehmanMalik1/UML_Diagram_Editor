@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name="class")
-public class ClassModel extends Model{
+public class ClassModel extends Model implements AttributeHolder{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "class_id")

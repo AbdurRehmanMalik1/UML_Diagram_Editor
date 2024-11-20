@@ -1,5 +1,6 @@
 package Controllers.ClassDiagramControllers;
 
+import Models.ClassModel;
 import UML.Objects.ClassObject;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -39,7 +40,8 @@ public class ClassDiagramController extends VBox implements ClassDController {
         addAttributeButton.setOnMouseClicked(event -> {
             String attribute = "New Attribute";
             parentClass.addAttribute(attribute);
-            parentClass.getClassModel().addAttribute(attribute);
+            ClassModel classModel = (ClassModel) parentClass.getModel();
+            classModel.addAttribute(attribute);
             //parentClass.resizeOuterRect();
         });
         addMethodButton.setOnMouseClicked(event -> {

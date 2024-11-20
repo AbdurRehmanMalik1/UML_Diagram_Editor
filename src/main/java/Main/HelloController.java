@@ -7,23 +7,17 @@ import Serializers.JSONSerializer;
 import Serializers.Serializer;
 import Services.AssociationModelService;
 import Services.ClassModelService;
-import UML.Diagrams.ClassDiagram;
 import UML.Objects.ClassObject;
 import UML.Objects.InterfaceObject;
 import UML.Objects.UMLObject;
 import UML.Objects.UseCaseObject;
-import Util.DistanceCalc;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import UML.Line.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static Util.DistanceCalc.getShortestDistance;
 
 public class HelloController {
 
@@ -62,9 +56,9 @@ public class HelloController {
         ClassObject newClassDiagram = new ClassObject();
         addToCanvas(newClassDiagram, x, y);
         newClassDiagram.reloadClassModel();
-        classModelService.saveClass(newClassDiagram.getClassModel());
+        ClassModel classModel = (ClassModel) newClassDiagram.getModel();
+        classModelService.saveClass(classModel);
     }
-
     public void onUnfocusClick(ActionEvent actionEvent) {
         for (UMLObject cd : umlObjects)
             if (cd instanceof ClassObject)
@@ -90,8 +84,8 @@ public class HelloController {
         Serializer jsonSerializer = new JSONSerializer();
         ClassObject classDiagram = (ClassObject) umlObjects.getFirst();
         classDiagram.reloadClassModel();
-        classDiagram.getClassModel().setCoordinate(classDiagram.getLayoutX(), classDiagram.getLayoutY());
-        Model model = classDiagram.getClassModel();
+        classDiagram.getModel().setCoordinate(classDiagram.getLayoutX(), classDiagram.getLayoutY());
+        Model model = classDiagram.getModel();
         jsonSerializer.serialize(model);
     }
 
@@ -102,7 +96,7 @@ public class HelloController {
 
         ClassObject newClassDiagram = new ClassObject();
         newClassDiagram.setFocusTraversable(true);
-        newClassDiagram.setClassModel((ClassModel) classDiagramModel);
+        newClassDiagram.setModel((ClassModel) classDiagramModel);
         newClassDiagram.reloadClassModel();
         umlObjects.add(newClassDiagram);
         canvas.getChildren().add(newClassDiagram);
@@ -180,10 +174,11 @@ public class HelloController {
         associationModel.setStartModel(object1.getModel());
         associationModel.setEndModel(object2.getModel());
 
-        ClassModel startModel = ((ClassObject)object1).getClassModel();
-        ClassModel endModel =((ClassObject)object2).getClassModel();
-        classModelService.saveClass(startModel);
-        classModelService.saveClass(endModel);
+        Model startModel = object1.getModel();
+        Model endModel =object2.getModel();
+
+        classModelService.saveClass((ClassModel) startModel);
+        classModelService.saveClass((ClassModel)endModel);
         System.out.println(startModel.getModelId());
         System.out.println(endModel.getModelId());
         associationModelService.saveAssociation(associationModel);
@@ -207,6 +202,8 @@ public class HelloController {
                 System.out.println("Invalid line type");
                 return; // If the line type is not recognized, return without drawing
         }
+        object1.addAssociatedLine(line);
+        object2.addAssociatedLine(line);
 
         // Add the line to the canvas if it's not null
         if (line != null) {

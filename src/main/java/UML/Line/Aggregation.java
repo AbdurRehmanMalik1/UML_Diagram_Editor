@@ -2,6 +2,7 @@ package UML.Line;
 
 import Models.AssociationModel;
 import UML.Objects.UMLObject;
+import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.layout.Pane;
@@ -11,7 +12,7 @@ public class Aggregation extends Line {
     // Constructor to initialize line properties
     public Aggregation(double startX, double startY, double endX, double endY,
                        Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
-        super(startX, startY, endX, endY, parentPane, associationModel,startObject,endObject); // Call the superclass (Line) constructor
+        super(startX, startY, endX, endY, parentPane, associationModel, startObject, endObject); // Call the superclass (Line) constructor
         this.setStroke(Color.BLACK);      // Set the line color
         this.setStrokeWidth(3);           // Set the line thickness
         customDraw();                     // Call customDraw to draw the line and the diamond shape
@@ -19,6 +20,9 @@ public class Aggregation extends Line {
 
     @Override
     public void customDraw() {
+        // Delete old polygons and lines before drawing new ones
+        deleteOld();
+
         // Draw the line itself (this is automatically drawn as part of the Line class)
         this.setStartX(getStartX());
         this.setStartY(getStartY());
@@ -26,7 +30,7 @@ public class Aggregation extends Line {
         this.setEndY(getEndY());
 
         // Call the drawDiamond method to draw the diamond shape at the end of the line
-        drawDiamond(getEndX(), getEndY(), getStartX(), getStartY(), false); // "true" to fill the diamond
+        drawDiamond(getEndX(), getEndY(), getStartX(), getStartY(), false); // "false" for transparent diamond outline
     }
 
     // Custom method to draw a diamond shape at the end of the line
@@ -68,5 +72,15 @@ public class Aggregation extends Line {
 
         // Add the diamond to the parent container (Pane or StackPane)
         parentPane.getChildren().add(diamond);
+    }
+
+    // Method to add the Aggregation line to the parent pane (if needed)
+    public void addToPane() {
+        parentPane.getChildren().add(this);  // Add the Aggregation line to the parent pane
+    }
+
+    // Method to delete old polygons and shapes from the parent pane
+    private void deleteOld() {
+        parentPane.getChildren().removeIf(node -> node instanceof Polygon);
     }
 }

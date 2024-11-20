@@ -1,17 +1,18 @@
 package UML.Line;
 
-import Models.AssociationModel;
-import UML.Objects.UMLObject;
+import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import Models.AssociationModel;
+import UML.Objects.UMLObject;
 
 public class Inheritance extends Line {
 
     // Constructor for Inheritance line that initializes the line and the parent pane
     public Inheritance(double startX, double startY, double endX, double endY,
                        Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
-        super(startX, startY, endX, endY, parentPane, associationModel,startObject,endObject);
+        super(startX, startY, endX, endY, parentPane, associationModel, startObject, endObject);
         this.setStroke(Color.BLACK);  // Set line color for Inheritance
         this.setStrokeWidth(2);       // Set stroke width for the line
     }
@@ -19,13 +20,11 @@ public class Inheritance extends Line {
     // Override the customDraw method to draw the inheritance line with an arrowhead
     @Override
     public void customDraw() {
-        // Draw the line itself (this is automatically drawn as part of the Line class)
+        deleteOld();
         this.setStartX(getStartX());
         this.setStartY(getStartY());
         this.setEndX(getEndX());
         this.setEndY(getEndY());
-
-        // Draw the arrowhead (triangle) at the end of the inheritance line
         drawArrowhead(getEndX(), getEndY(), getStartX(), getStartY());
     }
 
@@ -66,8 +65,12 @@ public class Inheritance extends Line {
     }
 
     // Method to add the Inheritance line to the parent pane
-    //@Override
     public void addToPane() {
         parentPane.getChildren().add(this);  // Add the Inheritance line to the parent pane
+    }
+
+    // Method to delete old polygons and shapes from the parent pane
+    private void deleteOld() {
+        parentPane.getChildren().removeIf(node -> node instanceof Polygon);
     }
 }

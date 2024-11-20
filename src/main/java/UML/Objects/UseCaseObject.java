@@ -45,10 +45,7 @@ public class UseCaseObject extends UMLObject {
         this("Use Case");
     }
 
-    @Override
-    public Model getModel(){
-        return null;
-    }
+
     @Override
     public double getWidth() {
         return ellipse.getRadiusX()*2;
@@ -57,6 +54,11 @@ public class UseCaseObject extends UMLObject {
     @Override
     public double getHeight() {
         return ellipse.getRadiusY()*2;
+    }
+
+    @Override
+    public Model getModel() {
+        return null;
     }
 
     public void setRadii(double newRadiusX, double newRadiusY) {
