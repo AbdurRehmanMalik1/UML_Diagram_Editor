@@ -1,5 +1,6 @@
 package Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 
@@ -29,13 +30,15 @@ public abstract class Model implements Serializable {
     @Column(name = "coordinate_y")
     private double y = 0;
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
+    //@JsonInclude(JsonInclude.Include.ALWAYS)
     @OneToMany(mappedBy = "startModel", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AssociationModel> incomingAssociations = new ArrayList<>();
+    @JsonIgnore
+    transient private List<AssociationModel> incomingAssociations = new ArrayList<>();
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
+    //@JsonInclude(JsonInclude.Include.ALWAYS)
     @OneToMany(mappedBy = "endModel", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AssociationModel> outgoingAssociations = new ArrayList<>();
+    @JsonIgnore
+    transient private List<AssociationModel> outgoingAssociations = new ArrayList<>();
 
     protected Model() {
     }

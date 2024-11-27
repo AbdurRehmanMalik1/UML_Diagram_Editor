@@ -100,7 +100,7 @@ public class ClassObject extends UMLObject {
         detailsBox.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-        EditableField classNameField = new EditableField("Class Name",this::reloadClassModel);
+        EditableField classNameField = new EditableField("Class Name",this::reloadModel);
         classNameField.setAlignment(Pos.BASELINE_CENTER);
         className = classNameField;
         HBox classNameWrapper = new HBox(className);
@@ -127,18 +127,19 @@ public class ClassObject extends UMLObject {
     }
 
     public void addAttribute(String temp) {
-        StackPane attribute = new EditableField(temp , this::reloadClassModel);
+        StackPane attribute = new EditableField(temp , this::reloadModel);
         attribute.setFocusTraversable(true);
         attributes.add(attribute);
         attributeBox.getChildren().add(attribute);
     }
 
     public void addMethod(String temp) {
-        StackPane method = new EditableField(temp,this::reloadClassModel);
+        StackPane method = new EditableField(temp,this::reloadModel);
         methods.add(method);
         methodBox.getChildren().add(method);
     }
-    public void reloadClassModel() {
+    @Override
+    public void reloadModel() {
         // Update the class name directly
         ClassModel downcastModel = (ClassModel) model;
 

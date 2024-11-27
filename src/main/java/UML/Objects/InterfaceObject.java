@@ -1,6 +1,8 @@
 package UML.Objects;
 
 import Controllers.InterfaceDiagramController;
+import Models.ClassModel;
+import Models.InterfaceModel;
 import Models.Model;
 import UML.UI_Components.EditableField;
 import javafx.application.Platform;
@@ -30,6 +32,7 @@ public class InterfaceObject extends UMLObject {
     public InterfaceObject() {
         super();
         groupDiagram = new Group();
+        model = new InterfaceModel();
 
         initComponents();
 
@@ -112,6 +115,36 @@ public class InterfaceObject extends UMLObject {
         StackPane method = new EditableField(temp);
         methods.add(method);
         methodBox.getChildren().add(method);
+    }
+
+    public void setModel(InterfaceModel model) {
+        this.model = model;
+
+        if (model.getInterfaceName() != null && !model.getInterfaceName().isEmpty()) {
+            className.setText(model.getInterfaceName());
+        }
+
+        for (String method : model.getMethods()) {
+            addMethod(method);
+        }
+        this.setLayoutX(model.getX());
+        this.setLayoutY(model.getY());
+    }
+    public void reloadModel() {
+
+        InterfaceModel downcastModel = (InterfaceModel) model;
+
+        downcastModel.setInterfaceName(className.getText());
+
+        if (downcastModel.getMethods() != null) {
+            downcastModel.getMethods().clear();
+        }
+        for (StackPane methodStackPane : methods) {
+            if (methodStackPane instanceof EditableField) {
+                EditableField editableField = (EditableField) methodStackPane;
+                downcastModel.addMethod(editableField.getText());
+            }
+        }
     }
 
 }

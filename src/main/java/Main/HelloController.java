@@ -55,9 +55,9 @@ public class HelloController {
     void addClassDiagram(double x, double y) {
         ClassObject newClassDiagram = new ClassObject();
         addToCanvas(newClassDiagram, x, y);
-        newClassDiagram.reloadClassModel();
+        newClassDiagram.reloadModel();
         ClassModel classModel = (ClassModel) newClassDiagram.getModel();
-        classModelService.saveClass(classModel);
+        //classModelService.saveClass(classModel);
     }
     public void onUnfocusClick(ActionEvent actionEvent) {
         for (UMLObject cd : umlObjects)
@@ -83,7 +83,7 @@ public class HelloController {
 
         Serializer jsonSerializer = new JSONSerializer();
         ClassObject classDiagram = (ClassObject) umlObjects.getFirst();
-        classDiagram.reloadClassModel();
+        classDiagram.reloadModel();
         classDiagram.getModel().setCoordinate(classDiagram.getLayoutX(), classDiagram.getLayoutY());
         Model model = classDiagram.getModel();
         jsonSerializer.serialize(model);
@@ -97,7 +97,7 @@ public class HelloController {
         ClassObject newClassDiagram = new ClassObject();
         newClassDiagram.setFocusTraversable(true);
         newClassDiagram.setModel((ClassModel) classDiagramModel);
-        newClassDiagram.reloadClassModel();
+        newClassDiagram.reloadModel();
         umlObjects.add(newClassDiagram);
         canvas.getChildren().add(newClassDiagram);
     }
@@ -171,17 +171,18 @@ public class HelloController {
         associationModel.setEndX(endX);
         associationModel.setEndY(endY);
         // Set start and end models in the association model (optional based on your design)
-        associationModel.setStartModel(object1.getModel());
-        associationModel.setEndModel(object2.getModel());
-
+//        associationModel.setStartModel(object1.getModel());
+//        associationModel.setEndModel(object2.getModel());
         Model startModel = object1.getModel();
         Model endModel =object2.getModel();
+        startModel.addOutgoingAssociation(associationModel);
+        endModel.addIncomingAssociation(associationModel);
 
-        classModelService.saveClass((ClassModel) startModel);
-        classModelService.saveClass((ClassModel)endModel);
+        //classModelService.saveClass((ClassModel) startModel);
+        //classModelService.saveClass((ClassModel)endModel);
         System.out.println(startModel.getModelId());
         System.out.println(endModel.getModelId());
-        associationModelService.saveAssociation(associationModel);
+        //associationModelService.saveAssociation(associationModel);
 
         // Create the appropriate line object based on the lineType
         Line line = null;

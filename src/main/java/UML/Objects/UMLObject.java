@@ -71,6 +71,9 @@ public abstract class UMLObject extends Moveable {
 
     public abstract double getHeight();
     public abstract Model getModel();
+
+    public abstract void reloadModel();
+
     public class OuterRectangle extends Rectangle {
         private final Circle topLeft;
         private final Circle topRight;

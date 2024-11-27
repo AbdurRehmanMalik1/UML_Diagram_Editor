@@ -1,2 +1,1 @@
-{"id":9,"type":"Class","x":142.0,"y":170.0,"incomingAssociations":[],"outgoingAssociations":[],"className":"Class Name","attributes":[],"methods":[]}
-{"id":17,"type":"Class","x":100.0,"y":100.0,"incomingAssociations":[],"outgoingAssociations":[],"className":"Class Name","attributes":["New Attribute"],"methods":["New Method"]}
+{"id":0,"type":"Class","x":100.0,"y":100.0,"className":"Class Name","attributes":["New Attribute"],"methods":[],"modelId":0}

@@ -12,7 +12,7 @@
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
-    <show-object-properties value="true" />
+    <show-object-properties value="false" />
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
@@ -40,6 +40,12 @@ from
       <filter id="52d42c02-53d8-47d2-9056-4c2fa3542d55" name="8" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="class_id" operator="=" value="8" active="true" />
       </filter>
+    </filter-actions>
+    <filter-actions connection-id="4068c0a2-e172-4ef4-9b64-594d6e694799" dataset="dbo.class" active-filter-id="6bb26953-48fb-4640-9ff5-3d13fd18fd55">
+      <filter id="6bb26953-48fb-4640-9ff5-3d13fd18fd55" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="4068c0a2-e172-4ef4-9b64-594d6e694799" dataset="dbo.associations" active-filter-id="c83a0a3e-8a22-402a-b965-9cc4850f0636">
+      <filter id="c83a0a3e-8a22-402a-b965-9cc4850f0636" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
   </component>
   <component name="DBNavigator.Project.ExecutionManager">

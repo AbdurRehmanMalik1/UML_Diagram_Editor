@@ -42,7 +42,7 @@ public abstract class Line extends javafx.scene.shape.Line {
             double startY = startObject.localToParent(startObject.getBoundsInLocal()).getMinY();
 
             // Debugging output to verify bounds
-            System.out.println("Start X: " + startX + ", Start Y: " + startY);
+            //System.out.println("Start X: " + startX + ", Start Y: " + startY);
 
             // Update the line start position
             this.setStartX(startX);
