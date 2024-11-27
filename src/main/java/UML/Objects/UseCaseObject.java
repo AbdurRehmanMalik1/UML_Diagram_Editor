@@ -61,6 +61,17 @@ public class UseCaseObject extends UMLObject {
         return null;
     }
 
+    @Override
+    public void setModel(Model model) {
+
+    }
+
+    @Override
+    public void reloadModel() {
+        super.reloadModel();
+        //rest here
+    }
+
     public void setRadii(double newRadiusX, double newRadiusY) {
         this.radiusX = newRadiusX;
         this.radiusY = newRadiusY;

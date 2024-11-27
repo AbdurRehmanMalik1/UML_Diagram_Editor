@@ -14,7 +14,7 @@ public class ClassModelRepository {
             em = JPAUtil.getEntityManager();
             transaction = em.getTransaction();
             transaction.begin();
-            if (classModel.getId() == 0) {
+            if (classModel.getModelId() == 0) {
                 Integer maxModelId = (Integer) em.createQuery("SELECT MAX(c.id) FROM ClassModel c")
                         .getSingleResult();
                 if (maxModelId != null) {
@@ -28,7 +28,7 @@ public class ClassModelRepository {
             }
 
             transaction.commit();
-            return classModel.getId();
+            return classModel.getModelId();
         } catch (Exception e) {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();

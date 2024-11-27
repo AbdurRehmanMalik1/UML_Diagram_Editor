@@ -24,7 +24,7 @@
     <Button text="Add Class" onAction="#onAddClassDiagramClick"/>
     <Button text="Add Use Case" onAction="#onAddUseCaseClick"/>
     <Button text="Add Interface" onAction="#onAddInterfaceDiagramClick"/>
-    <Button text="Save Diagram" onAction="#onSaveDiagram"/>
+    <Button text="Save First Uml Object" onAction="#onSaveFirstUmlObject"/>
     <Button text="Load Diagram" onAction="#onLoadDiagram"/>
     <Button text="Remove Focus" onAction="#onUnfocusClick"/>
 
@@ -33,6 +33,7 @@
     <Button text="Draw Inheritance" onAction="#onDrawInheritanceClick"/>
     <Button text="Draw Aggregation" onAction="#onDrawAggregationClick"/>
     <Button text="Draw Composition" onAction="#onDrawCompositionClick"/>
+    <Button text="Save ClassDiagram" onAction="#onSaveClassDiagram"/>
 
     <!-- StackPane to center the canvas -->
   </VBox>

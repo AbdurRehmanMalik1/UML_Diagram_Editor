@@ -1,7 +1,6 @@
 package UML.Objects;
 
 import Controllers.InterfaceDiagramController;
-import Models.ClassModel;
 import Models.InterfaceModel;
 import Models.Model;
 import UML.UI_Components.EditableField;
@@ -59,7 +58,7 @@ public class InterfaceObject extends UMLObject {
 
     @Override
     public Model getModel(){
-        return null;
+        return model;
     }
     @Override
     public double getWidth() {
@@ -117,9 +116,13 @@ public class InterfaceObject extends UMLObject {
         methodBox.getChildren().add(method);
     }
 
+    @Override
+    public void setModel(Model model){
+        InterfaceModel interfaceModel = (InterfaceModel) model;
+        this.setModel(interfaceModel);
+    }
     public void setModel(InterfaceModel model) {
         this.model = model;
-
         if (model.getInterfaceName() != null && !model.getInterfaceName().isEmpty()) {
             className.setText(model.getInterfaceName());
         }
@@ -131,6 +134,7 @@ public class InterfaceObject extends UMLObject {
         this.setLayoutY(model.getY());
     }
     public void reloadModel() {
+        super.reloadModel();
 
         InterfaceModel downcastModel = (InterfaceModel) model;
 

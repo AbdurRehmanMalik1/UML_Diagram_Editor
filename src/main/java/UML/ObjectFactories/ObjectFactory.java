@@ -1,4 +1,7 @@
-package UML;
+package UML.ObjectFactories;
 
-public class ObjectFactories {
+import UML.Objects.UMLObject;
+
+public interface ObjectFactory {
+    public UMLObject create();
 }

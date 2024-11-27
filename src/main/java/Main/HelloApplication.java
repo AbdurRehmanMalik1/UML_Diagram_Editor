@@ -22,7 +22,6 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/views/hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 600);
         stage.setTitle("Hello!");
@@ -35,8 +34,8 @@ public class HelloApplication extends Application {
             launch();
         }
         finally {
-            JPAUtil.shutdown();
-            HibernateUtil.shutdown();
+//            JPAUtil.shutdown();
+//            HibernateUtil.shutdown();
             System.out.println("Entity Manager Factories Shutting Down");
         }
     }

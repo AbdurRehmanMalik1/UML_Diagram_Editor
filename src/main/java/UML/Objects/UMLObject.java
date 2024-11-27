@@ -1,5 +1,6 @@
 package UML.Objects;
 
+import Models.InterfaceModel;
 import Models.Model;
 import UML.CustomPoint;
 import UML.Line.Line;
@@ -72,7 +73,11 @@ public abstract class UMLObject extends Moveable {
     public abstract double getHeight();
     public abstract Model getModel();
 
-    public abstract void reloadModel();
+    public abstract void setModel(Model model);
+
+    public void reloadModel(){
+        model.setCoordinate(this.getLayoutX(), this.getLayoutY());
+    }
 
     public class OuterRectangle extends Rectangle {
         private final Circle topLeft;

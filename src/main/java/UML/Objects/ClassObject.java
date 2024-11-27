@@ -61,6 +61,13 @@ public class ClassObject extends UMLObject {
     public Model getModel(){
         return model;
     }
+
+    @Override
+    public void setModel(Model model) {
+        ClassModel classModel = (ClassModel) model;
+        this.setModel(classModel);
+    }
+
     @Override
     public double getWidth() {
         return className.getWidth();
@@ -140,7 +147,8 @@ public class ClassObject extends UMLObject {
     }
     @Override
     public void reloadModel() {
-        // Update the class name directly
+        super.reloadModel();
+
         ClassModel downcastModel = (ClassModel) model;
 
         downcastModel.setClassName(className.getText());

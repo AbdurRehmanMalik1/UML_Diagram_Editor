@@ -1,26 +1,39 @@
 package Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"  // You can use any unique field, like `id`
+)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ClassModel.class, name = "Class"),
+        @JsonSubTypes.Type(value = InterfaceModel.class, name = "Interface")
+})
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "models")
 public abstract class Model implements Serializable {
 
-    //private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+
+    private static int modelIdCounter = 1;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "model_id")
-    private int id;
-
-    @Column(name = "type", nullable = false)
-    private String type;
+    public int id;
 
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @Column(name = "coordinate_x")
@@ -41,25 +54,18 @@ public abstract class Model implements Serializable {
     transient private List<AssociationModel> outgoingAssociations = new ArrayList<>();
 
     protected Model() {
+        id = generateUniqueId();
+    }
+    private synchronized int generateUniqueId() {
+        return modelIdCounter++;
     }
 
-    public Model(String type) {
-        this.type = type;
-    }
     public int getModelId() {
         return id;
     }
 
     public void setModelId(int id) {
         this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public double getX() {
@@ -97,23 +103,23 @@ public abstract class Model implements Serializable {
         this.outgoingAssociations = outgoingAssociations;
     }
 
-    public void addIncomingAssociation(AssociationModel association) {
-        incomingAssociations.add(association);
-        association.setStartModel(this);
+    public void addStartAssociation(AssociationModel association) {
+        outgoingAssociations.add(association);  // Now it's clear this is an "outgoing" or "start" association
+        association.setStartModel(this);         // This model is the start of the association
     }
 
-    public void removeIncomingAssociation(AssociationModel association) {
-        incomingAssociations.remove(association);
+    public void removeStartAssociation(AssociationModel association) {
+        outgoingAssociations.remove(association);
         association.setStartModel(null);
     }
 
-    public void addOutgoingAssociation(AssociationModel association) {
-        outgoingAssociations.add(association);
-        association.setEndModel(this);
+    public void addEndAssociation(AssociationModel association) {
+        incomingAssociations.add(association);  // This is the "incoming" or "end" association
+        association.setEndModel(this);           // This model is the end of the association
     }
 
-    public void removeOutgoingAssociation(AssociationModel association) {
-        outgoingAssociations.remove(association);
+    public void removeEndAssociation(AssociationModel association) {
+        incomingAssociations.remove(association);
         association.setEndModel(null);
     }
 }

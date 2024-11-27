@@ -15,7 +15,7 @@ public class JSONSerializer implements Serializer {
     @Override
     public void serialize(Model model) {
         try {
-            String modelASString =  objectMapper.writeValueAsString(model);
+            String modelASString =  objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(model);
             writeToFile(modelASString);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -24,7 +24,7 @@ public class JSONSerializer implements Serializer {
     }
 
     @Override
-    public Model deserialize(String s, Class<ClassModel> clazz) {
+    public Model deserialize(String s, Class<? extends Model> clazz) {
         try {
             Model deserializedModel =  objectMapper.readValue(s,clazz);
             return deserializedModel;

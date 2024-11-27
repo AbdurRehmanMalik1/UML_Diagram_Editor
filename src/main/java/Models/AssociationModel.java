@@ -1,11 +1,14 @@
 package Models;
 
+import Serializers.AssociationModelSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "associations")
-public class AssociationModel {
-
+public class AssociationModel implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "association_id")
@@ -34,11 +37,11 @@ public class AssociationModel {
 
     @ManyToOne
     @JoinColumn(name = "start_object_id", nullable = false)
-    private Model startModel;
+    private transient Model startModel; // Marked as transient to avoid full serialization
 
     @ManyToOne
     @JoinColumn(name = "end_object_id", nullable = false)
-    private Model endModel;
+    private transient Model endModel; // Marked as transient to avoid full serialization
 
     public AssociationModel() {}
 
