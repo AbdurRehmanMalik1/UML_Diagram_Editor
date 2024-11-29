@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Main.HelloController">
+    <top>
+        <MenuBar>
+            <!--Top Section-->
+            <Menu text="File">
+                <MenuItem text="New" />
+                <MenuItem text="Open" />
+                <MenuItem text="Save" />
+                <MenuItem text="Save As" />
+                <MenuItem text="Close" />
+                <Menu text="Import">
+                    <MenuItem text="XML"/>
+                    <MenuItem text="JSON"/>
+                    <MenuItem text="Raw Form"/>
+                </Menu>
+                <Menu text="Export">
+                    <MenuItem text="PNG"/>
+                    <MenuItem text="JPEG"/>
+                    <MenuItem text="XML"/>
+                    <MenuItem text="JSON"/>
+                    <MenuItem text="Raw Form"/>
+                </Menu>
+                <MenuItem text="Exit" />
+            </Menu>
+
+            <Menu text="Edit">
+                <MenuItem text="Undo" />
+                <MenuItem text="Redo" />
+                <MenuItem text="Cut" />
+                <MenuItem text="Copy" />
+                <MenuItem text="Paste" />
+                <MenuItem text="Delete" />
+            </Menu>
+
+            <Menu text="Debug">
+                <MenuItem text="Toggle Checker" />
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <center><!-- Using SplitPane for left, center, and right sections -->
+        <!-- Left Section -->
+        <SplitPane dividerPositions="0.2, 0.8">
+            <VBox
+                    spacing="10.0"
+                    alignment="TOP_LEFT"
+                    prefWidth="200"
+                    style="-fx-background-color: #F4F4F4;
+              -fx-border-color: #C4C4C4;
+              -fx-border-width: 1;">
+                <Label text="TOOLBOX"
+                       style="-fx-font-weight: bold;
+                -fx-padding: 10;" />
+                <VBox spacing="5.0"
+                      style="-fx-padding: 5;">
+                    <Label text="Classes" style="-fx-font-weight: bold;" />
+                    <HBox>
+                        <Button text="Class" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;"
+                                onAction="#addClass"/>
+                    </HBox>
+                    <HBox>
+                        <Button text="Interface" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                    <HBox>
+                        <Button text="Association" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                    <HBox>
+                        <Button text="Aggregation" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                    <HBox>
+                        <Button text="Composition" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                    <HBox>
+                        <Button text="Generalization" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                </VBox>
+                <VBox spacing="5.0"
+                      style="-fx-padding: 5;">
+                    <Label text="Annotations" style="-fx-font-weight: bold;" />
+                    <HBox>
+                        <Button text="Text" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                    <HBox>
+                        <Button text="Text Box" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                    <HBox>
+                        <Button text="Note" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Center Section -->
+            <Pane fx:id="DrawingArea"
+                  style="-fx-background-color: white;
+                  -fx-border-color: #C4C4C4;
+                  -fx-border-width: 1;"/>
+
+            <!-- Right Panel -->
+            <VBox style="-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10;">
+                <Label text="MODEL EXPLORER" style="-fx-font-weight: bold;" />
+                <HBox spacing="5">
+                    <TextField fx:id="modelNameField" promptText="Model Name" />
+                    <Button text="Set Name" onAction="#setModelName" />
+                </HBox>
+                <TreeView fx:id="modelTree" style="-fx-pref-height: 400;" />
+            </VBox>
+            <ComboBox fx:id="diagramTypeBox" promptText="Select Diagram Type"
+                      onAction="#changeDiagramType">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Class Diagram" />
+                        <String fx:value="Use Case Diagram" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+        </SplitPane>
+    </center>
+</BorderPane>

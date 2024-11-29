@@ -24,17 +24,27 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import UML.Line.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class HelloController {
+    @FXML
+    private TextField modelNameField;
 
+    @FXML
+    private TreeView<String> modelTree;
+    @FXML
+    private TreeItem<String> rootNode;
+    private TreeItem<String> diagramNode;
     @FXML
     public Pane canvas;
     @FXML
     public Button deleteButton;
+    @FXML
     public Button generateCode;
 
     List<UMLObject> umlObjects = new ArrayList<>();
@@ -61,7 +71,14 @@ public class HelloController {
             if(keyEvent.getCode()== KeyCode.DELETE)
                 onDeleteClick();
         });
+        rootNode = new TreeItem<>("Untitled"); // Default model name
+        rootNode.setExpanded(true);
 
+        diagramNode = new TreeItem<>("Model: Class Diagram"); // Default diagram type
+        diagramNode.setExpanded(true);
+
+        rootNode.getChildren().add(diagramNode);
+        modelTree.setRoot(rootNode);
     }
 
     public List<AssociationModel> getAssociations() {
@@ -78,6 +95,36 @@ public class HelloController {
             models.add(umlObject.getModel());
         }
         return models;
+    }
+
+    @FXML
+    public void setModelName() {
+        String newName = modelNameField.getText().trim();
+        if (!newName.isEmpty()) {
+            rootNode.setValue(newName);
+        }
+    }
+
+    @FXML
+    public void addClass() {
+        addClassNode("New Class"); // Replace with a unique or user-specified name
+    }
+
+    @FXML
+    private ComboBox<String> diagramTypeBox;
+
+    @FXML
+    public void changeDiagramType() {
+        String selectedType = diagramTypeBox.getValue();
+        if (selectedType != null) {
+            diagramNode.setValue("Model: " + selectedType);
+        }
+    }
+
+    public void addClassNode(String className) {
+        // Add a class to the diagram node
+        TreeItem<String> classNode = new TreeItem<>(className);
+        diagramNode.getChildren().add(classNode);
     }
 
     @FXML
