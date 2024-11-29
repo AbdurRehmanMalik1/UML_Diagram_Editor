@@ -1,33 +1,101 @@
 {
   "associationList" : [ {
     "id" : 0,
-    "type" : "Inheritance",
-    "startX" : 212.66666666666669,
-    "startY" : 492.0,
-    "endX" : 136.0,
-    "endY" : 100.0,
+    "type" : "Association",
+    "startX" : 136.0,
+    "startY" : 100.0,
+    "endX" : 288.0,
+    "endY" : 283.33333333333337,
     "startMultiplicity" : null,
     "endMultiplicity" : null,
     "startModel" : {
       "type" : "Class",
-      "id" : 2,
-      "x" : 176.66666666666669,
-      "y" : 492.0,
-      "className" : "Class Name",
-      "attributes" : [ ],
-      "methods" : [ ],
-      "modelId" : 2
-    },
-    "endModel" : {
-      "type" : "Class",
       "id" : 1,
-      "x" : 50.666666666666686,
-      "y" : 140.0,
+      "x" : 100.0,
+      "y" : 100.0,
       "className" : "Class Name",
       "attributes" : [ ],
       "methods" : [ ],
       "modelId" : 1
+    },
+    "endModel" : {
+      "type" : "Class",
+      "id" : 2,
+      "x" : 256.66666666666663,
+      "y" : 276.6666666666667,
+      "className" : "Class Name",
+      "attributes" : [ ],
+      "methods" : [ ],
+      "modelId" : 2
+    }
+  }, {
+    "id" : 0,
+    "type" : "Inheritance",
+    "startX" : 284.0,
+    "startY" : 299.33333333333337,
+    "endX" : 494.6666666666667,
+    "endY" : 100.66666666666669,
+    "startMultiplicity" : null,
+    "endMultiplicity" : null,
+    "startModel" : 2,
+    "endModel" : {
+      "type" : "Class",
+      "id" : 3,
+      "x" : 438.00000000000006,
+      "y" : 92.66666666666669,
+      "className" : "Class Name",
+      "attributes" : [ ],
+      "methods" : [ ],
+      "modelId" : 3
+    }
+  }, {
+    "id" : 0,
+    "type" : "Aggregation",
+    "startX" : 139.33333333333331,
+    "startY" : 442.0,
+    "endX" : 284.0,
+    "endY" : 299.33333333333337,
+    "startMultiplicity" : null,
+    "endMultiplicity" : null,
+    "startModel" : {
+      "type" : "Class",
+      "id" : 4,
+      "x" : 103.33333333333331,
+      "y" : 442.0,
+      "className" : "Class Name",
+      "attributes" : [ ],
+      "methods" : [ ],
+      "modelId" : 4
+    },
+    "endModel" : 2
+  }, {
+    "id" : 0,
+    "type" : "Composition",
+    "startX" : 284.0,
+    "startY" : 299.33333333333337,
+    "endX" : 442.0,
+    "endY" : 438.6666666666667,
+    "startMultiplicity" : null,
+    "endMultiplicity" : null,
+    "startModel" : 2,
+    "endModel" : {
+      "type" : "Class",
+      "id" : 5,
+      "x" : 406.0,
+      "y" : 438.6666666666667,
+      "className" : "Class Name",
+      "attributes" : [ ],
+      "methods" : [ ],
+      "modelId" : 5
     }
   } ],
-  "models" : [ 1, 2 ]
+  "models" : [ 1, 2, 3, 4, 5, {
+    "type" : "Interface",
+    "id" : 6,
+    "x" : 0.0,
+    "y" : 212.00000000000003,
+    "interfaceName" : "Interface Name",
+    "methods" : [ "Method():string", "Method():int" ],
+    "modelId" : 6
+  } ]
 }

@@ -42,10 +42,6 @@ public class HelloController {
     private TreeItem<String> diagramNode;
     @FXML
     public Pane canvas;
-    @FXML
-    public Button deleteButton;
-    @FXML
-    public Button generateCode;
 
     List<UMLObject> umlObjects = new ArrayList<>();
     List<UML.Line.Line> associations = new ArrayList<>();
@@ -56,17 +52,14 @@ public class HelloController {
     ObjectFactory classFactory = new ClassFactory();
     ObjectFactory interfaceFactory = new InterfaceFactory();
 
-    private UMLObject selectedObject1 = null;  // To store the first selected object
-    private UMLObject selectedObject2 = null;
-
-
     @FXML
     public void initialize() {
-        canvas.setFocusTraversable(false);
+        //canvas.setFocusTraversable(false);
         canvas.focusedProperty().removeListener((observable, oldValue, newValue) -> {
         });
-        deleteButton.setFocusTraversable(false);
-        generateCode.setFocusTraversable(false);
+        //Now delete button is in the menu and works
+        //deleteButton.setFocusTraversable(false);
+        //generateCode.setFocusTraversable(false);
         canvas.setOnKeyPressed(keyEvent -> {
             if(keyEvent.getCode()== KeyCode.DELETE)
                 onDeleteClick();
@@ -106,11 +99,6 @@ public class HelloController {
     }
 
     @FXML
-    public void addClass() {
-        addClassNode("New Class"); // Replace with a unique or user-specified name
-    }
-
-    @FXML
     private ComboBox<String> diagramTypeBox;
 
     @FXML
@@ -129,6 +117,7 @@ public class HelloController {
 
     @FXML
     public void onAddClassDiagramClick() {
+        addClassNode("Class Name 1");
         addClassDiagram(100, 100);
     }
 
@@ -457,6 +446,7 @@ public class HelloController {
     @FXML
     public void onCodeGenerateClick() {
         Node focusedNode = canvas.getScene().getFocusOwner();
+        System.out.println(focusedNode.getLayoutY());
         if (focusedNode instanceof UMLObject obj) {
             CodeGenerator codeGenerator = new CodeGenerator();
             codeGenerator.generateCode(obj.getModel());
