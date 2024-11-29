@@ -5,7 +5,9 @@ import UML.CustomPoint;
 import UML.Line.Line;
 import UML.Moveable;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -44,33 +46,9 @@ public abstract class UMLObject extends Moveable {
         this.redrawLine = runnable;
     }
     private void addMouseEvents() {
-        setOnMousePressed(event -> {
-            point.setLocation(event.getSceneX(), event.getSceneY());
-        });
-        setOnMouseDragged(event -> {
-            double deltaX = event.getSceneX() - point.getX();
-            double deltaY = event.getSceneY() - point.getY();
-
-            double newPointX = getLayoutX() + deltaX;
-            double newPointY = getLayoutY() + deltaY;
-
-            double parentWidth = getParent().getLayoutBounds().getWidth();
-            double parentHeight = getParent().getLayoutBounds().getHeight();
-
-            if (newPointX >= 0 && newPointX + getBoundsInParent().getWidth() <= parentWidth) {
-                setLayoutX(newPointX);
-            }
-            if (newPointY >= 0 && newPointY + getBoundsInParent().getHeight() <= parentHeight) {
-                setLayoutY(newPointY);
-            }
-            if(!associatedLines.isEmpty())
-                updateLines();
-
-            point.setLocation(event.getSceneX(), event.getSceneY());
-        });
+        setOnMousePressed(new MousePressedHandler());
+        setOnMouseDragged(new MouseDraggedHandler());
     }
-//    public void setRedrawLineLogic(Runnable redrawer){
-//    }
     public abstract double getWidth();
 
     public abstract double getHeight();
@@ -104,6 +82,40 @@ public abstract class UMLObject extends Moveable {
             ((Pane) getParent()).getChildren().remove(this);
         }
     }
+    public void resetMousePressedHandlers(){
+        this.setOnMousePressed(new MousePressedHandler());
+    }
+    public class MousePressedHandler implements EventHandler<MouseEvent> {
+        @Override
+        public void handle(MouseEvent event) {
+            point.setLocation(event.getSceneX(), event.getSceneY());
+        }
+    }
+    public class MouseDraggedHandler implements EventHandler<MouseEvent> {
+        @Override
+        public void handle(MouseEvent event) {
+            double deltaX = event.getSceneX() - point.getX();
+            double deltaY = event.getSceneY() - point.getY();
+
+            double newPointX = getLayoutX() + deltaX;
+            double newPointY = getLayoutY() + deltaY;
+
+            double parentWidth = getParent().getLayoutBounds().getWidth();
+            double parentHeight = getParent().getLayoutBounds().getHeight();
+
+            if (newPointX >= 0 && newPointX + getBoundsInParent().getWidth() <= parentWidth) {
+                setLayoutX(newPointX);
+            }
+            if (newPointY >= 0 && newPointY + getBoundsInParent().getHeight() <= parentHeight) {
+                setLayoutY(newPointY);
+            }
+            if (!associatedLines.isEmpty())
+                updateLines();
+
+            point.setLocation(event.getSceneX(), event.getSceneY());
+        }
+    }
+
 
     public class OuterRectangle extends Rectangle {
         private final Circle topLeft;

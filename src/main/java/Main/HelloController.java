@@ -22,12 +22,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import UML.Line.*;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class HelloController {
 
@@ -47,9 +47,7 @@ public class HelloController {
     ObjectFactory interfaceFactory = new InterfaceFactory();
 
     private UMLObject selectedObject1 = null;  // To store the first selected object
-
-
-
+    private UMLObject selectedObject2 = null;
 
 
     @FXML
@@ -170,28 +168,35 @@ public class HelloController {
     }
 
     private void handleLineDrawing(String lineType) {
-        drawLineBetweenObjects(umlObjects.getFirst(), umlObjects.getLast(), lineType);
-//        if (selectedObject1 == null) {
-//            // No object selected yet, so set the first selected object
-//            canvas.setOnMouseClicked(event -> {
-//                //selectedObject1 = getObjectAtMousePosition(event.getX(), event.getY());
-//                selectedObject1 = umlObjects.get(1);
-//                if (selectedObject1 != null) {
-//                    System.out.println("Object selected: " + selectedObject1);
-//                }
-//            });
-//        } else {
-//            // Select the second object
-//            canvas.setOnMouseClicked(event -> {
-//                //UMLObject selectedObject2 = getObjectAtMousePosition(event.getX(), event.getY());
-//                UMLObject selectedObject2 = umlObjects.getFirst();
-//                if (selectedObject2 != null && selectedObject1 != selectedObject2) {
-//                    System.out.println("Second object selected: " + selectedObject2);
-//                    drawLineBetweenObjects(selectedObject1, selectedObject2, lineType);
-//                    selectedObject1 = null; // Reset selection for next drawing
-//                }
-//            });
-//        }
+        // Variables to keep track of the first and second selected objects
+        final UMLObject[] firstObject = {null};
+        final UMLObject[] secondObject = {null};
+
+        for (UMLObject umlObject : umlObjects) {
+            umlObject.setOnMousePressed(event -> {
+                // If the first object is not selected, set it
+                if (firstObject[0] == null) {
+                    firstObject[0] = umlObject;
+                }
+                // If the first object is selected, set the second one
+                else if (firstObject[0] != null && secondObject[0] == null) {
+                    secondObject[0] = umlObject;
+                }
+
+                if (firstObject[0] != null && secondObject[0] != null) {
+                    drawLineBetweenObjects(firstObject[0], secondObject[0], lineType);
+                    // Remove event handlers to avoid multiple line drawings
+                    removeMouseHandlers();
+                }
+            });
+        }
+    }
+
+    private void removeMouseHandlers() {
+        for (UMLObject umlObject : umlObjects) {
+            umlObject.setOnMousePressed(null);
+            Platform.runLater(umlObject::resetMousePressedHandlers);
+        }
     }
 
     private UMLObject getObjectAtMousePosition(double x, double y) {
@@ -325,6 +330,7 @@ public class HelloController {
                 // Add the line to the canvas
                 Platform.runLater(() -> {
                     canvas.getChildren().add(createdLine);
+                    createdLine.customDraw();
                 });
             }
         }

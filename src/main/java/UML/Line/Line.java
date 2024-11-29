@@ -66,7 +66,7 @@ public abstract class Line extends javafx.scene.shape.Line {
 
     public void setStartObject(UMLObject startObject) {
         this.startObject = startObject;
-        updateLinePosition(this.startObject,true);
+        //updateLinePosition(this.startObject,true);
         //updateLineStart();
     }
 
@@ -76,7 +76,7 @@ public abstract class Line extends javafx.scene.shape.Line {
 
     public void setEndObject(UMLObject endObject) {
         this.endObject = endObject;
-        updateLinePosition(this.startObject,false);
+       // updateLinePosition(this.startObject,false);
         //updateLineEnd();
     }
     protected abstract void deleteOld();
