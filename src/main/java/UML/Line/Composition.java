@@ -80,7 +80,7 @@ public class Composition extends Line {
     }
 
     // Method to delete old polygons and shapes from the parent pane
-    private void deleteOld() {
+    protected void deleteOld() {
         parentPane.getChildren().removeIf(node -> node instanceof Polygon);
     }
 }

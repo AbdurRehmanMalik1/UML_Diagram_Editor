@@ -19,7 +19,10 @@ import UML.Objects.UseCaseObject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import UML.Line.*;
 
@@ -29,16 +32,9 @@ public class HelloController {
 
     @FXML
     public Pane canvas;
-
     @FXML
-    public void initialize() {
-        canvas.setFocusTraversable(false);
-        canvas.focusedProperty().removeListener((observable, oldValue, newValue) -> {
-        });
-    }
+    public Button deleteButton;
 
-    @FXML
-    private Label welcomeText;
     List<UMLObject> umlObjects = new ArrayList<>();
     List<UML.Line.Line> associations = new ArrayList<>();
 
@@ -49,6 +45,38 @@ public class HelloController {
 
     private UMLObject selectedObject1 = null;  // To store the first selected object
 
+
+
+
+
+    @FXML
+    public void initialize() {
+        canvas.setFocusTraversable(false);
+        canvas.focusedProperty().removeListener((observable, oldValue, newValue) -> {
+        });
+        deleteButton.setFocusTraversable(false);
+
+        canvas.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode()== KeyCode.DELETE)
+                onDeleteClick();
+        });
+    }
+
+    public List<AssociationModel> getAssociations() {
+        List<AssociationModel> associationModels = new ArrayList<>();
+        for(Line line: associations)
+            associationModels.add(line.getAssociationModel());
+        return associationModels;
+    }
+    public List<Model> getModels(){
+        List<Model> models = new ArrayList<>();
+        for(UMLObject umlObject:umlObjects) {
+            umlObject.reloadModel();
+            //System.out.println(umlObject.getModel());
+            models.add(umlObject.getModel());
+        }
+        return models;
+    }
 
     @FXML
     public void onAddClassDiagramClick() {
@@ -67,8 +95,6 @@ public class HelloController {
         UMLObject newClassDiagram = classFactory.create();
         addToCanvas(newClassDiagram, x, y);
         newClassDiagram.reloadModel();
-        //ClassModel classModel = (ClassModel) newClassDiagram.getModel();
-        //classModelService.saveClass(classModel);
     }
 
     public void onUnfocusClick(ActionEvent actionEvent) {
@@ -77,6 +103,7 @@ public class HelloController {
                 ((ClassObject) cd).unfocusSelf();
     }
 
+    @FXML
     public void onAddUseCaseClick() {
         UseCaseObject newUseCase = new UseCaseObject();
         newUseCase.setFocusTraversable(true);
@@ -84,11 +111,13 @@ public class HelloController {
         canvas.getChildren().add(newUseCase);
     }
 
+    @FXML
     public void onAddInterfaceDiagramClick() {
         UMLObject interfaceDiagram = interfaceFactory.create();
         addToCanvas(interfaceDiagram, 0, 150);
     }
 
+    @FXML
     public void onSaveFirstUmlObject() {
         Serializer jsonSerializer = new JSONSerializer();
         UMLObject umlObject = umlObjects.getFirst();
@@ -118,19 +147,19 @@ public class HelloController {
 ////        canvas.getChildren().add(newClassDiagram);
 //
 //    }
-
+    @FXML
     public void onDrawAssociationClick(ActionEvent actionEvent) {
         handleLineDrawing("Association");
     }
-
+    @FXML
     public void onDrawInheritanceClick(ActionEvent actionEvent) {
         handleLineDrawing("Inheritance");
     }
-
+    @FXML
     public void onDrawAggregationClick(ActionEvent actionEvent) {
         handleLineDrawing("Aggregation");
     }
-
+    @FXML
     public void onDrawCompositionClick(ActionEvent actionEvent) {
         handleLineDrawing("Composition");
     }
@@ -211,7 +240,7 @@ public class HelloController {
         //System.out.println("Line coordinates: " + startX + ", " + startY + " to " + endX + ", " + endY);
     }
 
-
+    @FXML
     public void onSaveClassDiagram() {
         List<AssociationModel> associationModels = getAssociations();
         List<Model> models = getModels();
@@ -219,6 +248,7 @@ public class HelloController {
         classDiagram.saveClassDiagram();
     }
 
+    @FXML
     public void onLoadDiagram() {
 
         List<AssociationModel> associationModels = getAssociations();
@@ -312,22 +342,6 @@ public class HelloController {
         }
     }
 
-    public List<AssociationModel> getAssociations() {
-        List<AssociationModel> associationModels = new ArrayList<>();
-        for(Line line: associations)
-            associationModels.add(line.getAssociationModel());
-        return associationModels;
-    }
-    public List<Model> getModels(){
-        List<Model> models = new ArrayList<>();
-        for(UMLObject umlObject:umlObjects) {
-            umlObject.reloadModel();
-            //System.out.println(umlObject.getModel());
-            models.add(umlObject.getModel());
-        }
-        return models;
-    }
-
     public UMLObject createUMLObject(Model model){
         UMLObject umlObject = null;
         if(model instanceof ClassModel) {
@@ -341,7 +355,7 @@ public class HelloController {
         return umlObject;
     }
 
-    public Line createLine(AssociationModel model){
+    public UML.Line.Line createLine(AssociationModel model){
         String type = model.getType();
         double startX = model.getStartX();
         double startY = model.getStartY();
@@ -351,8 +365,7 @@ public class HelloController {
         UMLObject endObject = createUMLObject(model.getEndModel());
         return createLine(type,startX,startY,endX,endY,canvas,model,startObject,endObject);
     }
-
-    public Line createLine(String lineType, double startX, double startY, double endX, double endY, Pane canvas, AssociationModel associationModel, UMLObject object1, UMLObject object2){
+    public UML.Line.Line createLine(String lineType, double startX, double startY, double endX, double endY, Pane canvas, AssociationModel associationModel, UMLObject object1, UMLObject object2){
         UML.Line.Line line = null;
         switch (lineType) {
             case "Association":
@@ -371,5 +384,20 @@ public class HelloController {
                 System.out.println("Invalid line type");
         }
         return line;
+    }
+
+    @FXML
+    public void onDeleteClick() {
+        Node focusedNode = canvas.getScene().getFocusOwner();
+        if (focusedNode instanceof UMLObject obj) {
+            associations.removeAll(obj.getAssociatedLines());
+            obj.delete();
+            umlObjects.remove(obj);
+        } else if(focusedNode instanceof UML.Line.Line line) {
+            associations.remove(line);
+            line.delete();
+        } else {
+            System.out.println("No UMLObject is focused.");
+        }
     }
 }

@@ -13,8 +13,8 @@ public class Inheritance extends Line {
     public Inheritance(double startX, double startY, double endX, double endY,
                        Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
         super(startX, startY, endX, endY, parentPane, associationModel, startObject, endObject);
-        this.setStroke(Color.BLACK);  // Set line color for Inheritance
-        this.setStrokeWidth(2);       // Set stroke width for the line
+        this.setStroke(Color.BLACK);
+        this.setStrokeWidth(2);
     }
 
     // Override the customDraw method to draw the inheritance line with an arrowhead
@@ -70,7 +70,7 @@ public class Inheritance extends Line {
     }
 
     // Method to delete old polygons and shapes from the parent pane
-    private void deleteOld() {
+    protected void deleteOld() {
         parentPane.getChildren().removeIf(node -> node instanceof Polygon);
     }
 }

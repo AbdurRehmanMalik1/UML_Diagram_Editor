@@ -6,6 +6,7 @@ import UML.CustomPoint;
 import UML.Line.Line;
 import UML.Moveable;
 import javafx.scene.Group;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -36,7 +37,9 @@ public abstract class UMLObject extends Moveable {
     public void addAssociatedLine(Line line){
         associatedLines.add(line);
     }
-
+    public List<UML.Line.Line> getAssociatedLines(){
+        return associatedLines;
+    }
     protected void setRunnable(Runnable runnable){
         this.redrawLine = runnable;
     }
@@ -75,8 +78,31 @@ public abstract class UMLObject extends Moveable {
 
     public abstract void setModel(Model model);
 
-    public void reloadModel(){
+    public void reloadModel() {
+        if (model == null || associatedLines == null) {
+            return;
+        }
+
+        model.getIncomingAssociations().clear();
+        model.getOutgoingAssociations().clear();
+
+        for (UML.Line.Line line : associatedLines) {
+            if (line.getStartObject() == this) {
+                model.addStartAssociation(line.getAssociationModel());
+            } else if (line.getEndObject() == this) {
+                model.addEndAssociation(line.getAssociationModel());
+            }
+        }
+
         model.setCoordinate(this.getLayoutX(), this.getLayoutY());
+    }
+    public void delete() {
+        while (!associatedLines.isEmpty()) {
+            associatedLines.getFirst().delete();
+        }
+        if (getParent() != null && getParent() instanceof Pane) {
+            ((Pane) getParent()).getChildren().remove(this);
+        }
     }
 
     public class OuterRectangle extends Rectangle {

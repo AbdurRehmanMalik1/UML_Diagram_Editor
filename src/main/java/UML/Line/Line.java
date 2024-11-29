@@ -5,6 +5,7 @@ import UML.Objects.UMLObject;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 public abstract class Line extends javafx.scene.shape.Line {
     public Pane parentPane;
@@ -20,16 +21,17 @@ public abstract class Line extends javafx.scene.shape.Line {
         this.associationModel = associationModel;
         this.startObject = startObject;
         this.endObject = endObject;
+        this.setFocusTraversable(true);
+        this.setOnMouseClicked(event->{
+            this.requestFocus();
+        });
+        this.focusedProperty().addListener((value,oldValue,newValue)->{
+            if(newValue){
+                this.setStroke(Color.BLUE);
+            }else
+                this.setStroke(Color.BLACK);
+        });
         customDraw();
-
-        // Listener for startObject's bounds changes
-//        startObject.setOnMouseDragged(event -> {
-//            updateLineStart();  // Update line start position during drag
-//        });
-//
-//        endObject.setOnMouseDragged(event -> {
-//            updateLineEnd();  // Update line end position during drag
-//        });
     }
 
     public void updateLineStart() {
@@ -96,5 +98,21 @@ public abstract class Line extends javafx.scene.shape.Line {
     public void setEndObject(UMLObject endObject) {
         this.endObject = endObject;
         updateLineEnd();
+    }
+    protected abstract void deleteOld();
+    public void delete() {
+        if (startObject != null && startObject.getModel() != null && startObject.getAssociatedLines() != null) {
+            startObject.getModel().removeStartAssociation(this.associationModel);
+            startObject.getAssociatedLines().remove(this);
+        }
+
+        if (endObject != null && endObject.getModel() != null && endObject.getAssociatedLines() != null) {
+            endObject.getModel().removeEndAssociation(this.associationModel);
+            endObject.getAssociatedLines().remove(this);
+        }
+        if(parentPane!=null){
+            this.deleteOld();
+            parentPane.getChildren().remove(this);
+        }
     }
 }

@@ -34,4 +34,9 @@ public class Association extends Line {
         // Add the line to the parent container, such as Pane or StackPane
         parentPane.getChildren().add(this);
     }
+
+    @Override
+    protected void deleteOld() {
+        return;
+    }
 }
