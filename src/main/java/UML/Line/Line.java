@@ -3,7 +3,6 @@ package UML.Line;
 import Models.AssociationModel;
 import UML.Objects.UMLObject;
 import javafx.application.Platform;
-import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -22,9 +21,7 @@ public abstract class Line extends javafx.scene.shape.Line {
         this.startObject = startObject;
         this.endObject = endObject;
         this.setFocusTraversable(true);
-        this.setOnMouseClicked(event->{
-            this.requestFocus();
-        });
+        this.setOnMouseClicked(event-> this.requestFocus());
         this.focusedProperty().addListener((value,oldValue,newValue)->{
             if(newValue){
                 this.setStroke(Color.BLUE);
@@ -66,8 +63,6 @@ public abstract class Line extends javafx.scene.shape.Line {
 
     public void setStartObject(UMLObject startObject) {
         this.startObject = startObject;
-        //updateLinePosition(this.startObject,true);
-        //updateLineStart();
     }
 
     public UMLObject getEndObject() {
@@ -76,8 +71,6 @@ public abstract class Line extends javafx.scene.shape.Line {
 
     public void setEndObject(UMLObject endObject) {
         this.endObject = endObject;
-       // updateLinePosition(this.startObject,false);
-        //updateLineEnd();
     }
     protected abstract void deleteOld();
 

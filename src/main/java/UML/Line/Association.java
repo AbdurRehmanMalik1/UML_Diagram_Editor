@@ -21,14 +21,7 @@ public class Association extends Line {
         this.setStroke(Color.BLACK);
     }
 
-    // Add this line to a parent container like a Pane or StackPane
-    public void addToPane(Pane parentPane) {
-        // Add the line to the parent container, such as Pane or StackPane
-        parentPane.getChildren().add(this);
-    }
-
     @Override
     protected void deleteOld() {
-        return;
     }
 }

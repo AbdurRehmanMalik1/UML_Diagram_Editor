@@ -2,7 +2,6 @@ package UML.Line;
 
 import Models.AssociationModel;
 import UML.Objects.UMLObject;
-import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.layout.Pane;
@@ -65,11 +64,6 @@ public class Aggregation extends Line {
 
         // Add the diamond to the parent container (Pane or StackPane)
         parentPane.getChildren().add(diamond);
-    }
-
-    // Method to add the Aggregation line to the parent pane (if needed)
-    public void addToPane() {
-        parentPane.getChildren().add(this);  // Add the Aggregation line to the parent pane
     }
 
     protected void deleteOld() {

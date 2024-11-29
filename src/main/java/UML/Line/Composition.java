@@ -2,7 +2,6 @@ package UML.Line;
 
 import Models.AssociationModel;
 import UML.Objects.UMLObject;
-import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -10,16 +9,14 @@ import javafx.scene.shape.Polygon;
 public class Composition extends Line {
 
     Polygon diamond=null;
-    // Constructor for Composition line that initializes the line and the parent pane
     public Composition(double startX, double startY, double endX, double endY,
                        Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
         super(startX, startY, endX, endY, parentPane, associationModel, startObject, endObject);
         this.setStroke(Color.BLACK);  // Set line color for Composition
         this.setStrokeWidth(2);       // Set stroke width for the line
-        customDraw();  // Call customDraw to draw the diamond
+        customDraw();
     }
 
-    // Override the customDraw method to draw the composition line with a filled diamond
     @Override
     public void customDraw() {
         if(diamond!=null)
@@ -63,11 +60,6 @@ public class Composition extends Line {
             diamond.setFill(Color.TRANSPARENT);  // Make it transparent inside
         }
         parentPane.getChildren().add(diamond);
-    }
-
-    // Method to add the Composition line to the parent pane (if needed)
-    public void addToPane() {
-        parentPane.getChildren().add(this);  // Add the Composition line to the parent pane
     }
 
     protected void deleteOld() {

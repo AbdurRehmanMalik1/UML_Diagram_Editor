@@ -5,9 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.ScrollPane?>
 
 <HBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Main.HelloController">
@@ -24,9 +22,9 @@
 
     <Button text="Add Interface" onAction="#onAddInterfaceDiagramClick"/>
     <!--<Button text="Save First Uml Object" onAction="#onSaveFirstUmlObject"/> -->
-    <Button fx:id="generateCode" text="Generate Code" onAction="#onCodeGenerateClick"/>
+    <Button text="Generate Code" onAction="#onCodeGenerateClick"/>
     <Button text="Load Diagram" onAction="#onLoadDiagram"/>
-    <Button fx:id="deleteButton" text="Delete" onAction="#onDeleteClick"/>
+    <Button text="Delete" onAction="#onDeleteClick"/>
 
     <!-- New buttons for drawing lines -->
     <Button text="Draw Association" onAction="#onDrawAssociationClick"/>

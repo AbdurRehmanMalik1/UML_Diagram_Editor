@@ -1,7 +1,5 @@
 package Main;
 
-import Util.OrmUtil.HibernateUtil;
-import Util.OrmUtil.JPAUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -34,8 +32,6 @@ public class HelloApplication extends Application {
             launch();
         }
         finally {
-//            JPAUtil.shutdown();
-//            HibernateUtil.shutdown();
             System.out.println("Entity Manager Factories Shutting Down");
         }
     }

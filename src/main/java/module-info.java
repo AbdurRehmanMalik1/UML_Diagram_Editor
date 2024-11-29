@@ -10,7 +10,9 @@ module Main {
     requires com.fasterxml.jackson.dataformat.xml;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
-
+    exports UML.Line;
+    exports UML.Objects;
+    exports Models;
 
     opens Models to org.hibernate.orm.core, com.fasterxml.jackson.databind;
     // Make the UML package accessible for Jackson to serialize/deserialize

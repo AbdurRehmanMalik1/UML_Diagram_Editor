@@ -10,11 +10,11 @@ import java.util.List;
 @Table(name = "interface")
 public class InterfaceModel extends Model {
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonInclude()
     @Column(name = "interface_name", nullable = false)
     private String interfaceName;
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonInclude()
     @ElementCollection
     @CollectionTable(name = "interface_methods", joinColumns = @JoinColumn(name = "interface_id"))
     @Column(name = "method")

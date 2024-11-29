@@ -20,9 +20,8 @@ public class InterfaceDiagramController extends VBox {
 
         Platform.runLater(this::adjustButtonPosition);
 
-        classNameWrapper.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
-            Platform.runLater(this::adjustButtonPosition);
-        });
+        classNameWrapper.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) ->
+                Platform.runLater(this::adjustButtonPosition));
 
         addButtonEvents();
     }

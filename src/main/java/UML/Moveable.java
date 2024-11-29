@@ -1,12 +1,7 @@
 package UML;
 
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
-import javax.security.auth.callback.Callback;
+import javafx.scene.Parent;
 
 public abstract class Moveable extends Parent {
 //    transient CustomPoint point;

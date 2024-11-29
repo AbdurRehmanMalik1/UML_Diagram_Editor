@@ -27,9 +27,6 @@ public class ClassObject extends UMLObject {
     private VBox attributeBox;
     private VBox methodBox;
     private ClassDController controller;
-    public void unfocusSelf(){
-        setFocused(false);
-    }
     public ClassObject() {
         super();
         model = new ClassModel();
@@ -159,8 +156,7 @@ public class ClassObject extends UMLObject {
         }
         for (StackPane attributeStackPane : attributes) {
             // Ensure the element is an instance of EditableField
-            if (attributeStackPane instanceof EditableField) {
-                EditableField editableField = (EditableField) attributeStackPane;
+            if (attributeStackPane instanceof EditableField editableField) {
                 downcastModel.addAttribute(editableField.getText());
             }
         }
@@ -171,8 +167,7 @@ public class ClassObject extends UMLObject {
         }
         for (StackPane methodStackPane : methods) {
             // Ensure the element is an instance of EditableField
-            if (methodStackPane instanceof EditableField) {
-                EditableField editableField = (EditableField) methodStackPane;
+            if (methodStackPane instanceof EditableField editableField) {
                 downcastModel.addMethod(editableField.getText());
             }
         }

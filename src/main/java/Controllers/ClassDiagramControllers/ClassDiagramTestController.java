@@ -23,9 +23,8 @@ public class ClassDiagramTestController extends VBox implements ClassDController
 
         Platform.runLater(this::adjustButtonPosition);
 
-        classNameWrapper.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
-            Platform.runLater(this::adjustButtonPosition);
-        });
+        classNameWrapper.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) ->
+                Platform.runLater(this::adjustButtonPosition));
 
         addButtonEvents();
     }

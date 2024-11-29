@@ -1,6 +1,6 @@
 package Serializers;
 
-import Models.ClassModel;
+
 import Models.Model;
 import UML.Objects.UMLObject;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -5,31 +5,24 @@ import Models.AssociationModel;
 import Models.ClassModel;
 import Models.InterfaceModel;
 import Models.Model;
-import Serializers.AssociationModelSerializer;
 import Serializers.JSONSerializer;
 import Serializers.Serializer;
-import Services.AssociationModelService;
-import Services.ClassModelService;
 import UML.Diagrams.ClassDiagram;
 import UML.ObjectFactories.ClassFactory;
 import UML.ObjectFactories.InterfaceFactory;
 import UML.ObjectFactories.ObjectFactory;
-import UML.Objects.ClassObject;
 import UML.Objects.UMLObject;
 import UML.Objects.UseCaseObject;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import UML.Line.*;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class HelloController {
     @FXML
@@ -46,20 +39,13 @@ public class HelloController {
     List<UMLObject> umlObjects = new ArrayList<>();
     List<UML.Line.Line> associations = new ArrayList<>();
 
-    ClassModelService classModelService = new ClassModelService();
-    AssociationModelService associationModelService = new AssociationModelService();
-
     ObjectFactory classFactory = new ClassFactory();
     ObjectFactory interfaceFactory = new InterfaceFactory();
 
     @FXML
     public void initialize() {
-        //canvas.setFocusTraversable(false);
         canvas.focusedProperty().removeListener((observable, oldValue, newValue) -> {
         });
-        //Now delete button is in the menu and works
-        //deleteButton.setFocusTraversable(false);
-        //generateCode.setFocusTraversable(false);
         canvas.setOnKeyPressed(keyEvent -> {
             if(keyEvent.getCode()== KeyCode.DELETE)
                 onDeleteClick();
@@ -135,12 +121,6 @@ public class HelloController {
         newClassDiagram.reloadModel();
     }
 
-    public void onUnfocusClick(ActionEvent actionEvent) {
-        for (UMLObject cd : umlObjects)
-            if (cd instanceof ClassObject)
-                ((ClassObject) cd).unfocusSelf();
-    }
-
     @FXML
     public void onAddUseCaseClick() {
         UseCaseObject newUseCase = new UseCaseObject();
@@ -165,41 +145,20 @@ public class HelloController {
         jsonSerializer.serialize(model);
     }
 
-    public void saveAssociation(UML.Line.Line line) {
-        AssociationModelSerializer jsonSerializer = new AssociationModelSerializer();
-        jsonSerializer.serialize(line.getAssociationModel());
-    }
-
-
-//    public void onLoadDiagram() {
-//
-////        Serializer jsonSerializer = new JSONSerializer();
-////        String model = "{\"x\":250,\"y\":80.66666666666669,\"className\":\"Class Name\",\"attributes\":[\"dlawdlad\",\"New Attribute\"],\"methods\":[\"21321321\",\"New Met2131313hod\",\"New Method\"]}\n";
-////        Model classDiagramModel = jsonSerializer.deserialize(model, ClassModel.class);
-////
-////        ClassObject newClassDiagram = new ClassObject();
-////        newClassDiagram.setFocusTraversable(true);
-////        newClassDiagram.setModel((ClassModel) classDiagramModel);
-////        newClassDiagram.reloadModel();
-////        umlObjects.add(newClassDiagram);
-////        canvas.getChildren().add(newClassDiagram);
-//
-//    }
-
     @FXML
-    public void onDrawAssociationClick(ActionEvent actionEvent) {
+    public void onDrawAssociationClick() {
         handleLineDrawing("Association");
     }
     @FXML
-    public void onDrawInheritanceClick(ActionEvent actionEvent) {
+    public void onDrawInheritanceClick() {
         handleLineDrawing("Inheritance");
     }
     @FXML
-    public void onDrawAggregationClick(ActionEvent actionEvent) {
+    public void onDrawAggregationClick() {
         handleLineDrawing("Aggregation");
     }
     @FXML
-    public void onDrawCompositionClick(ActionEvent actionEvent) {
+    public void onDrawCompositionClick() {
         handleLineDrawing("Composition");
     }
 
@@ -215,11 +174,11 @@ public class HelloController {
                     firstObject[0] = umlObject;
                 }
                 // If the first object is selected, set the second one
-                else if (firstObject[0] != null && secondObject[0] == null) {
+                else if (secondObject[0] == null) {
                     secondObject[0] = umlObject;
                 }
 
-                if (firstObject[0] != null && secondObject[0] != null) {
+                if (secondObject[0] != null) {
                     drawLineBetweenObjects(firstObject[0], secondObject[0], lineType);
                     // Remove event handlers to avoid multiple line drawings
                     removeMouseHandlers();
@@ -233,15 +192,6 @@ public class HelloController {
             umlObject.setOnMousePressed(null);
             Platform.runLater(umlObject::resetMousePressedHandlers);
         }
-    }
-
-    private UMLObject getObjectAtMousePosition(double x, double y) {
-        for (UMLObject umlObject : umlObjects) {
-            if (umlObject.contains(x, y)) { // Assuming UMLObject has a `contains` method
-                return umlObject;
-            }
-        }
-        return null;
     }
 
     private void drawLineBetweenObjects(UMLObject object1, UMLObject object2, String lineType) {
@@ -268,7 +218,7 @@ public class HelloController {
 
 
         // Create the appropriate line object based on the lineType
-        UML.Line.Line line = null;
+        UML.Line.Line line;
         line = createLine(lineType, startX, startY, endX, endY, canvas, associationModel, object1, object2);
 
         //This will automatically set both sides
@@ -279,8 +229,6 @@ public class HelloController {
         if (line != null) {
             canvas.getChildren().add(line);
         }
-
-        //System.out.println("Line coordinates: " + startX + ", " + startY + " to " + endX + ", " + endY);
     }
 
     @FXML
@@ -305,6 +253,11 @@ public class HelloController {
         if (classDiagram.getAssociationList() != null)
             loadedAssociationModels = classDiagram.getAssociationList();
 
+        if (loadedAssociationModels==null)
+            loadedAssociationModels = new ArrayList<>();
+        if (loadedModels == null)
+            loadedModels = new ArrayList<>();
+
         loadSavedDiagram(loadedModels, loadedAssociationModels);
     }
 
@@ -320,8 +273,8 @@ public class HelloController {
 
         // First, process associations
         for (AssociationModel associationModel : loadedAssociationModels) {
-            UMLObject startObject = null;
-            UMLObject endObject = null;
+            UMLObject startObject;
+            UMLObject endObject;
 
             // Check and create start object if not already created
             if (!createdModels.containsKey(associationModel.getStartModel().getModelId())) {

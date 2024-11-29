@@ -19,15 +19,11 @@ import java.util.List;
 public class InterfaceObject extends UMLObject {
     private final Group groupDiagram;
     private VBox detailsBox;
-    private VBox topBox;
     private EditableField className;
     private List<StackPane> methods;
     private VBox methodBox;
     private InterfaceDiagramController controller;
 
-    public void unfocusSelf(){
-        setFocused(false);
-    }
     public InterfaceObject() {
         super();
         groupDiagram = new Group();
@@ -51,9 +47,8 @@ public class InterfaceObject extends UMLObject {
                 Platform.runLater(this::resizeOuterRect));
 
 
-        this.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            outerRect.setVisibility(newValue);
-        });
+        this.focusedProperty().addListener((observable, oldValue, newValue) ->
+            outerRect.setVisibility(newValue));
     }
 
     @Override
@@ -82,7 +77,7 @@ public class InterfaceObject extends UMLObject {
         detailsBox.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-        topBox = new VBox();
+        VBox topBox = new VBox();
         Label interfaceLabel =  new Label("<<interface>>");
         interfaceLabel.setAlignment(Pos.BASELINE_CENTER);
         HBox interfaceLabelWrapper = new HBox(interfaceLabel);
@@ -144,8 +139,7 @@ public class InterfaceObject extends UMLObject {
             downcastModel.getMethods().clear();
         }
         for (StackPane methodStackPane : methods) {
-            if (methodStackPane instanceof EditableField) {
-                EditableField editableField = (EditableField) methodStackPane;
+            if (methodStackPane instanceof EditableField editableField) {
                 downcastModel.addMethod(editableField.getText());
             }
         }

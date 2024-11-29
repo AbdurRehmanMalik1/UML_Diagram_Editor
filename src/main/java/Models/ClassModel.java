@@ -10,17 +10,17 @@ import java.util.List;
 @Table(name="class")
 public class ClassModel extends Model implements AttributeHolder{
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonInclude()
     @Column(name = "class_name" ,nullable = false)
     private String className;
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonInclude()
     @ElementCollection
     @CollectionTable(name = "class_attributes", joinColumns = @JoinColumn(name = "class_id"))
     @Column(name = "attribute")
     private List<String> attributes;
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonInclude()
     @ElementCollection
     @CollectionTable(name = "class_methods", joinColumns = @JoinColumn(name = "class_id"))
     @Column(name = "method")
