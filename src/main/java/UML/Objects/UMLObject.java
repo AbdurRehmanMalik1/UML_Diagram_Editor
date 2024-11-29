@@ -4,6 +4,7 @@ import Models.Model;
 import UML.CustomPoint;
 import UML.Line.Line;
 import UML.Moveable;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -64,8 +65,8 @@ public abstract class UMLObject extends Moveable {
             }
             if(!associatedLines.isEmpty())
                 updateLines();
-            point.setLocation(event.getSceneX(), event.getSceneY());
 
+            point.setLocation(event.getSceneX(), event.getSceneY());
         });
     }
 //    public void setRedrawLineLogic(Runnable redrawer){
@@ -179,8 +180,10 @@ public abstract class UMLObject extends Moveable {
     }
     protected void updateLines() {
         for (Line line : associatedLines) {
-            line.updateLineStart();
-            line.updateLineEnd();
+            if(line.getStartObject()==this)
+                line.updateLinePosition(this,true);
+            else if(line.getEndObject()==this)
+                line.updateLinePosition(this,false);
         }
     }
 }

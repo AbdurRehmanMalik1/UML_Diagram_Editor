@@ -9,6 +9,8 @@ import UML.Objects.UMLObject;
 
 public class Inheritance extends Line {
 
+    private Polygon arrowhead =null;
+
     // Constructor for Inheritance line that initializes the line and the parent pane
     public Inheritance(double startX, double startY, double endX, double endY,
                        Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
@@ -17,14 +19,10 @@ public class Inheritance extends Line {
         this.setStrokeWidth(2);
     }
 
-    // Override the customDraw method to draw the inheritance line with an arrowhead
     @Override
     public void customDraw() {
-        deleteOld();
-        this.setStartX(getStartX());
-        this.setStartY(getStartY());
-        this.setEndX(getEndX());
-        this.setEndY(getEndY());
+        if(arrowhead!=null)
+            deleteOld();
         drawArrowhead(getEndX(), getEndY(), getStartX(), getStartY());
     }
 
@@ -51,7 +49,7 @@ public class Inheritance extends Line {
         };
 
         // Create the Polygon (arrowhead) with the calculated points
-        Polygon arrowhead = new Polygon();
+        arrowhead = new Polygon();
         for (int i = 0; i < xPoints.length; i++) {
             arrowhead.getPoints().addAll(xPoints[i], yPoints[i]);
         }
@@ -69,8 +67,9 @@ public class Inheritance extends Line {
         parentPane.getChildren().add(this);  // Add the Inheritance line to the parent pane
     }
 
-    // Method to delete old polygons and shapes from the parent pane
     protected void deleteOld() {
-        parentPane.getChildren().removeIf(node -> node instanceof Polygon);
+        if (getParent() instanceof Pane parent) {
+            parent.getChildren().remove(arrowhead);
+        }
     }
 }

@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.ScrollPane?>
 
-<?import javafx.scene.canvas.Canvas?>
 <HBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="Main.HelloController">
   <VBox spacing="20.0" alignment="BASELINE_LEFT">
@@ -22,8 +21,10 @@
     <!-- Existing buttons -->
     <Button text="Add Class" onAction="#onAddClassDiagramClick"/>
     <Button text="Add Use Case" onAction="#onAddUseCaseClick"/>
+
     <Button text="Add Interface" onAction="#onAddInterfaceDiagramClick"/>
-    <Button text="Save First Uml Object" onAction="#onSaveFirstUmlObject"/>
+    <!--<Button text="Save First Uml Object" onAction="#onSaveFirstUmlObject"/> -->
+    <Button fx:id="generateCode" text="Generate Code" onAction="#onCodeGenerateClick"/>
     <Button text="Load Diagram" onAction="#onLoadDiagram"/>
     <Button fx:id="deleteButton" text="Delete" onAction="#onDeleteClick"/>
 

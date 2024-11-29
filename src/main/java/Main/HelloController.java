@@ -1,5 +1,6 @@
 package Main;
 
+import CodeGeneration.CodeGenerator;
 import Models.AssociationModel;
 import Models.ClassModel;
 import Models.InterfaceModel;
@@ -34,6 +35,7 @@ public class HelloController {
     public Pane canvas;
     @FXML
     public Button deleteButton;
+    public Button generateCode;
 
     List<UMLObject> umlObjects = new ArrayList<>();
     List<UML.Line.Line> associations = new ArrayList<>();
@@ -56,11 +58,12 @@ public class HelloController {
         canvas.focusedProperty().removeListener((observable, oldValue, newValue) -> {
         });
         deleteButton.setFocusTraversable(false);
-
+        generateCode.setFocusTraversable(false);
         canvas.setOnKeyPressed(keyEvent -> {
             if(keyEvent.getCode()== KeyCode.DELETE)
                 onDeleteClick();
         });
+
     }
 
     public List<AssociationModel> getAssociations() {
@@ -148,6 +151,7 @@ public class HelloController {
 ////        canvas.getChildren().add(newClassDiagram);
 //
 //    }
+
     @FXML
     public void onDrawAssociationClick(ActionEvent actionEvent) {
         handleLineDrawing("Association");
@@ -167,7 +171,6 @@ public class HelloController {
 
     private void handleLineDrawing(String lineType) {
         drawLineBetweenObjects(umlObjects.getFirst(), umlObjects.getLast(), lineType);
-
 //        if (selectedObject1 == null) {
 //            // No object selected yet, so set the first selected object
 //            canvas.setOnMouseClicked(event -> {
@@ -222,8 +225,6 @@ public class HelloController {
         startModel.addStartAssociation(associationModel);
         endModel.addEndAssociation(associationModel);
 
-        System.out.println(startModel.getModelId());
-        System.out.println(endModel.getModelId());
 
         // Create the appropriate line object based on the lineType
         UML.Line.Line line = null;
@@ -251,7 +252,6 @@ public class HelloController {
 
     @FXML
     public void onLoadDiagram() {
-
         List<AssociationModel> associationModels = getAssociations();
         List<Model> models = getModels();
         ClassDiagram classDiagram = new ClassDiagram(models, associationModels);
@@ -270,7 +270,6 @@ public class HelloController {
     public void loadSavedDiagram(List<Model> loadedModels, List<AssociationModel> loadedAssociationModels) {
         System.out.println("Loading Diagram");
 
-        // Clear canvas and lists
         canvas.getChildren().clear();
         umlObjects.clear();
         associations.clear();
@@ -399,6 +398,16 @@ public class HelloController {
             line.delete();
         } else {
             System.out.println("No UMLObject is focused.");
+        }
+    }
+
+    @FXML
+    public void onCodeGenerateClick() {
+        Node focusedNode = canvas.getScene().getFocusOwner();
+        if (focusedNode instanceof UMLObject obj) {
+            CodeGenerator codeGenerator = new CodeGenerator();
+            codeGenerator.generateCode(obj.getModel());
+            System.out.println("Code has been generated");
         }
     }
 }

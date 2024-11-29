@@ -9,6 +9,7 @@ import javafx.scene.shape.Polygon;
 
 public class Composition extends Line {
 
+    Polygon diamond=null;
     // Constructor for Composition line that initializes the line and the parent pane
     public Composition(double startX, double startY, double endX, double endY,
                        Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
@@ -21,16 +22,8 @@ public class Composition extends Line {
     // Override the customDraw method to draw the composition line with a filled diamond
     @Override
     public void customDraw() {
-        // Delete old polygons and lines before drawing the new ones
-        deleteOld();
-
-        // Draw the line itself (this is automatically drawn as part of the Line class)
-        this.setStartX(getStartX());
-        this.setStartY(getStartY());
-        this.setEndX(getEndX());
-        this.setEndY(getEndY());
-
-        // Draw the filled diamond shape at the end of the line
+        if(diamond!=null)
+            deleteOld();
         drawDiamond(getEndX(), getEndY(), getStartX(), getStartY(), true);  // 'true' for filled diamond
     }
 
@@ -58,7 +51,7 @@ public class Composition extends Line {
         };
 
         // Create a polygon for the diamond
-        Polygon diamond = new Polygon();
+        diamond = new Polygon();
         for (int i = 0; i < xPoints.length; i++) {
             diamond.getPoints().addAll(xPoints[i], yPoints[i]);
         }
@@ -69,9 +62,8 @@ public class Composition extends Line {
             diamond.setStroke(Color.BLACK);  // Stroke the diamond outline with black
             diamond.setFill(Color.TRANSPARENT);  // Make it transparent inside
         }
-
-        // Add the diamond to the parent pane
         parentPane.getChildren().add(diamond);
+        System.out.println("added diamond");
     }
 
     // Method to add the Composition line to the parent pane (if needed)
@@ -79,8 +71,10 @@ public class Composition extends Line {
         parentPane.getChildren().add(this);  // Add the Composition line to the parent pane
     }
 
-    // Method to delete old polygons and shapes from the parent pane
     protected void deleteOld() {
-        parentPane.getChildren().removeIf(node -> node instanceof Polygon);
+        if (getParent() instanceof Pane parent) {
+            parent.getChildren().remove(diamond);
+        }
     }
+
 }

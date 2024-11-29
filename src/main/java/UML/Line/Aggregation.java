@@ -9,6 +9,8 @@ import javafx.scene.layout.Pane;
 
 public class Aggregation extends Line {
 
+    private Polygon diamond=null;
+
     // Constructor to initialize line properties
     public Aggregation(double startX, double startY, double endX, double endY,
                        Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
@@ -20,16 +22,8 @@ public class Aggregation extends Line {
 
     @Override
     public void customDraw() {
-        // Delete old polygons and lines before drawing new ones
-        deleteOld();
-
-        // Draw the line itself (this is automatically drawn as part of the Line class)
-        this.setStartX(getStartX());
-        this.setStartY(getStartY());
-        this.setEndX(getEndX());
-        this.setEndY(getEndY());
-
-        // Call the drawDiamond method to draw the diamond shape at the end of the line
+        if(diamond!=null)
+            deleteOld();
         drawDiamond(getEndX(), getEndY(), getStartX(), getStartY(), false); // "false" for transparent diamond outline
     }
 
@@ -57,8 +51,7 @@ public class Aggregation extends Line {
                 baseY - diamondSize * Math.sin(angle + Math.PI / 4)
         };
 
-        // Create the polygon (diamond) and set its properties
-        Polygon diamond = new Polygon(xPoints[0], yPoints[0], xPoints[1], yPoints[1],
+        diamond = new Polygon(xPoints[0], yPoints[0], xPoints[1], yPoints[1],
                 xPoints[2], yPoints[2], xPoints[3], yPoints[3]);
 
         // Set the appearance of the diamond
@@ -79,8 +72,9 @@ public class Aggregation extends Line {
         parentPane.getChildren().add(this);  // Add the Aggregation line to the parent pane
     }
 
-    // Method to delete old polygons and shapes from the parent pane
     protected void deleteOld() {
-        parentPane.getChildren().removeIf(node -> node instanceof Polygon);
+        if (getParent() instanceof Pane parent) {
+            parent.getChildren().remove(diamond);
+        }
     }
 }

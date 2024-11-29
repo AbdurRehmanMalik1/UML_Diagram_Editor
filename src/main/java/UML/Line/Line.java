@@ -31,43 +31,21 @@ public abstract class Line extends javafx.scene.shape.Line {
             }else
                 this.setStroke(Color.BLACK);
         });
-        customDraw();
     }
 
-    public void updateLineStart() {
-        // Request layout update to ensure the bounds are recalculated
-        startObject.requestLayout();
-
+    public void updateLinePosition(UMLObject object, boolean isStart) {
+        //object.requestLayout();
         Platform.runLater(() -> {
-            // Get the position relative to the parent (canvas or pane)
-            double startX = startObject.localToParent(startObject.getBoundsInLocal()).getMinX();
-            double startY = startObject.localToParent(startObject.getBoundsInLocal()).getMinY();
+            double posX = object.localToParent(object.getBoundsInLocal()).getMinX();
+            double posY = object.localToParent(object.getBoundsInLocal()).getMinY();
 
-            // Debugging output to verify bounds
-            //System.out.println("Start X: " + startX + ", Start Y: " + startY);
-
-            // Update the line start position
-            this.setStartX(startX);
-            this.setStartY(startY);
-            customDraw();
-        });
-    }
-
-    public void updateLineEnd() {
-        // Request layout update to ensure the bounds are recalculated
-        endObject.requestLayout();
-
-        Platform.runLater(() -> {
-            // Get the position relative to the parent (canvas or pane)
-            double endX = endObject.localToParent(endObject.getBoundsInLocal()).getMinX();
-            double endY = endObject.localToParent(endObject.getBoundsInLocal()).getMinY();
-
-            // Debugging output to verify bounds
-            System.out.println("End X: " + endX + ", End Y: " + endY);
-
-            // Update the line end position
-            this.setEndX(endX);
-            this.setEndY(endY);
+            if (isStart) {
+                this.setStartX(posX);
+                this.setStartY(posY);
+            } else {
+                this.setEndX(posX);
+                this.setEndY(posY);
+            }
             customDraw();
         });
     }
@@ -88,7 +66,8 @@ public abstract class Line extends javafx.scene.shape.Line {
 
     public void setStartObject(UMLObject startObject) {
         this.startObject = startObject;
-        updateLineStart();
+        updateLinePosition(this.startObject,true);
+        //updateLineStart();
     }
 
     public UMLObject getEndObject() {
@@ -97,9 +76,11 @@ public abstract class Line extends javafx.scene.shape.Line {
 
     public void setEndObject(UMLObject endObject) {
         this.endObject = endObject;
-        updateLineEnd();
+        updateLinePosition(this.startObject,false);
+        //updateLineEnd();
     }
     protected abstract void deleteOld();
+
     public void delete() {
         if (startObject != null && startObject.getModel() != null && startObject.getAssociatedLines() != null) {
             startObject.getModel().removeStartAssociation(this.associationModel);
