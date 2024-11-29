@@ -63,7 +63,6 @@ public class Composition extends Line {
             diamond.setFill(Color.TRANSPARENT);  // Make it transparent inside
         }
         parentPane.getChildren().add(diamond);
-        System.out.println("added diamond");
     }
 
     // Method to add the Composition line to the parent pane (if needed)
