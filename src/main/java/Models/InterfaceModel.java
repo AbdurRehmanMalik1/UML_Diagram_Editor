@@ -9,10 +9,6 @@ import java.util.List;
 @Entity
 @Table(name = "interface")
 public class InterfaceModel extends Model {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "interface_id")
-//    private int id;
 
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @Column(name = "interface_name", nullable = false)
@@ -36,14 +32,6 @@ public class InterfaceModel extends Model {
         super();
         methods = new ArrayList<>();
     }
-
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
 
     public String getInterfaceName() {
         return interfaceName;

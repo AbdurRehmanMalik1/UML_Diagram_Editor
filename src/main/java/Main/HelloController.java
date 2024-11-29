@@ -40,6 +40,7 @@ public class HelloController {
 
     ClassModelService classModelService = new ClassModelService();
     AssociationModelService associationModelService = new AssociationModelService();
+
     ObjectFactory classFactory = new ClassFactory();
     ObjectFactory interfaceFactory = new InterfaceFactory();
 

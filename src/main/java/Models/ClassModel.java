@@ -9,10 +9,6 @@ import java.util.List;
 @Entity
 @Table(name="class")
 public class ClassModel extends Model implements AttributeHolder{
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "class_id")
-//    private int id ;
 
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @Column(name = "class_name" ,nullable = false)
@@ -36,12 +32,6 @@ public class ClassModel extends Model implements AttributeHolder{
         methods = new ArrayList<>();
     }
 
-//    public void setId(int id){
-//        this.id = id;
-//    }
-//    public int getId(){
-//        return id;
-//    }
     public String getClassName() {
         return className;
     }

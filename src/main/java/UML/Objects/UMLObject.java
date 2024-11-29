@@ -1,6 +1,5 @@
 package UML.Objects;
 
-import Models.InterfaceModel;
 import Models.Model;
 import UML.CustomPoint;
 import UML.Line.Line;
