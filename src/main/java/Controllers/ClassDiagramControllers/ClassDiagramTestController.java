@@ -44,7 +44,8 @@ public class ClassDiagramTestController extends VBox implements ClassDController
         addAttributeButton.setOnMouseClicked(event -> {
             String attribute = "New Attribute";
             parentClass.addAttribute(attribute);
-            parentClass.getClassModel().addAttribute(attribute);
+            ClassModel classModel = (ClassModel) parentClass.getModel();
+            classModel.addAttribute(attribute);
             //parentClass.resizeOuterRect();
         });
         addMethodButton.setOnMouseClicked(event -> {
@@ -54,7 +55,7 @@ public class ClassDiagramTestController extends VBox implements ClassDController
         });
 
         printModelButton.setOnMouseClicked(event -> {
-            ClassModel classModel = parentClass.getClassModel();
+            ClassModel classModel = (ClassModel) parentClass.getModel();
             System.out.println("class model : " + classModel);
             // Empty body for printModel button event handler
         });

@@ -3,6 +3,7 @@ package UML.Objects;
 import Controllers.ClassDiagramControllers.ClassDController;
 import Controllers.ClassDiagramControllers.ClassDiagramController;
 import Models.ClassModel;
+import Models.Model;
 import UML.UI_Components.EditableField;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -26,13 +27,12 @@ public class ClassObject extends UMLObject {
     private VBox attributeBox;
     private VBox methodBox;
     private ClassDController controller;
-    private ClassModel classModel;
     public void unfocusSelf(){
         setFocused(false);
     }
     public ClassObject() {
         super();
-        classModel = new ClassModel();
+        model = new ClassModel();
         groupDiagram = new Group();
 
         initComponents();
@@ -53,15 +53,33 @@ public class ClassObject extends UMLObject {
                 Platform.runLater(this::resizeOuterRect)
         );
 
-        this.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            outerRect.setVisibility(newValue);
-        });
+        this.focusedProperty().addListener((observable, oldValue, newValue) ->
+            outerRect.setVisibility(newValue));
     }
-    public ClassModel getClassModel(){
-        return classModel;
+
+    @Override
+    public Model getModel(){
+        return model;
     }
-    public void setClassModel(ClassModel model) {
-        this.classModel = model;
+
+    @Override
+    public void setModel(Model model) {
+        ClassModel classModel = (ClassModel) model;
+        this.setModel(classModel);
+    }
+
+    @Override
+    public double getWidth() {
+        return className.getWidth();
+    }
+
+    @Override
+    public double getHeight() {
+        return detailsBox.getHeight();
+    }
+
+    public void setModel(ClassModel model) {
+        this.model = model;
 
         if (model.getClassName() != null && !model.getClassName().isEmpty()) {
             className.setText(model.getClassName());
@@ -89,7 +107,7 @@ public class ClassObject extends UMLObject {
         detailsBox.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-        EditableField classNameField = new EditableField("Class Name",this::reloadClassModel);
+        EditableField classNameField = new EditableField("Class Name",this::reloadModel);
         classNameField.setAlignment(Pos.BASELINE_CENTER);
         className = classNameField;
         HBox classNameWrapper = new HBox(className);
@@ -116,28 +134,48 @@ public class ClassObject extends UMLObject {
     }
 
     public void addAttribute(String temp) {
-        StackPane attribute = new EditableField(temp , this::reloadClassModel);
+        StackPane attribute = new EditableField(temp , this::reloadModel);
         attribute.setFocusTraversable(true);
         attributes.add(attribute);
         attributeBox.getChildren().add(attribute);
     }
 
     public void addMethod(String temp) {
-        StackPane method = new EditableField(temp,this::reloadClassModel);
+        StackPane method = new EditableField(temp,this::reloadModel);
         methods.add(method);
         methodBox.getChildren().add(method);
     }
-    public void reloadClassModel(){
-        ClassModel reloadedModel = new ClassModel();
-        reloadedModel.setClassName(className.getText());
-        for(StackPane attributeStackPane : attributes) {
-            EditableField editableField = (EditableField)attributeStackPane;
-            reloadedModel.addAttribute(editableField.getText());
+    @Override
+    public void reloadModel() {
+        super.reloadModel();
+
+        ClassModel downcastModel = (ClassModel) model;
+
+        downcastModel.setClassName(className.getText());
+
+        // Clear the existing attributes and replace them with the updated values
+        if (downcastModel.getAttributes() != null) {
+            downcastModel.getAttributes().clear();
         }
-        for(StackPane methodStackPane : methods) {
-            EditableField editableField = (EditableField) methodStackPane;
-            reloadedModel.addMethod(editableField.getText());
+        for (StackPane attributeStackPane : attributes) {
+            // Ensure the element is an instance of EditableField
+            if (attributeStackPane instanceof EditableField) {
+                EditableField editableField = (EditableField) attributeStackPane;
+                downcastModel.addAttribute(editableField.getText());
+            }
         }
-        classModel = reloadedModel;
+
+        // Clear the existing methods and add the new ones
+        if (downcastModel.getMethods() != null) {
+            downcastModel.getMethods().clear();
+        }
+        for (StackPane methodStackPane : methods) {
+            // Ensure the element is an instance of EditableField
+            if (methodStackPane instanceof EditableField) {
+                EditableField editableField = (EditableField) methodStackPane;
+                downcastModel.addMethod(editableField.getText());
+            }
+        }
     }
+
 }

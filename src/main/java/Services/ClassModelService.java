@@ -4,11 +4,13 @@ import Models.ClassModel;
 import Repositories.ClassModelRepository;
 
 public class ClassModelService {
-    ClassModelRepository classModelRepository;
+    final ClassModelRepository classModelRepository;
     public ClassModelService(){
         classModelRepository= new ClassModelRepository();
     }
     public int saveClass(ClassModel classModel){
-       return classModelRepository.save(classModel);
+        int returnedId = classModelRepository.save(classModel);
+        //classModel.setId(returnedId);
+        return returnedId;
     }
 }

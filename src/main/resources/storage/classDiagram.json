@@ -1,0 +1,33 @@
+{
+  "associationList" : [ {
+    "id" : 0,
+    "type" : "Inheritance",
+    "startX" : 212.66666666666669,
+    "startY" : 492.0,
+    "endX" : 136.0,
+    "endY" : 100.0,
+    "startMultiplicity" : null,
+    "endMultiplicity" : null,
+    "startModel" : {
+      "type" : "Class",
+      "id" : 2,
+      "x" : 176.66666666666669,
+      "y" : 492.0,
+      "className" : "Class Name",
+      "attributes" : [ ],
+      "methods" : [ ],
+      "modelId" : 2
+    },
+    "endModel" : {
+      "type" : "Class",
+      "id" : 1,
+      "x" : 50.666666666666686,
+      "y" : 140.0,
+      "className" : "Class Name",
+      "attributes" : [ ],
+      "methods" : [ ],
+      "modelId" : 1
+    }
+  } ],
+  "models" : [ 1, 2 ]
+}

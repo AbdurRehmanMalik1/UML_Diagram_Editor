@@ -9,7 +9,7 @@ import javafx.scene.layout.StackPane;
 public class EditableField extends StackPane {
     private final Label label;
     private final TextField textField;
-    private Runnable onCommitCallback;
+    private final Runnable onCommitCallback;
     public EditableField(String s) {
         this(s,null);
     }

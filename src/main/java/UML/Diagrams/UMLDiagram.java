@@ -1,6 +1,8 @@
 package UML.Diagrams;
 
-public abstract class UMLDiagram  {
+import java.io.Serializable;
+
+public abstract class UMLDiagram  implements Serializable {
     UMLDiagram(){
 
     }

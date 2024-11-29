@@ -24,5 +24,7 @@ module Main {
     exports Main;
     opens UML.Objects to com.fasterxml.jackson.databind;
     opens UML.Diagrams to com.fasterxml.jackson.databind;
+    opens UML.ObjectFactories to com.fasterxml.jackson.databind;
+    opens UML.Line to com.fasterxml.jackson.databind;
 
 }
