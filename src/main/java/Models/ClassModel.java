@@ -29,7 +29,7 @@ public class ClassModel extends Model{
     @CollectionTable(name = "class_methods", joinColumns = @JoinColumn(name = "class_id"))
     @Column(name = "method")
 
-    private List<String> methods;
+    private List<String>methods;
 
     public ClassModel(){
         className = "";

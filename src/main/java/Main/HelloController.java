@@ -13,12 +13,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HelloController {
+    @FXML
+    private TextField modelNameField;
 
+    @FXML
+    private TreeView<String> modelTree;
+
+    private TreeItem<String> rootNode;
+    private TreeItem<String> diagramNode;
     @FXML
     public Pane canvas;
 
@@ -26,6 +35,49 @@ public class HelloController {
     private Label welcomeText;
     List<UMLObject> umlObjects = new ArrayList<>();
     //ClassModelService classModelService = new ClassModelService();
+
+    @FXML
+    public void initialize() {
+        // Set up the TreeView structure
+        rootNode = new TreeItem<>("Untitled"); // Default model name
+        rootNode.setExpanded(true);
+
+        diagramNode = new TreeItem<>("Model: Class Diagram"); // Default diagram type
+        diagramNode.setExpanded(true);
+
+        rootNode.getChildren().add(diagramNode);
+        modelTree.setRoot(rootNode);
+    }
+
+    @FXML
+    public void setModelName() {
+        String newName = modelNameField.getText().trim();
+        if (!newName.isEmpty()) {
+            rootNode.setValue(newName);
+        }
+    }
+
+    @FXML
+    public void addClass() {
+        addClassNode("New Class"); // Replace with a unique or user-specified name
+    }
+
+    @FXML
+    private ComboBox<String> diagramTypeBox;
+
+    @FXML
+    public void changeDiagramType() {
+        String selectedType = diagramTypeBox.getValue();
+        if (selectedType != null) {
+            diagramNode.setValue("Model: " + selectedType);
+        }
+    }
+
+    public void addClassNode(String className) {
+        // Add a class to the diagram node
+        TreeItem<String> classNode = new TreeItem<>(className);
+        diagramNode.getChildren().add(classNode);
+    }
 
     @FXML
     public void onAddClassDiagramClick() {
