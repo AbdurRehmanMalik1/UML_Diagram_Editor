@@ -1,9 +1,9 @@
 {
   "associationList" : [ {
     "id" : 0,
-    "type" : "Aggregation",
-    "startX" : 114.66666666666669,
-    "startY" : 404.0,
+    "type" : "Inheritance",
+    "startX" : 212.66666666666669,
+    "startY" : 492.0,
     "endX" : 136.0,
     "endY" : 100.0,
     "startMultiplicity" : null,
@@ -11,8 +11,8 @@
     "startModel" : {
       "type" : "Class",
       "id" : 2,
-      "x" : 78.66666666666669,
-      "y" : 404.0,
+      "x" : 176.66666666666669,
+      "y" : 492.0,
       "className" : "Class Name",
       "attributes" : [ ],
       "methods" : [ ],
@@ -21,62 +21,13 @@
     "endModel" : {
       "type" : "Class",
       "id" : 1,
-      "x" : 199.33333333333337,
-      "y" : 146.66666666666663,
+      "x" : 50.666666666666686,
+      "y" : 140.0,
       "className" : "Class Name",
       "attributes" : [ ],
       "methods" : [ ],
       "modelId" : 1
     }
-  }, {
-    "id" : 0,
-    "type" : "Composition",
-    "startX" : 114.66666666666669,
-    "startY" : 404.0,
-    "endX" : 229.33333333333331,
-    "endY" : 296.66666666666663,
-    "startMultiplicity" : null,
-    "endMultiplicity" : null,
-    "startModel" : 2,
-    "endModel" : {
-      "type" : "Class",
-      "id" : 3,
-      "x" : 261.33333333333337,
-      "y" : 325.3333333333333,
-      "className" : "Class Name",
-      "attributes" : [ ],
-      "methods" : [ ],
-      "modelId" : 3
-    }
-  }, {
-    "id" : 0,
-    "type" : "Inheritance",
-    "startX" : 114.66666666666669,
-    "startY" : 404.0,
-    "endX" : 36.66666666666666,
-    "endY" : 126.0,
-    "startMultiplicity" : null,
-    "endMultiplicity" : null,
-    "startModel" : 2,
-    "endModel" : {
-      "type" : "Class",
-      "id" : 4,
-      "x" : 1.9999999999999716,
-      "y" : 128.0,
-      "className" : "Class Name",
-      "attributes" : [ ],
-      "methods" : [ "New Method", "New Method", "New Method", "New Method", "New Method" ],
-      "modelId" : 4
-    }
   } ],
-  "models" : [ 2, 1, 3, 4, {
-    "type" : "Class",
-    "id" : 29,
-    "x" : 180.66666666666663,
-    "y" : 68.66666666666667,
-    "className" : "Class Name",
-    "attributes" : [ ],
-    "methods" : [ ],
-    "modelId" : 29
-  } ]
+  "models" : [ 1, 2 ]
 }
