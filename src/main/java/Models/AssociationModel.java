@@ -1,13 +1,14 @@
 package Models;
 
-import Serializers.AssociationModelSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "associations")
 public class AssociationModel implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +30,11 @@ public class AssociationModel implements Serializable {
     @Column(name = "end_y")
     private double endY;
 
-    @Column(name = "startMultiplicity", nullable = true)
-    private Integer startMultiplicity;
+    @Column(name = "startMultiplicity")
+    private String startMultiplicity;
 
-    @Column(name = "endMultiplicity", nullable = true)
-    private Integer endMultiplicity;
+    @Column(name = "endMultiplicity")
+    private String endMultiplicity;
 
     @ManyToOne
     @JoinColumn(name = "start_object_id", nullable = false)
@@ -59,19 +60,19 @@ public class AssociationModel implements Serializable {
         this.type = type;
     }
 
-    public Integer getStartMultiplicity() {
+    public String getStartMultiplicity() {
         return startMultiplicity;
     }
 
-    public void setStartMultiplicity(Integer startMultiplicity) {
+    public void setStartMultiplicity(String startMultiplicity) {
         this.startMultiplicity = startMultiplicity;
     }
 
-    public Integer getEndMultiplicity() {
+    public String getEndMultiplicity() {
         return endMultiplicity;
     }
 
-    public void setEndMultiplicity(Integer endMultiplicity) {
+    public void setEndMultiplicity(String endMultiplicity) {
         this.endMultiplicity = endMultiplicity;
     }
 

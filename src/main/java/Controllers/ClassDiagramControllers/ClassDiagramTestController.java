@@ -1,5 +1,6 @@
 package Controllers.ClassDiagramControllers;
 
+import Models.CD.Method;
 import Models.ClassModel;
 import UML.Objects.ClassObject;
 import javafx.application.Platform;
@@ -20,12 +21,13 @@ public class ClassDiagramTestController extends VBox implements ClassDController
         this.classNameWrapper = classNameWrapper;
 
         initComponents();
-
+        addMethodButton.setFocusTraversable(false);
+        addAttributeButton.setFocusTraversable(false);
+        printModelButton.setFocusTraversable(false);
         Platform.runLater(this::adjustButtonPosition);
 
-        classNameWrapper.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
-            Platform.runLater(this::adjustButtonPosition);
-        });
+        classNameWrapper.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) ->
+                Platform.runLater(this::adjustButtonPosition));
 
         addButtonEvents();
     }
@@ -49,7 +51,8 @@ public class ClassDiagramTestController extends VBox implements ClassDController
             //parentClass.resizeOuterRect();
         });
         addMethodButton.setOnMouseClicked(event -> {
-            String method = "New Method";
+            String m = "New Method";
+            Method method = new Method(m);
             parentClass.addMethod(method);
             //parentClass.resizeOuterRect();
         });

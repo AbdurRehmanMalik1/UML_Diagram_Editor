@@ -2,6 +2,7 @@ package UML.Objects;
 
 import Controllers.ClassDiagramControllers.ClassDController;
 import Controllers.ClassDiagramControllers.ClassDiagramController;
+import Models.CD.Method;
 import Models.ClassModel;
 import Models.Model;
 import UML.UI_Components.EditableField;
@@ -10,6 +11,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.Group;
@@ -27,9 +29,6 @@ public class ClassObject extends UMLObject {
     private VBox attributeBox;
     private VBox methodBox;
     private ClassDController controller;
-    public void unfocusSelf(){
-        setFocused(false);
-    }
     public ClassObject() {
         super();
         model = new ClassModel();
@@ -80,7 +79,9 @@ public class ClassObject extends UMLObject {
 
     public void setModel(ClassModel model) {
         this.model = model;
-
+        if(model.isAbstract()) {
+            className.toggleItalic();
+        }
         if (model.getClassName() != null && !model.getClassName().isEmpty()) {
             className.setText(model.getClassName());
         }
@@ -89,7 +90,7 @@ public class ClassObject extends UMLObject {
             addAttribute(attribute);
         }
 
-        for (String method : model.getMethods()) {
+        for (Method method : model.getMethods()) {
             addMethod(method);
         }
         this.setLayoutX(model.getX());
@@ -108,6 +109,13 @@ public class ClassObject extends UMLObject {
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
         EditableField classNameField = new EditableField("Class Name",this::reloadModel);
+        classNameField.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.I) {
+                classNameField.toggleItalic();
+                ClassModel classModel = (ClassModel)model;
+                classModel.setAbstract(!classModel.isAbstract());
+            }
+        });
         classNameField.setAlignment(Pos.BASELINE_CENTER);
         className = classNameField;
         HBox classNameWrapper = new HBox(className);
@@ -140,10 +148,16 @@ public class ClassObject extends UMLObject {
         attributeBox.getChildren().add(attribute);
     }
 
-    public void addMethod(String temp) {
-        StackPane method = new EditableField(temp,this::reloadModel);
+    public void addMethod(Method temp) {
+        EditableField method = new EditableField(temp.getText(),this::reloadModel);
+        method.setIsAbstract(temp.isAbstract());
         methods.add(method);
         methodBox.getChildren().add(method);
+        method.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.I) {
+               method.toggleItalic();
+            }
+        });
     }
     @Override
     public void reloadModel() {
@@ -153,27 +167,23 @@ public class ClassObject extends UMLObject {
 
         downcastModel.setClassName(className.getText());
 
-        // Clear the existing attributes and replace them with the updated values
         if (downcastModel.getAttributes() != null) {
             downcastModel.getAttributes().clear();
         }
         for (StackPane attributeStackPane : attributes) {
-            // Ensure the element is an instance of EditableField
-            if (attributeStackPane instanceof EditableField) {
-                EditableField editableField = (EditableField) attributeStackPane;
+            if (attributeStackPane instanceof EditableField editableField) {
                 downcastModel.addAttribute(editableField.getText());
             }
         }
 
-        // Clear the existing methods and add the new ones
         if (downcastModel.getMethods() != null) {
             downcastModel.getMethods().clear();
         }
         for (StackPane methodStackPane : methods) {
-            // Ensure the element is an instance of EditableField
-            if (methodStackPane instanceof EditableField) {
-                EditableField editableField = (EditableField) methodStackPane;
-                downcastModel.addMethod(editableField.getText());
+            if (methodStackPane instanceof EditableField editableField) {
+                Method method = new Method(editableField.getText());
+                method.setAbstract(editableField.getIsAbstract());
+                downcastModel.addMethod(method);
             }
         }
     }

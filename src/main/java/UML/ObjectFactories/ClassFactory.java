@@ -3,9 +3,8 @@ package UML.ObjectFactories;
 import UML.Objects.ClassObject;
 import UML.Objects.UMLObject;
 
-public class ClassFactory implements ObjectFactory{
+public class ClassFactory {
 
-    @Override
     public UMLObject create(){
         return new ClassObject();
     }

@@ -17,12 +17,11 @@ public class InterfaceDiagramController extends VBox {
         this.classNameWrapper = classNameWrapper;
 
         initComponents();
-
+        addMethodButton.setFocusTraversable(false);
         Platform.runLater(this::adjustButtonPosition);
 
-        classNameWrapper.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
-            Platform.runLater(this::adjustButtonPosition);
-        });
+        classNameWrapper.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) ->
+                Platform.runLater(this::adjustButtonPosition));
 
         addButtonEvents();
     }
@@ -34,7 +33,7 @@ public class InterfaceDiagramController extends VBox {
 
     private void addButtonEvents() {
         addMethodButton.setOnMouseClicked(event -> {
-            parentClass.addMethod("New Method3111111111111111111111111");
+            parentClass.addMethod("New Method");
             //parentClass.resizeOuterRect();
         });
     }

@@ -1,6 +1,5 @@
 package Serializers;
 
-import Models.ClassModel;
 import Models.Model;
 import UML.Objects.UMLObject;
 

@@ -9,8 +9,7 @@ public class ClassModelService {
         classModelRepository= new ClassModelRepository();
     }
     public int saveClass(ClassModel classModel){
-        int returnedId = classModelRepository.save(classModel);
         //classModel.setId(returnedId);
-        return returnedId;
+        return classModelRepository.save(classModel);
     }
 }

@@ -13,17 +13,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
 public class UseCaseObject extends UMLObject {
-    private final StackPane box;
     private final Ellipse ellipse;
-    private final EditableField field;
     private double radiusX = 70;
     private double radiusY = 50;
 
     public UseCaseObject(String initialText) {
         super();
-        box = new StackPane();
+        StackPane box = new StackPane();
         ellipse = new Ellipse();
-        field = new EditableField(initialText);
+        EditableField field = new EditableField(initialText);
 
         // Configure Ellipse
         ellipse.setFill(Color.TRANSPARENT);
@@ -38,7 +36,7 @@ public class UseCaseObject extends UMLObject {
         getChildren().add(box);
 
         outerRect.setSize(ellipse.getRadiusX()*2+4,ellipse.getRadiusY()*2+4);
-        outerRect.setLocation(box.getLayoutX()-1,box.getLayoutY()-1);
+        outerRect.setLocation(box.getLayoutX()-1, box.getLayoutY()-1);
     }
 
     public UseCaseObject() {

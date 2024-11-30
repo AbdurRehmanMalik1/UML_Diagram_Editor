@@ -1,22 +1,19 @@
 package UML.Diagrams;
 
 import Models.AssociationModel;
+import Models.ClassModel;
 import Models.Model;
-import Serializers.AssociationModelSerializer;
 import Serializers.ClassDiagramSerializer;
-import Serializers.JSONSerializer;
-import UML.Line.Association;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.*;
 import java.util.List;
 
-import static java.lang.Thread.sleep;
 
 public class ClassDiagram extends UMLDiagram{
-    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @JsonInclude()
     List<AssociationModel> associationList;
-    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @JsonInclude()
     List<Model> models;
 
     public ClassDiagram(){
@@ -48,13 +45,15 @@ public class ClassDiagram extends UMLDiagram{
         models.clear();
         ClassDiagramSerializer classDiagramSerializer = new ClassDiagramSerializer();
         String content =  readClassDiagramFile();
-        UMLDiagram deserializedClassDiagram = new ClassDiagram();
+        UMLDiagram deserializedClassDiagram;
         if(!content.isEmpty()) {
             deserializedClassDiagram = classDiagramSerializer.deserialize(readClassDiagramFile(), ClassDiagram.class);
             ClassDiagram classDiagram = (ClassDiagram) deserializedClassDiagram;
             this.setAssociationList(classDiagram.getAssociationList());
             this.setModelList(classDiagram.getModels());
         }
+//        ClassModel classModel = (ClassModel)models.getFirst();
+//        System.out.println("Class Model is abstract = " + classModel.isAbstract());
         //System.out.println(readClassDiagramFile());
     }
     public static String readClassDiagramFile() {
@@ -73,7 +72,7 @@ public class ClassDiagram extends UMLDiagram{
             }
         } catch (IOException e) {
             // Handle any IOException that might occur (e.g., file not found)
-            e.printStackTrace();
+            System.out.println("Could not read JSON file");
         }
 
         // Return the content as a string

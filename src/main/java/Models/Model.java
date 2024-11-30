@@ -3,6 +3,7 @@ package Models;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,6 @@ import java.util.List;
 )
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
         property = "type"
 )
 @JsonSubTypes({
@@ -26,6 +26,7 @@ import java.util.List;
 @Table(name = "models")
 public abstract class Model implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private static int modelIdCounter = 1;
@@ -35,11 +36,11 @@ public abstract class Model implements Serializable {
     @Column(name = "model_id")
     public int id;
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonInclude()
     @Column(name = "coordinate_x")
     private double x = 0;
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonInclude()
     @Column(name = "coordinate_y")
     private double y = 0;
 
@@ -55,6 +56,13 @@ public abstract class Model implements Serializable {
 
     protected Model() {
         id = generateUniqueId();
+    }
+    protected Model(Model other) {
+        id = generateUniqueId();
+        this.x = 0;
+        this.y = 0;
+        this.incomingAssociations = new ArrayList<>();
+        this.outgoingAssociations = new ArrayList<>();
     }
     private synchronized int generateUniqueId() {
         return modelIdCounter++;

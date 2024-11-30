@@ -1,6 +1,5 @@
 package UML.Line;
 
-import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -17,6 +16,9 @@ public class Inheritance extends Line {
         super(startX, startY, endX, endY, parentPane, associationModel, startObject, endObject);
         this.setStroke(Color.BLACK);
         this.setStrokeWidth(2);
+        parentPane.getChildren().removeAll(startMultiplicityField,endMultiplicityField);
+        startMultiplicityField = null;
+        endMultiplicityField = null;
         customDraw();
     }
 
@@ -63,10 +65,7 @@ public class Inheritance extends Line {
         parentPane.getChildren().add(arrowhead);
     }
 
-    // Method to add the Inheritance line to the parent pane
-    public void addToPane() {
-        parentPane.getChildren().add(this);  // Add the Inheritance line to the parent pane
-    }
+
 
     protected void deleteOld() {
         if (getParent() instanceof Pane parent) {

@@ -1,7 +1,5 @@
 package Serializers;
 
-import UML.Diagrams.ClassDiagram;
-import Models.Model;
 import UML.Diagrams.UMLDiagram;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

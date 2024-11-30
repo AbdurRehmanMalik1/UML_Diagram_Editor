@@ -4,7 +4,6 @@ import Models.Model;
 import UML.CustomPoint;
 import UML.Line.Line;
 import UML.Moveable;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
