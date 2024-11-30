@@ -1,9 +1,11 @@
 package Controllers.ClassDiagramControllers;
 
+import Models.CD.Method;
 import Models.ClassModel;
 import UML.Objects.ClassObject;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -47,7 +49,8 @@ public class ClassDiagramController extends VBox implements ClassDController {
             //parentClass.resizeOuterRect();
         });
         addMethodButton.setOnMouseClicked(event -> {
-            String method = "New Method";
+            String m = "New Method";
+            Method method = new Method(m);
             parentClass.addMethod(method);
             //parentClass.resizeOuterRect();
         });

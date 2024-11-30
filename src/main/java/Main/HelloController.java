@@ -1,6 +1,7 @@
 package Main;
 
 import CodeGeneration.CodeGenerator;
+import Controllers.MyContextMenu;
 import Models.AssociationModel;
 import Models.Model;
 import Serializers.JSONSerializer;
@@ -10,10 +11,12 @@ import UML.ObjectFactories.ObjectFactory;
 import UML.Objects.UMLObject;
 import UML.Objects.UseCaseObject;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.*;
 import UML.Line.*;
@@ -52,16 +55,36 @@ public class HelloController {
     UML.ObjectFactories.ObjectFactory objectFactory = new ObjectFactory();
 
     private BiConsumer<Double, Double> drawObjectFunc;
+    Model copyTemp = null;
+    private double mouseX;
+    private double mouseY;
+    //MyContextMenu contextMenu = new MyContextMenu();
 
     @FXML
     public void initialize() {
 
         canvas.focusedProperty().removeListener((observable, oldValue, newValue) -> {
         });
-        canvas.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode()== KeyCode.DELETE)
-                onDeleteClick();
+
+        canvas.setOnMouseMoved(mouseEvent -> {
+            mouseX = mouseEvent.getSceneX();
+            mouseY = mouseEvent.getSceneY();
         });
+
+        canvas.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.DELETE) {
+                onDeleteClick();
+            } else if (keyEvent.getCode() == KeyCode.C && keyEvent.isControlDown()) {
+                onCopyClick();
+            } else if (keyEvent.getCode() == KeyCode.V && keyEvent.isControlDown()) {
+                if (copyTemp != null) {
+                    System.out.println("Pasted at x : " + mouseX + " y : " + mouseY);
+                    onPasteClick();
+                }
+            }
+        });
+
+
         rootNode = new TreeItem<>("Untitled"); // Default model name
         rootNode.setExpanded(true);
 
@@ -72,25 +95,29 @@ public class HelloController {
         modelTree.setRoot(rootNode);
 
         setButtonsToggle();
-
-
+        MyContextMenu.createContextMenu(canvas,
+                this::onCopyClick,
+                this::onPasteClick,
+                this::onDeleteClick,this::onCutClick);
     }
     public void setButtonsToggle(){
         buttonToggleGroup = new ToggleGroup();
         classButton.setToggleGroup(buttonToggleGroup);
         interfaceButton.setToggleGroup(buttonToggleGroup);
         canvas.setOnMouseClicked(event -> {
-            ToggleButton button =(ToggleButton) buttonToggleGroup.getSelectedToggle();
-            if (button!=null && drawObjectFunc!=null) {
-                double x = event.getX();
-                double y = event.getY();
-                if (x >= 0 && x <= canvas.getWidth() && y >= 0 && y <= canvas.getHeight()) {
-                    drawObjectFunc.accept(x,y);
-                } else {
-                    System.out.println("Can't add an object here");
+            if (event.getButton() == MouseButton.PRIMARY) {
+                ToggleButton button =(ToggleButton) buttonToggleGroup.getSelectedToggle();
+                if (button!=null && drawObjectFunc!=null) {
+                    double x = event.getX();
+                    double y = event.getY();
+                    if (x >= 0 && x <= canvas.getWidth() && y >= 0 && y <= canvas.getHeight()) {
+                        drawObjectFunc.accept(x,y);
+                    } else {
+                        System.out.println("Can't add an object here");
+                    }
+                    drawObjectFunc = null;
+                    button.setSelected(false);
                 }
-                drawObjectFunc = null;
-                button.setSelected(false);
             }
         });
     }
@@ -143,7 +170,6 @@ public class HelloController {
         drawObjectFunc = this::drawClass;
     }
     public void drawClass(double x , double y){
-        addClassNode("Class Name 1");
         UMLObject classDiagram = objectFactory.createClassObject();
         addToCanvas(classDiagram, x, y);
     }
@@ -152,11 +178,11 @@ public class HelloController {
         drawObjectFunc = this::drawInterface;
     }
     public void drawInterface(double x , double y){
-        addClassNode("Interface Name 1");
         UMLObject interfaceDiagram = objectFactory.createInterfaceObject();
         addToCanvas(interfaceDiagram, x, y);
     }
     void addToCanvas(UMLObject umlObject, double x, double y) {
+        addClassNode("Object " + umlObjects.size() + 1);
         umlObject.reloadModel();
         umlObject.setFocusTraversable(true);
         umlObjects.add(umlObject);
@@ -208,15 +234,16 @@ public class HelloController {
 
         for (UMLObject umlObject : umlObjects) {
             umlObject.setOnMousePressed(event -> {
-                if (firstObject[0] == null) {
-                    firstObject[0] = umlObject;
-                }
-                else if (secondObject[0] == null) {
-                    secondObject[0] = umlObject;
-                }
-                if (secondObject[0] != null) {
-                    drawLineBetweenObjects(firstObject[0], secondObject[0], lineType);
-                    removeMouseHandlers();
+                if(event.getButton()== MouseButton.PRIMARY) {
+                    if (firstObject[0] == null) {
+                        firstObject[0] = umlObject;
+                    } else if (secondObject[0] == null) {
+                        secondObject[0] = umlObject;
+                    }
+                    if (secondObject[0] != null) {
+                        drawLineBetweenObjects(firstObject[0], secondObject[0], lineType);
+                        removeMouseHandlers();
+                    }
                 }
             });
         }
@@ -231,14 +258,12 @@ public class HelloController {
 
     private void drawLineBetweenObjects(UMLObject object1, UMLObject object2, String lineType) {
 
-        // Calculate the coordinates for the start and end points
         double startX = object1.getLayoutX() + object1.getWidth() / 2;
         double startY = object1.getLayoutY();
         double endX = object2.getLayoutX() + object2.getWidth() / 2;
         double endY = object2.getLayoutY();
 
-        // Assuming AssociationModel is a class that links the objects
-        AssociationModel associationModel = new AssociationModel();  // Create or fetch your association model here
+        AssociationModel associationModel = new AssociationModel();
         associationModel.setType(lineType);
         associationModel.setStartX(startX);
         associationModel.setStartY(startY);
@@ -314,8 +339,7 @@ public class HelloController {
                 startObject = objectFactory.createUMLObject(associationModel.getStartModel());
                 if (startObject != null) {
                     createdModels.put(associationModel.getStartModel().getModelId(), startObject);  // Store in Hashtable
-                    canvas.getChildren().add(startObject);
-                    umlObjects.add(startObject);
+                    addToCanvas(startObject,startObject.getModel().getX(),startObject.getModel().getY());
                 }
             } else {
                 startObject = createdModels.get(associationModel.getStartModel().getModelId()); // Reuse existing object
@@ -326,8 +350,7 @@ public class HelloController {
                 endObject = objectFactory.createUMLObject(associationModel.getEndModel());
                 if (endObject != null) {
                     createdModels.put(associationModel.getEndModel().getModelId(), endObject); // Store in Hashtable
-                    canvas.getChildren().add(endObject);
-                    umlObjects.add(endObject);
+                    addToCanvas(endObject,endObject.getModel().getX(),endObject.getModel().getY());
                 }
             } else {
                 endObject = createdModels.get(associationModel.getEndModel().getModelId()); // Reuse existing object
@@ -361,8 +384,7 @@ public class HelloController {
             if (!createdModels.containsKey(model.getModelId())) {
                 UMLObject umlObject = objectFactory.createUMLObject(model);
                 if (umlObject != null) {
-                    umlObjects.add(umlObject);
-                    canvas.getChildren().add(umlObject);
+                    addToCanvas(umlObject,umlObject.getModel().getX(),umlObject.getModel().getY());
                     createdModels.put(model.getModelId(), umlObject); // Store in Hashtable
                 }
             }
@@ -372,6 +394,9 @@ public class HelloController {
     @FXML
     public void onDeleteClick() {
         Node focusedNode = canvas.getScene().getFocusOwner();
+        deleteItem(focusedNode);
+    }
+    public void deleteItem(Node focusedNode){
         if (focusedNode instanceof UMLObject obj) {
             associations.removeAll(obj.getAssociatedLines());
             obj.delete();
@@ -392,6 +417,38 @@ public class HelloController {
             CodeGenerator codeGenerator = new CodeGenerator();
             codeGenerator.generateCode(obj.getModel());
             System.out.println("Code has been generated");
+        }
+    }
+
+    @FXML
+    public void onCopyClick() {
+        Node focusedNode = canvas.getScene().getFocusOwner();
+        if (focusedNode instanceof UMLObject obj) {
+            obj.reloadModel();
+            copyTemp = obj.getModel();
+        }else {
+            System.out.println("No UMLObject is focused.");
+        }
+    }
+    @FXML
+    public void onPasteClick() {
+        if (copyTemp != null) {
+            UMLObject copiedObject = objectFactory.copyUMLObject(copyTemp);
+            double localX = canvas.sceneToLocal(mouseX, mouseY).getX();
+            double localY = canvas.sceneToLocal(mouseX, mouseY).getY();
+            addToCanvas(copiedObject,localX,localY);
+        }
+    }
+
+    @FXML
+    public void onCutClick() {
+        Node focusedNode = canvas.getScene().getFocusOwner();
+        if (focusedNode instanceof UMLObject obj) {
+            obj.reloadModel();
+            copyTemp = obj.getModel();
+            deleteItem(focusedNode);
+        }else {
+            System.out.println("No UMLObject is focused.");
         }
     }
 }

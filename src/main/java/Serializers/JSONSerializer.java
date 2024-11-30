@@ -26,8 +26,7 @@ public class JSONSerializer implements Serializer {
     @Override
     public Model deserialize(String s, Class<? extends Model> clazz) {
         try {
-            Model deserializedModel =  objectMapper.readValue(s,clazz);
-            return deserializedModel;
+            return objectMapper.readValue(s,clazz);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

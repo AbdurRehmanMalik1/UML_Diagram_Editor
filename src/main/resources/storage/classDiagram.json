@@ -1,32 +1,42 @@
 {
-  "associationList" : [ {
-    "id" : 0,
-    "type" : "Inheritance",
-    "startX" : 115.33333333333333,
-    "startY" : 85.99999999999997,
-    "endX" : 161.33333333333331,
-    "endY" : 338.00000000000006,
-    "startMultiplicity" : null,
-    "endMultiplicity" : null,
-    "startModel" : {
-      "type" : "Class",
-      "id" : 1,
-      "x" : 99.33333333333333,
-      "y" : 312.0,
-      "className" : "Class Name",
-      "attributes" : [ ],
-      "methods" : [ ],
-      "modelId" : 1
-    },
-    "endModel" : {
-      "type" : "Interface",
-      "id" : 2,
-      "x" : 92.66666666666669,
-      "y" : 81.33333333333337,
-      "interfaceName" : "Interface Name",
-      "methods" : [ "Method():string", "Method():int" ],
-      "modelId" : 2
-    }
-  } ],
-  "models" : [ 1, 2 ]
+  "associationList" : [ ],
+  "models" : [ {
+    "type" : "Class",
+    "id" : 6,
+    "x" : 485.3333435058593,
+    "y" : 120.6666590372721,
+    "className" : "Class Name",
+    "attributes" : [ "New Attribute", "New Attribute", "New Attribute" ],
+    "methods" : [ {
+      "text" : "New Method",
+      "abstract" : false
+    }, {
+      "text" : "New Method",
+      "abstract" : false
+    }, {
+      "text" : "New Method",
+      "abstract" : false
+    } ],
+    "abstract" : false,
+    "modelId" : 6
+  }, {
+    "type" : "Class",
+    "id" : 8,
+    "x" : 158.66666666666669,
+    "y" : 254.0,
+    "className" : "Class Name",
+    "attributes" : [ "New Attribute", "New Attribute", "New Attribute" ],
+    "methods" : [ {
+      "text" : "New Method",
+      "abstract" : false
+    }, {
+      "text" : "New Method",
+      "abstract" : false
+    }, {
+      "text" : "New Method",
+      "abstract" : false
+    } ],
+    "abstract" : false,
+    "modelId" : 8
+  } ]
 }

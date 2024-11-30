@@ -33,7 +33,7 @@ public class InterfaceDiagramController extends VBox {
 
     private void addButtonEvents() {
         addMethodButton.setOnMouseClicked(event -> {
-            parentClass.addMethod("New Method3111111111111111111111111");
+            parentClass.addMethod("New Method");
             //parentClass.resizeOuterRect();
         });
     }

@@ -13,6 +13,8 @@ module Main {
     exports UML.Line;
     exports UML.Objects;
     exports Models;
+    exports Models.CD;
+    exports UML.UI_Components;
 
     opens Models to org.hibernate.orm.core, com.fasterxml.jackson.databind;
     // Make the UML package accessible for Jackson to serialize/deserialize
@@ -28,5 +30,6 @@ module Main {
     opens UML.Diagrams to com.fasterxml.jackson.databind;
     opens UML.ObjectFactories to com.fasterxml.jackson.databind;
     opens UML.Line to com.fasterxml.jackson.databind;
+    opens Models.CD to com.fasterxml.jackson.databind;
 
 }

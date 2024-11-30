@@ -57,6 +57,13 @@ public abstract class Model implements Serializable {
     protected Model() {
         id = generateUniqueId();
     }
+    protected Model(Model other) {
+        id = generateUniqueId();
+        this.x = 0;
+        this.y = 0;
+        this.incomingAssociations = new ArrayList<>();
+        this.outgoingAssociations = new ArrayList<>();
+    }
     private synchronized int generateUniqueId() {
         return modelIdCounter++;
     }

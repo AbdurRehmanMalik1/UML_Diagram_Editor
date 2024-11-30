@@ -44,9 +44,9 @@
             <Menu text="Edit">
                 <MenuItem text="Undo" />
                 <MenuItem text="Redo" />
-                <MenuItem text="Cut" />
-                <MenuItem text="Copy" />
-                <MenuItem text="Paste" />
+                <MenuItem onAction="#onCutClick" text="Cut" />
+                <MenuItem onAction="#onCopyClick" text="Copy" />
+                <MenuItem onAction="#onPasteClick" text="Paste" />
                 <MenuItem onAction="#onDeleteClick" text="Delete" />
             </Menu>
 
