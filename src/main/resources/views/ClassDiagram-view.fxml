@@ -110,7 +110,7 @@
             </VBox>
 
             <!-- Center Section -->
-            <Pane fx:id="DrawingArea"
+            <Pane fx:id="canvas"
                   style="-fx-background-color: white;
                   -fx-border-color: #C4C4C4;
                   -fx-border-width: 1;"/>

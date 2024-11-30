@@ -21,7 +21,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import UML.Line.*;
@@ -35,7 +35,12 @@ public class HelloController {
     public Pane canvas;
     @FXML
     public Button deleteButton;
+    @FXML
     public Button generateCode;
+    @FXML
+    public TextField modelNameField;
+    @FXML
+    public TreeView<String> modelTree;
 
     List<UMLObject> umlObjects = new ArrayList<>();
     List<UML.Line.Line> associations = new ArrayList<>();
@@ -61,8 +66,46 @@ public class HelloController {
             if(keyEvent.getCode()== KeyCode.DELETE)
                 onDeleteClick();
         });
-
+//        // Set up the TreeView structure
+//        rootNode = new TreeItem<>("Untitled"); // Default model name
+//        rootNode.setExpanded(true);
+//
+//        diagramNode = new TreeItem<>("Model: Class Diagram"); // Default diagram type
+//        diagramNode.setExpanded(true);
+//
+//        rootNode.getChildren().add(diagramNode);
+//        modelTree.setRoot(rootNode);
     }
+
+    @FXML
+    public void setModelName() {
+//        String newName = modelNameField.getText().trim();
+//        if (!newName.isEmpty()) {
+//            rootNode.setValue(newName);
+//        }
+    }
+
+//    @FXML
+//    public void addClass() {
+//        addClassNode("New Class"); // Replace with a unique or user-specified name
+//    }
+
+    @FXML
+    private ComboBox<String> diagramTypeBox;
+
+//    @FXML
+//    public void changeDiagramType() {
+//        String selectedType = diagramTypeBox.getValue();
+//        if (selectedType != null) {
+//            diagramNode.setValue("Model: " + selectedType);
+//        }
+//    }
+
+//    public void addClassNode(String className) {
+//        // Add a class to the diagram node
+//        TreeItem<String> classNode = new TreeItem<>(className);
+//        diagramNode.getChildren().add(classNode);
+//    }
 
     public List<AssociationModel> getAssociations() {
         List<AssociationModel> associationModels = new ArrayList<>();
