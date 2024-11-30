@@ -16,6 +16,9 @@ public class Inheritance extends Line {
         super(startX, startY, endX, endY, parentPane, associationModel, startObject, endObject);
         this.setStroke(Color.BLACK);
         this.setStrokeWidth(2);
+        parentPane.getChildren().removeAll(startMultiplicityField,endMultiplicityField);
+        startMultiplicityField = null;
+        endMultiplicityField = null;
         customDraw();
     }
 

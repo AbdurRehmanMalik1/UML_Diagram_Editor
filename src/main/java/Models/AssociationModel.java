@@ -31,10 +31,10 @@ public class AssociationModel implements Serializable {
     private double endY;
 
     @Column(name = "startMultiplicity")
-    private Integer startMultiplicity;
+    private String startMultiplicity;
 
     @Column(name = "endMultiplicity")
-    private Integer endMultiplicity;
+    private String endMultiplicity;
 
     @ManyToOne
     @JoinColumn(name = "start_object_id", nullable = false)
@@ -60,19 +60,19 @@ public class AssociationModel implements Serializable {
         this.type = type;
     }
 
-    public Integer getStartMultiplicity() {
+    public String getStartMultiplicity() {
         return startMultiplicity;
     }
 
-    public void setStartMultiplicity(Integer startMultiplicity) {
+    public void setStartMultiplicity(String startMultiplicity) {
         this.startMultiplicity = startMultiplicity;
     }
 
-    public Integer getEndMultiplicity() {
+    public String getEndMultiplicity() {
         return endMultiplicity;
     }
 
-    public void setEndMultiplicity(Integer endMultiplicity) {
+    public void setEndMultiplicity(String endMultiplicity) {
         this.endMultiplicity = endMultiplicity;
     }
 
