@@ -2,6 +2,7 @@ package Controllers;
 
 import UML.Objects.UMLObject;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -9,31 +10,23 @@ import javafx.scene.layout.Pane;
 
 public class MyContextMenu {
 
-    // Create the context menu with Runnable actions
-    public static void createContextMenu(Pane pane, Runnable onCopy, Runnable onPaste, Runnable onDelete) {
-        // Create the context menu
-        javafx.scene.control.ContextMenu contextMenu = new javafx.scene.control.ContextMenu();
-
-        // Create menu items
-
+    public static void createContextMenu(Pane pane, Runnable onCopy, Runnable onPaste, Runnable onDelete, Runnable onCut) {
+        ContextMenu contextMenu = new ContextMenu();
 
         MenuItem copyItem = new MenuItem("Copy");
-        copyItem.setOnAction(event -> {
-            onCopy.run(); // Run the passed Runnable for the "Copy" action
-        });
+        copyItem.setOnAction(event -> onCopy.run());
 
         MenuItem pasteItem = new MenuItem("Paste");
-        pasteItem.setOnAction(event -> {
-            onPaste.run(); // Run the passed Runnable for the "Paste" action
-        });
+        pasteItem.setOnAction(event -> onPaste.run());
 
         MenuItem deleteItem = new MenuItem("Delete");
-        deleteItem.setOnAction(event -> {
-            onDelete.run(); // Run the passed Runnable for the "Delete" action
-        });
+        deleteItem.setOnAction(event -> onDelete.run());
 
-        // Add items to the context menu
-        contextMenu.getItems().addAll(copyItem, pasteItem, deleteItem);
+        MenuItem cutItem = new MenuItem("Cut");
+        cutItem.setOnAction(event -> onCut.run());
+
+        contextMenu.getItems().addAll(cutItem, copyItem, pasteItem, deleteItem);
+
         pane.setOnMousePressed((MouseEvent event) -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 boolean isObjectFocused = false;
@@ -42,14 +35,17 @@ public class MyContextMenu {
                     if (node instanceof UMLObject && (node).isFocused()) {
                         isObjectFocused = true;
                         break;
-                    }else if (node instanceof  UML.Line.Line && (node).isFocused()){
+                    } else if (node instanceof UML.Line.Line && (node).isFocused()) {
                         isObjectFocused = true;
                         break;
                     }
                 }
+
                 copyItem.setDisable(!isObjectFocused);
-                pasteItem.setDisable(!isObjectFocused);
+                pasteItem.setDisable(false); // Paste logic would be based on your context, leaving as always enabled here
                 deleteItem.setDisable(!isObjectFocused);
+                cutItem.setDisable(!isObjectFocused);
+
                 contextMenu.show(pane, event.getScreenX(), event.getScreenY());
             }
         });

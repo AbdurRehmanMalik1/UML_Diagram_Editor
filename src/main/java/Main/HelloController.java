@@ -11,6 +11,7 @@ import UML.ObjectFactories.ObjectFactory;
 import UML.Objects.UMLObject;
 import UML.Objects.UseCaseObject;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 
@@ -97,7 +98,7 @@ public class HelloController {
         MyContextMenu.createContextMenu(canvas,
                 this::onCopyClick,
                 this::onPasteClick,
-                this::onDeleteClick);
+                this::onDeleteClick,this::onCutClick);
     }
 
     public void setButtonsToggle(){
@@ -258,14 +259,12 @@ public class HelloController {
 
     private void drawLineBetweenObjects(UMLObject object1, UMLObject object2, String lineType) {
 
-        // Calculate the coordinates for the start and end points
         double startX = object1.getLayoutX() + object1.getWidth() / 2;
         double startY = object1.getLayoutY();
         double endX = object2.getLayoutX() + object2.getWidth() / 2;
         double endY = object2.getLayoutY();
 
-        // Assuming AssociationModel is a class that links the objects
-        AssociationModel associationModel = new AssociationModel();  // Create or fetch your association model here
+        AssociationModel associationModel = new AssociationModel();
         associationModel.setType(lineType);
         associationModel.setStartX(startX);
         associationModel.setStartY(startY);
@@ -342,8 +341,6 @@ public class HelloController {
                 if (startObject != null) {
                     createdModels.put(associationModel.getStartModel().getModelId(), startObject);  // Store in Hashtable
                     addToCanvas(startObject,startObject.getModel().getX(),startObject.getModel().getY());
-//                    canvas.getChildren().add(startObject);
-//                    umlObjects.add(startObject);
                 }
             } else {
                 startObject = createdModels.get(associationModel.getStartModel().getModelId()); // Reuse existing object
@@ -355,8 +352,6 @@ public class HelloController {
                 if (endObject != null) {
                     createdModels.put(associationModel.getEndModel().getModelId(), endObject); // Store in Hashtable
                     addToCanvas(endObject,endObject.getModel().getX(),endObject.getModel().getY());
-//                    canvas.getChildren().add(endObject);
-//                    umlObjects.add(endObject);
                 }
             } else {
                 endObject = createdModels.get(associationModel.getEndModel().getModelId()); // Reuse existing object
@@ -391,8 +386,6 @@ public class HelloController {
                 UMLObject umlObject = objectFactory.createUMLObject(model);
                 if (umlObject != null) {
                     addToCanvas(umlObject,umlObject.getModel().getX(),umlObject.getModel().getY());
-//                    umlObjects.add(umlObject);
-//                    canvas.getChildren().add(umlObject);
                     createdModels.put(model.getModelId(), umlObject); // Store in Hashtable
                 }
             }
@@ -402,6 +395,9 @@ public class HelloController {
     @FXML
     public void onDeleteClick() {
         Node focusedNode = canvas.getScene().getFocusOwner();
+        deleteItem(focusedNode);
+    }
+    public void deleteItem(Node focusedNode){
         if (focusedNode instanceof UMLObject obj) {
             associations.removeAll(obj.getAssociatedLines());
             obj.delete();
@@ -445,4 +441,15 @@ public class HelloController {
         }
     }
 
+    @FXML
+    public void onCutClick() {
+        Node focusedNode = canvas.getScene().getFocusOwner();
+        if (focusedNode instanceof UMLObject obj) {
+            obj.reloadModel();
+            copyTemp = obj.getModel();
+            deleteItem(focusedNode);
+        }else {
+            System.out.println("No UMLObject is focused.");
+        }
+    }
 }
