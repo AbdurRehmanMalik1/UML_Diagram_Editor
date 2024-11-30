@@ -1,33 +1,20 @@
 {
-  "associationList" : [ {
-    "id" : 0,
-    "type" : "Composition",
-    "startX" : 188.66666666666669,
-    "startY" : 89.33333333333331,
-    "endX" : 144.0,
-    "endY" : 331.33333333333337,
-    "startMultiplicity" : null,
-    "endMultiplicity" : null,
-    "startModel" : {
-      "type" : "Interface",
-      "id" : 6,
-      "x" : 134.66666666666666,
-      "y" : 83.99999999999997,
-      "interfaceName" : "Interface Name",
-      "methods" : [ "Method():string", "Method():int" ],
-      "modelId" : 6
-    },
-    "endModel" : {
-      "type" : "Class",
-      "id" : 5,
-      "x" : 38.6666666666667,
-      "y" : 408.00000000000006,
-      "className" : "Class Name",
-      "attributes" : [ ],
-      "methods" : [ ],
-      "abstract" : true,
-      "modelId" : 5
-    }
-  } ],
-  "models" : [ 5, 6 ]
+  "associationList" : [ ],
+  "models" : [ {
+    "type" : "Class",
+    "id" : 1,
+    "x" : 159.99999999999991,
+    "y" : 213.33333333333334,
+    "className" : "Class Name",
+    "attributes" : [ ],
+    "methods" : [ {
+      "text" : "New Method",
+      "abstract" : true
+    }, {
+      "text" : "New Method",
+      "abstract" : true
+    } ],
+    "abstract" : true,
+    "modelId" : 1
+  } ]
 }

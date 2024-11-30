@@ -67,7 +67,7 @@ public class EditableField extends StackPane {
     public boolean getIsAbstract(){
         return isAbstract;
     }
-    private void setIsAbstract(boolean s) {
+    public void setIsAbstract(boolean s) {
         isAbstract = s;
         updateFontStyle(); // Update font style whenever the abstract state changes
     }

@@ -28,5 +28,6 @@ module Main {
     opens UML.Diagrams to com.fasterxml.jackson.databind;
     opens UML.ObjectFactories to com.fasterxml.jackson.databind;
     opens UML.Line to com.fasterxml.jackson.databind;
+    opens Models.CD to com.fasterxml.jackson.databind;
 
 }

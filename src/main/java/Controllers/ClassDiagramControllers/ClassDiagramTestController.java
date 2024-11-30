@@ -1,5 +1,6 @@
 package Controllers.ClassDiagramControllers;
 
+import Models.CD.Method;
 import Models.ClassModel;
 import UML.Objects.ClassObject;
 import javafx.application.Platform;
@@ -50,7 +51,8 @@ public class ClassDiagramTestController extends VBox implements ClassDController
             //parentClass.resizeOuterRect();
         });
         addMethodButton.setOnMouseClicked(event -> {
-            String method = "New Method";
+            String m = "New Method";
+            Method method = new Method(m);
             parentClass.addMethod(method);
             //parentClass.resizeOuterRect();
         });

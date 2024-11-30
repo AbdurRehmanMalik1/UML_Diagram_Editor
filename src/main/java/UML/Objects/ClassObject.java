@@ -2,6 +2,7 @@ package UML.Objects;
 
 import Controllers.ClassDiagramControllers.ClassDController;
 import Controllers.ClassDiagramControllers.ClassDiagramController;
+import Models.CD.Method;
 import Models.ClassModel;
 import Models.Model;
 import UML.UI_Components.EditableField;
@@ -89,7 +90,7 @@ public class ClassObject extends UMLObject {
             addAttribute(attribute);
         }
 
-        for (String method : model.getMethods()) {
+        for (Method method : model.getMethods()) {
             addMethod(method);
         }
         this.setLayoutX(model.getX());
@@ -147,8 +148,9 @@ public class ClassObject extends UMLObject {
         attributeBox.getChildren().add(attribute);
     }
 
-    public void addMethod(String temp) {
-        EditableField method = new EditableField(temp,this::reloadModel);
+    public void addMethod(Method temp) {
+        EditableField method = new EditableField(temp.getText(),this::reloadModel);
+        method.setIsAbstract(temp.isAbstract());
         methods.add(method);
         methodBox.getChildren().add(method);
         method.setOnKeyPressed(keyEvent -> {
@@ -179,7 +181,9 @@ public class ClassObject extends UMLObject {
         }
         for (StackPane methodStackPane : methods) {
             if (methodStackPane instanceof EditableField editableField) {
-                downcastModel.addMethod(editableField.getText());
+                Method method = new Method(editableField.getText());
+                method.setAbstract(editableField.getIsAbstract());
+                downcastModel.addMethod(method);
             }
         }
     }
