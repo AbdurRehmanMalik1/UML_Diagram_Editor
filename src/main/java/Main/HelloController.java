@@ -75,7 +75,6 @@ public class HelloController {
 
 
     }
-
     public void setButtonsToggle(){
         buttonToggleGroup = new ToggleGroup();
         classButton.setToggleGroup(buttonToggleGroup);
