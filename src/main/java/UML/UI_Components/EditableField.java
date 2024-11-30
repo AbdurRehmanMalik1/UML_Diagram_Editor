@@ -10,6 +10,8 @@ public class EditableField extends StackPane {
     private final Label label;
     private final TextField textField;
     private final Runnable onCommitCallback;
+    boolean isAbstract = false;
+
     public EditableField(String s) {
         this(s,null);
     }
@@ -57,9 +59,30 @@ public class EditableField extends StackPane {
         else
             return textField.getText();
     }
-
     public void setText(String text) {
         label.setText(text);
         textField.setText(text);
+    }
+
+    public boolean getIsAbstract(){
+        return isAbstract;
+    }
+    private void setIsAbstract(boolean s) {
+        isAbstract = s;
+        updateFontStyle(); // Update font style whenever the abstract state changes
+    }
+
+    public void toggleItalic() {
+        isAbstract = !isAbstract;
+        updateFontStyle(); // Update font style on toggle
+    }
+    private void updateFontStyle() {
+        if (isAbstract) {
+            textField.setStyle("-fx-font-style: italic;");
+            label.setStyle("-fx-font-style: italic;");
+        } else {
+            textField.setStyle("-fx-font-style: normal;");
+            label.setStyle("-fx-font-style: normal;");
+        }
     }
 }

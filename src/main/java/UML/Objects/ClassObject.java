@@ -10,6 +10,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.Group;
@@ -77,7 +78,9 @@ public class ClassObject extends UMLObject {
 
     public void setModel(ClassModel model) {
         this.model = model;
-
+        if(model.isAbstract()) {
+            className.toggleItalic();
+        }
         if (model.getClassName() != null && !model.getClassName().isEmpty()) {
             className.setText(model.getClassName());
         }
@@ -105,6 +108,13 @@ public class ClassObject extends UMLObject {
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
         EditableField classNameField = new EditableField("Class Name",this::reloadModel);
+        classNameField.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.I) {
+                classNameField.toggleItalic();
+                ClassModel classModel = (ClassModel)model;
+                classModel.setAbstract(!classModel.isAbstract());
+            }
+        });
         classNameField.setAlignment(Pos.BASELINE_CENTER);
         className = classNameField;
         HBox classNameWrapper = new HBox(className);
@@ -138,9 +148,14 @@ public class ClassObject extends UMLObject {
     }
 
     public void addMethod(String temp) {
-        StackPane method = new EditableField(temp,this::reloadModel);
+        EditableField method = new EditableField(temp,this::reloadModel);
         methods.add(method);
         methodBox.getChildren().add(method);
+        method.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.I) {
+               method.toggleItalic();
+            }
+        });
     }
     @Override
     public void reloadModel() {
@@ -150,23 +165,19 @@ public class ClassObject extends UMLObject {
 
         downcastModel.setClassName(className.getText());
 
-        // Clear the existing attributes and replace them with the updated values
         if (downcastModel.getAttributes() != null) {
             downcastModel.getAttributes().clear();
         }
         for (StackPane attributeStackPane : attributes) {
-            // Ensure the element is an instance of EditableField
             if (attributeStackPane instanceof EditableField editableField) {
                 downcastModel.addAttribute(editableField.getText());
             }
         }
 
-        // Clear the existing methods and add the new ones
         if (downcastModel.getMethods() != null) {
             downcastModel.getMethods().clear();
         }
         for (StackPane methodStackPane : methods) {
-            // Ensure the element is an instance of EditableField
             if (methodStackPane instanceof EditableField editableField) {
                 downcastModel.addMethod(editableField.getText());
             }

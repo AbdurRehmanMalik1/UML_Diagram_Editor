@@ -1,6 +1,7 @@
 package UML.Diagrams;
 
 import Models.AssociationModel;
+import Models.ClassModel;
 import Models.Model;
 import Serializers.ClassDiagramSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -51,6 +52,8 @@ public class ClassDiagram extends UMLDiagram{
             this.setAssociationList(classDiagram.getAssociationList());
             this.setModelList(classDiagram.getModels());
         }
+//        ClassModel classModel = (ClassModel)models.getFirst();
+//        System.out.println("Class Model is abstract = " + classModel.isAbstract());
         //System.out.println(readClassDiagramFile());
     }
     public static String readClassDiagramFile() {

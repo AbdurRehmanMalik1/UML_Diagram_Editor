@@ -1,53 +1,33 @@
 {
   "associationList" : [ {
     "id" : 0,
-    "type" : "Inheritance",
-    "startX" : 146.66666666666666,
-    "startY" : 291.33333333333337,
-    "endX" : 124.0,
-    "endY" : 98.66666666666667,
+    "type" : "Composition",
+    "startX" : 188.66666666666669,
+    "startY" : 89.33333333333331,
+    "endX" : 144.0,
+    "endY" : 331.33333333333337,
     "startMultiplicity" : null,
     "endMultiplicity" : null,
     "startModel" : {
-      "type" : "Class",
-      "id" : 2,
-      "x" : 54.666666666666686,
-      "y" : 416.66666666666663,
-      "className" : "Class Name",
-      "attributes" : [ ],
-      "methods" : [ ],
-      "modelId" : 2
+      "type" : "Interface",
+      "id" : 6,
+      "x" : 134.66666666666666,
+      "y" : 83.99999999999997,
+      "interfaceName" : "Interface Name",
+      "methods" : [ "Method():string", "Method():int" ],
+      "modelId" : 6
     },
     "endModel" : {
       "type" : "Class",
-      "id" : 1,
-      "x" : 102.0,
-      "y" : 40.000000000000014,
+      "id" : 5,
+      "x" : 38.6666666666667,
+      "y" : 408.00000000000006,
       "className" : "Class Name",
       "attributes" : [ ],
       "methods" : [ ],
-      "modelId" : 1
-    }
-  }, {
-    "id" : 0,
-    "type" : "Composition",
-    "startX" : 82.66666666666666,
-    "startY" : 352.0,
-    "endX" : 198.66666666666674,
-    "endY" : 179.33333333333334,
-    "startMultiplicity" : "*",
-    "endMultiplicity" : "1",
-    "startModel" : 2,
-    "endModel" : {
-      "type" : "Class",
-      "id" : 3,
-      "x" : 168.0000000000001,
-      "y" : 195.33333333333331,
-      "className" : "Person",
-      "attributes" : [ ],
-      "methods" : [ ],
-      "modelId" : 3
+      "abstract" : true,
+      "modelId" : 5
     }
   } ],
-  "models" : [ 1, 2, 3 ]
+  "models" : [ 5, 6 ]
 }

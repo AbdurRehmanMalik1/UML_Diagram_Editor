@@ -1,6 +1,7 @@
 package Models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -25,6 +26,10 @@ public class ClassModel extends Model implements AttributeHolder{
     @CollectionTable(name = "class_methods", joinColumns = @JoinColumn(name = "class_id"))
     @Column(name = "method")
     private List<String> methods;
+
+    @JsonInclude()
+    @JsonProperty("abstract")
+    private boolean isAbstract;
 
     public ClassModel(){
         super();
@@ -81,5 +86,13 @@ public class ClassModel extends Model implements AttributeHolder{
         }
 
         return sb.toString();
+    }
+
+    public boolean isAbstract() {
+        return isAbstract;
+    }
+
+    public void setAbstract(boolean anAbstract) {
+        isAbstract = anAbstract;
     }
 }
