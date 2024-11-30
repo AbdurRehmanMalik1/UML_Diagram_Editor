@@ -118,6 +118,9 @@ public class InterfaceObject extends UMLObject {
     }
     public void setModel(InterfaceModel model) {
         this.model = model;
+
+        methods.clear();
+
         if (model.getInterfaceName() != null && !model.getInterfaceName().isEmpty()) {
             className.setText(model.getInterfaceName());
         }

@@ -23,6 +23,7 @@ import javafx.scene.control.*;
 import UML.Line.*;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 
 public class HelloController {
     @FXML
@@ -35,12 +36,29 @@ public class HelloController {
     private TreeItem<String> diagramNode;
     @FXML
     public Pane canvas;
+    @FXML
+    public ToggleGroup buttonToggleGroup;
+    @FXML
+    private ToggleButton classButton;
+    @FXML
+    private ToggleButton interfaceButton;
+    @FXML
+    private Button associationButton;
+    @FXML
+    private Button aggregationButton;
+    @FXML
+    private Button compositionButton;
+    @FXML
+    private Button inheritanceButton;
 
     List<UMLObject> umlObjects = new ArrayList<>();
     List<UML.Line.Line> associations = new ArrayList<>();
 
     ObjectFactory classFactory = new ClassFactory();
     ObjectFactory interfaceFactory = new InterfaceFactory();
+
+    boolean drawObjectToggle = false;
+    private BiConsumer<Double, Double> drawObjectFunc;
 
     @FXML
     public void initialize() {
@@ -58,6 +76,35 @@ public class HelloController {
 
         rootNode.getChildren().add(diagramNode);
         modelTree.setRoot(rootNode);
+
+        setButtonsToggle();
+
+
+    }
+
+    public void setButtonsToggle(){
+        buttonToggleGroup = new ToggleGroup();
+        classButton.setToggleGroup(buttonToggleGroup);
+        interfaceButton.setToggleGroup(buttonToggleGroup);
+        buttonToggleGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle != null) {
+                System.out.println("Selected: " + ((ToggleButton) newToggle).getText());
+            }
+        });
+        canvas.setOnMouseClicked(event -> {
+            ToggleButton button =(ToggleButton) buttonToggleGroup.getSelectedToggle();
+            if (button!=null && drawObjectFunc!=null) {
+                double x = event.getX();
+                double y = event.getY();
+                if (x >= 0 && x <= canvas.getWidth() && y >= 0 && y <= canvas.getHeight()) {
+                    drawObjectFunc.accept(x,y);
+                } else {
+                    System.out.println("Can't add class here");
+                }
+                drawObjectFunc = null;
+                button.setSelected(false);
+            }
+        });
     }
 
     public List<AssociationModel> getAssociations() {
@@ -96,29 +143,35 @@ public class HelloController {
     }
 
     public void addClassNode(String className) {
-        // Add a class to the diagram node
         TreeItem<String> classNode = new TreeItem<>(className);
         diagramNode.getChildren().add(classNode);
     }
 
     @FXML
     public void onAddClassDiagramClick() {
-        addClassNode("Class Name 1");
-        addClassDiagram(100, 100);
+        drawObjectFunc = this::drawClass;
     }
-
+    public void drawClass(double x , double y){
+        addClassNode("Class Name 1");
+        UMLObject classDiagram = classFactory.create();
+        addToCanvas(classDiagram, x, y);
+    }
+    @FXML
+    public void onAddInterfaceDiagramClick() {
+        drawObjectFunc = this::drawInterface;
+    }
+    public void drawInterface(double x , double y){
+        addClassNode("Interface Name 1");
+        UMLObject interfaceDiagram = interfaceFactory.create();
+        addToCanvas(interfaceDiagram, x, y);
+    }
     void addToCanvas(UMLObject umlObject, double x, double y) {
+        umlObject.reloadModel();
         umlObject.setFocusTraversable(true);
         umlObjects.add(umlObject);
         canvas.getChildren().add(umlObject);
         umlObject.setLayoutX(x);
         umlObject.setLayoutY(y);
-    }
-
-    void addClassDiagram(double x, double y) {
-        UMLObject newClassDiagram = classFactory.create();
-        addToCanvas(newClassDiagram, x, y);
-        newClassDiagram.reloadModel();
     }
 
     @FXML
@@ -128,13 +181,6 @@ public class HelloController {
         umlObjects.add(newUseCase);
         canvas.getChildren().add(newUseCase);
     }
-
-    @FXML
-    public void onAddInterfaceDiagramClick() {
-        UMLObject interfaceDiagram = interfaceFactory.create();
-        addToCanvas(interfaceDiagram, 0, 150);
-    }
-
     @FXML
     public void onSaveFirstUmlObject() {
         Serializer jsonSerializer = new JSONSerializer();
@@ -300,9 +346,8 @@ public class HelloController {
                 endObject = createdModels.get(associationModel.getEndModel().getModelId()); // Reuse existing object
             }
 
-            // Create the association line between the start and end objects
             if (startObject != null && endObject != null) {
-                UML.Line.Line createdLine = createLine(associationModel);
+                UML.Line.Line createdLine = createLineWithObjects(associationModel);
                 createdLine.setStartObject(startObject);
                 createdLine.setEndObject(endObject);
 
@@ -350,7 +395,7 @@ public class HelloController {
         return umlObject;
     }
 
-    public UML.Line.Line createLine(AssociationModel model){
+    public UML.Line.Line createLineWithObjects(AssociationModel model){
         String type = model.getType();
         double startX = model.getStartX();
         double startY = model.getStartY();
