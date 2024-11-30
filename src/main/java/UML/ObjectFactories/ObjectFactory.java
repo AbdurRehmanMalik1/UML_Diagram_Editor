@@ -32,4 +32,21 @@ public class ObjectFactory {
     public UMLObject createInterfaceObject(){
         return new InterfaceObject();
     }
+
+    public UMLObject copyUMLObject(Model model) {
+        UMLObject copiedUMLObject = null;
+        if (model != null) {
+            Model copiedModel = null;
+            if (model instanceof ClassModel classModel) {
+                copiedModel = new ClassModel(classModel);
+            } else if (model instanceof InterfaceModel interfaceModel) {
+                copiedModel = new InterfaceModel(interfaceModel);
+            }
+
+            if (copiedModel != null) {
+                copiedUMLObject = createUMLObject(copiedModel);
+            }
+        }
+        return copiedUMLObject;
+    }
 }

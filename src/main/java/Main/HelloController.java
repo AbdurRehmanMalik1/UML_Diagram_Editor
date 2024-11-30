@@ -10,7 +10,6 @@ import UML.ObjectFactories.ObjectFactory;
 import UML.Objects.UMLObject;
 import UML.Objects.UseCaseObject;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 
@@ -53,8 +52,9 @@ public class HelloController {
     UML.ObjectFactories.ObjectFactory objectFactory = new ObjectFactory();
 
     private BiConsumer<Double, Double> drawObjectFunc;
-
-    UMLObject copyTemp = null;
+    Model copyTemp = null;
+    private double mouseX;
+    private double mouseY;
 
 
     @FXML
@@ -62,10 +62,26 @@ public class HelloController {
 
         canvas.focusedProperty().removeListener((observable, oldValue, newValue) -> {
         });
-        canvas.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode()== KeyCode.DELETE)
-                onDeleteClick();
+
+        canvas.setOnMouseMoved(mouseEvent -> {
+            mouseX = mouseEvent.getSceneX();
+            mouseY = mouseEvent.getSceneY();
         });
+
+        canvas.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.DELETE) {
+                onDeleteClick();
+            } else if (keyEvent.getCode() == KeyCode.C && keyEvent.isControlDown()) {
+                onCopyClick();
+            } else if (keyEvent.getCode() == KeyCode.V && keyEvent.isControlDown()){
+                if(copyTemp!=null) {
+                    System.out.println("Pasted at x : " + mouseX + " y : " + mouseY);
+                    onPasteClick();
+                }
+            }
+        });
+
+
         rootNode = new TreeItem<>("Untitled"); // Default model name
         rootNode.setExpanded(true);
 
@@ -319,8 +335,9 @@ public class HelloController {
                 startObject = objectFactory.createUMLObject(associationModel.getStartModel());
                 if (startObject != null) {
                     createdModels.put(associationModel.getStartModel().getModelId(), startObject);  // Store in Hashtable
-                    canvas.getChildren().add(startObject);
-                    umlObjects.add(startObject);
+                    addToCanvas(startObject,startObject.getModel().getX(),startObject.getModel().getY());
+//                    canvas.getChildren().add(startObject);
+//                    umlObjects.add(startObject);
                 }
             } else {
                 startObject = createdModels.get(associationModel.getStartModel().getModelId()); // Reuse existing object
@@ -331,8 +348,9 @@ public class HelloController {
                 endObject = objectFactory.createUMLObject(associationModel.getEndModel());
                 if (endObject != null) {
                     createdModels.put(associationModel.getEndModel().getModelId(), endObject); // Store in Hashtable
-                    canvas.getChildren().add(endObject);
-                    umlObjects.add(endObject);
+                    addToCanvas(endObject,endObject.getModel().getX(),endObject.getModel().getY());
+//                    canvas.getChildren().add(endObject);
+//                    umlObjects.add(endObject);
                 }
             } else {
                 endObject = createdModels.get(associationModel.getEndModel().getModelId()); // Reuse existing object
@@ -366,8 +384,9 @@ public class HelloController {
             if (!createdModels.containsKey(model.getModelId())) {
                 UMLObject umlObject = objectFactory.createUMLObject(model);
                 if (umlObject != null) {
-                    umlObjects.add(umlObject);
-                    canvas.getChildren().add(umlObject);
+                    addToCanvas(umlObject,umlObject.getModel().getX(),umlObject.getModel().getY());
+//                    umlObjects.add(umlObject);
+//                    canvas.getChildren().add(umlObject);
                     createdModels.put(model.getModelId(), umlObject); // Store in Hashtable
                 }
             }
@@ -400,17 +419,24 @@ public class HelloController {
         }
     }
 
+    @FXML
     public void onCopyClick() {
         Node focusedNode = canvas.getScene().getFocusOwner();
         if (focusedNode instanceof UMLObject obj) {
-            associations.removeAll(obj.getAssociatedLines());
-            obj.delete();
-            umlObjects.remove(obj);
-        } else if(focusedNode instanceof UML.Line.Line line) {
-            associations.remove(line);
-            line.delete();
-        } else {
+            obj.reloadModel();
+            copyTemp = obj.getModel();
+        }else {
             System.out.println("No UMLObject is focused.");
         }
     }
+    @FXML
+    public void onPasteClick() {
+        if (copyTemp != null) {
+            UMLObject copiedObject = objectFactory.copyUMLObject(copyTemp);
+            double localX = canvas.sceneToLocal(mouseX, mouseY).getX();
+            double localY = canvas.sceneToLocal(mouseX, mouseY).getY();
+            addToCanvas(copiedObject,localX,localY);
+        }
+    }
+
 }

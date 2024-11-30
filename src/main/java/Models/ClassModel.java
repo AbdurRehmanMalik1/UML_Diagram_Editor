@@ -39,7 +39,7 @@ public class ClassModel extends Model implements AttributeHolder{
     }
 
     public ClassModel(ClassModel other) {
-        super();
+        super(other);
         this.className = other.className;
         this.attributes = new ArrayList<>(other.attributes);
         this.methods = new ArrayList<>();

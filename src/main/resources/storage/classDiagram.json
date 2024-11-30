@@ -2,34 +2,86 @@
   "associationList" : [ {
     "id" : 0,
     "type" : "Aggregation",
-    "startX" : 186.0,
-    "startY" : 353.33333333333337,
-    "endX" : 228.0,
-    "endY" : 104.0,
+    "startX" : 67.99999999999999,
+    "startY" : 46.666664123535156,
+    "endX" : 189.33333333333334,
+    "endY" : 151.33333333333331,
     "startMultiplicity" : "1",
     "endMultiplicity" : "1",
     "startModel" : {
-      "type" : "Class",
-      "id" : 5,
-      "x" : 150.0,
-      "y" : 353.33333333333337,
-      "className" : "Class Name",
-      "attributes" : [ ],
-      "methods" : [ ],
-      "abstract" : false,
-      "modelId" : 5
+      "type" : "Interface",
+      "id" : 7,
+      "x" : 23.99999999999997,
+      "y" : 30.666664123535185,
+      "interfaceName" : "Interface Name",
+      "methods" : [ "Method():string", "Method():int" ],
+      "modelId" : 7
     },
     "endModel" : {
       "type" : "Class",
-      "id" : 4,
-      "x" : 192.0,
-      "y" : 104.66666666666666,
+      "id" : 1,
+      "x" : 442.0,
+      "y" : 85.99999999999996,
       "className" : "Class Name",
       "attributes" : [ ],
-      "methods" : [ ],
-      "abstract" : false,
+      "methods" : [ {
+        "text" : "New Method",
+        "abstract" : true
+      }, {
+        "text" : "New Method",
+        "abstract" : true
+      } ],
+      "abstract" : true,
+      "modelId" : 1
+    }
+  }, {
+    "id" : 0,
+    "type" : "Association",
+    "startX" : 85.99999999999999,
+    "startY" : 219.33333333333326,
+    "endX" : 142.00000000000006,
+    "endY" : 304.66666666666674,
+    "startMultiplicity" : "1",
+    "endMultiplicity" : "1",
+    "startModel" : {
+      "type" : "Interface",
+      "id" : 4,
+      "x" : 31.99999999999997,
+      "y" : 263.33333333333326,
+      "interfaceName" : "Interface Name",
+      "methods" : [ "Method():string", "Method():int" ],
       "modelId" : 4
+    },
+    "endModel" : {
+      "type" : "Interface",
+      "id" : 9,
+      "x" : 341.33333333333337,
+      "y" : 338.00000000000006,
+      "interfaceName" : "Interface Name",
+      "methods" : [ "Method():string", "Method():int", "New Method3111111111111111111111111" ],
+      "modelId" : 9
     }
   } ],
-  "models" : [ 4, 5 ]
+  "models" : [ 1, {
+    "type" : "Class",
+    "id" : 2,
+    "x" : 327.99999999999994,
+    "y" : 487.999979654948,
+    "className" : "Class Name",
+    "attributes" : [ ],
+    "methods" : [ {
+      "text" : "New Method",
+      "abstract" : true
+    } ],
+    "abstract" : true,
+    "modelId" : 2
+  }, 4, {
+    "type" : "Interface",
+    "id" : 5,
+    "x" : 93.99998982747402,
+    "y" : 429.99998982747394,
+    "interfaceName" : "Interface Name",
+    "methods" : [ "Method():string", "Method():int" ],
+    "modelId" : 5
+  }, 7, 9 ]
 }
