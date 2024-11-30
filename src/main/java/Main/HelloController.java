@@ -2,14 +2,10 @@ package Main;
 
 import CodeGeneration.CodeGenerator;
 import Models.AssociationModel;
-import Models.ClassModel;
-import Models.InterfaceModel;
 import Models.Model;
 import Serializers.JSONSerializer;
 import Serializers.Serializer;
 import UML.Diagrams.ClassDiagram;
-import UML.ObjectFactories.ClassFactory;
-import UML.ObjectFactories.InterfaceFactory;
 import UML.ObjectFactories.ObjectFactory;
 import UML.Objects.UMLObject;
 import UML.Objects.UseCaseObject;
@@ -28,7 +24,6 @@ import java.util.function.BiConsumer;
 public class HelloController {
     @FXML
     private TextField modelNameField;
-
     @FXML
     private TreeView<String> modelTree;
     @FXML
@@ -53,15 +48,14 @@ public class HelloController {
 
     List<UMLObject> umlObjects = new ArrayList<>();
     List<UML.Line.Line> associations = new ArrayList<>();
+    LineFactory lineFactory = new LineFactory();
+    UML.ObjectFactories.ObjectFactory objectFactory = new ObjectFactory();
 
-    ObjectFactory classFactory = new ClassFactory();
-    ObjectFactory interfaceFactory = new InterfaceFactory();
-
-    boolean drawObjectToggle = false;
     private BiConsumer<Double, Double> drawObjectFunc;
 
     @FXML
     public void initialize() {
+
         canvas.focusedProperty().removeListener((observable, oldValue, newValue) -> {
         });
         canvas.setOnKeyPressed(keyEvent -> {
@@ -86,11 +80,6 @@ public class HelloController {
         buttonToggleGroup = new ToggleGroup();
         classButton.setToggleGroup(buttonToggleGroup);
         interfaceButton.setToggleGroup(buttonToggleGroup);
-        buttonToggleGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
-            if (newToggle != null) {
-                System.out.println("Selected: " + ((ToggleButton) newToggle).getText());
-            }
-        });
         canvas.setOnMouseClicked(event -> {
             ToggleButton button =(ToggleButton) buttonToggleGroup.getSelectedToggle();
             if (button!=null && drawObjectFunc!=null) {
@@ -99,12 +88,19 @@ public class HelloController {
                 if (x >= 0 && x <= canvas.getWidth() && y >= 0 && y <= canvas.getHeight()) {
                     drawObjectFunc.accept(x,y);
                 } else {
-                    System.out.println("Can't add class here");
+                    System.out.println("Can't add an object here");
                 }
                 drawObjectFunc = null;
                 button.setSelected(false);
             }
         });
+    }
+    private void unselectToggleButton(){
+        drawObjectFunc = null;
+        ToggleButton button =(ToggleButton) buttonToggleGroup.getSelectedToggle();
+        if(button!=null){
+            button.setSelected(false);
+        }
     }
 
     public List<AssociationModel> getAssociations() {
@@ -117,12 +113,10 @@ public class HelloController {
         List<Model> models = new ArrayList<>();
         for(UMLObject umlObject:umlObjects) {
             umlObject.reloadModel();
-            //System.out.println(umlObject.getModel());
             models.add(umlObject.getModel());
         }
         return models;
     }
-
     @FXML
     public void setModelName() {
         String newName = modelNameField.getText().trim();
@@ -130,7 +124,6 @@ public class HelloController {
             rootNode.setValue(newName);
         }
     }
-
     @FXML
     private ComboBox<String> diagramTypeBox;
 
@@ -141,7 +134,6 @@ public class HelloController {
             diagramNode.setValue("Model: " + selectedType);
         }
     }
-
     public void addClassNode(String className) {
         TreeItem<String> classNode = new TreeItem<>(className);
         diagramNode.getChildren().add(classNode);
@@ -153,7 +145,7 @@ public class HelloController {
     }
     public void drawClass(double x , double y){
         addClassNode("Class Name 1");
-        UMLObject classDiagram = classFactory.create();
+        UMLObject classDiagram = objectFactory.createClassObject();
         addToCanvas(classDiagram, x, y);
     }
     @FXML
@@ -162,7 +154,7 @@ public class HelloController {
     }
     public void drawInterface(double x , double y){
         addClassNode("Interface Name 1");
-        UMLObject interfaceDiagram = interfaceFactory.create();
+        UMLObject interfaceDiagram = objectFactory.createInterfaceObject();
         addToCanvas(interfaceDiagram, x, y);
     }
     void addToCanvas(UMLObject umlObject, double x, double y) {
@@ -186,47 +178,45 @@ public class HelloController {
         Serializer jsonSerializer = new JSONSerializer();
         UMLObject umlObject = umlObjects.getFirst();
         umlObject.reloadModel();
-        //umlObject.getModel().setCoordinate(umlObject.getLayoutX(), umlObject.getLayoutY());
         Model model = umlObject.getModel();
         jsonSerializer.serialize(model);
     }
 
     @FXML
     public void onDrawAssociationClick() {
+        unselectToggleButton();
         handleLineDrawing("Association");
     }
     @FXML
     public void onDrawInheritanceClick() {
+        unselectToggleButton();
         handleLineDrawing("Inheritance");
     }
     @FXML
     public void onDrawAggregationClick() {
+        unselectToggleButton();
         handleLineDrawing("Aggregation");
     }
     @FXML
     public void onDrawCompositionClick() {
+        unselectToggleButton();
         handleLineDrawing("Composition");
     }
 
     private void handleLineDrawing(String lineType) {
-        // Variables to keep track of the first and second selected objects
         final UMLObject[] firstObject = {null};
         final UMLObject[] secondObject = {null};
 
         for (UMLObject umlObject : umlObjects) {
             umlObject.setOnMousePressed(event -> {
-                // If the first object is not selected, set it
                 if (firstObject[0] == null) {
                     firstObject[0] = umlObject;
                 }
-                // If the first object is selected, set the second one
                 else if (secondObject[0] == null) {
                     secondObject[0] = umlObject;
                 }
-
                 if (secondObject[0] != null) {
                     drawLineBetweenObjects(firstObject[0], secondObject[0], lineType);
-                    // Remove event handlers to avoid multiple line drawings
                     removeMouseHandlers();
                 }
             });
@@ -241,8 +231,6 @@ public class HelloController {
     }
 
     private void drawLineBetweenObjects(UMLObject object1, UMLObject object2, String lineType) {
-
-        System.out.println(object1.toString() + " to " + object2.toString());
 
         // Calculate the coordinates for the start and end points
         double startX = object1.getLayoutX() + object1.getWidth() / 2;
@@ -265,7 +253,7 @@ public class HelloController {
 
         // Create the appropriate line object based on the lineType
         UML.Line.Line line;
-        line = createLine(lineType, startX, startY, endX, endY, canvas, associationModel, object1, object2);
+        line = lineFactory.createLine(lineType, startX, startY, endX, endY, canvas, associationModel, object1, object2);
 
         //This will automatically set both sides
         object1.addAssociatedLine(line);
@@ -324,7 +312,7 @@ public class HelloController {
 
             // Check and create start object if not already created
             if (!createdModels.containsKey(associationModel.getStartModel().getModelId())) {
-                startObject = createUMLObject(associationModel.getStartModel());
+                startObject = objectFactory.createUMLObject(associationModel.getStartModel());
                 if (startObject != null) {
                     createdModels.put(associationModel.getStartModel().getModelId(), startObject);  // Store in Hashtable
                     canvas.getChildren().add(startObject);
@@ -336,7 +324,7 @@ public class HelloController {
 
             // Check and create end object if not already created
             if (!createdModels.containsKey(associationModel.getEndModel().getModelId())) {
-                endObject = createUMLObject(associationModel.getEndModel());
+                endObject = objectFactory.createUMLObject(associationModel.getEndModel());
                 if (endObject != null) {
                     createdModels.put(associationModel.getEndModel().getModelId(), endObject); // Store in Hashtable
                     canvas.getChildren().add(endObject);
@@ -347,7 +335,7 @@ public class HelloController {
             }
 
             if (startObject != null && endObject != null) {
-                UML.Line.Line createdLine = createLineWithObjects(associationModel);
+                UML.Line.Line createdLine = lineFactory.createLineWithObjects(associationModel,canvas);
                 createdLine.setStartObject(startObject);
                 createdLine.setEndObject(endObject);
 
@@ -372,7 +360,7 @@ public class HelloController {
         // After processing associations, add the remaining models (if not already added)
         for (Model model : loadedModels) {
             if (!createdModels.containsKey(model.getModelId())) {
-                UMLObject umlObject = createUMLObject(model);
+                UMLObject umlObject = objectFactory.createUMLObject(model);
                 if (umlObject != null) {
                     umlObjects.add(umlObject);
                     canvas.getChildren().add(umlObject);
@@ -380,50 +368,6 @@ public class HelloController {
                 }
             }
         }
-    }
-
-    public UMLObject createUMLObject(Model model){
-        UMLObject umlObject = null;
-        if(model instanceof ClassModel) {
-            umlObject = classFactory.create();
-            umlObject.setModel(model);
-        }
-        else if(model instanceof InterfaceModel){
-            umlObject = interfaceFactory.create();
-            umlObject.setModel(model);
-        }
-        return umlObject;
-    }
-
-    public UML.Line.Line createLineWithObjects(AssociationModel model){
-        String type = model.getType();
-        double startX = model.getStartX();
-        double startY = model.getStartY();
-        double endX = model.getEndX();
-        double endY =model.getEndY();
-        UMLObject startObject = createUMLObject(model.getStartModel());
-        UMLObject endObject = createUMLObject(model.getEndModel());
-        return createLine(type,startX,startY,endX,endY,canvas,model,startObject,endObject);
-    }
-    public UML.Line.Line createLine(String lineType, double startX, double startY, double endX, double endY, Pane canvas, AssociationModel associationModel, UMLObject object1, UMLObject object2){
-        UML.Line.Line line = null;
-        switch (lineType) {
-            case "Association":
-                line = new Association(startX, startY, endX, endY, canvas, associationModel, object1, object2);
-                break;
-            case "Aggregation":
-                line = new Aggregation(startX, startY, endX, endY, canvas, associationModel, object1, object2);
-                break;
-            case "Composition":
-                line = new Composition(startX, startY, endX, endY, canvas, associationModel, object1, object2);
-                break;
-            case "Inheritance":
-                line = new Inheritance(startX, startY, endX, endY, canvas, associationModel, object1, object2);
-                break;
-            default:
-                System.out.println("Invalid line type");
-        }
-        return line;
     }
 
     @FXML

@@ -17,8 +17,11 @@ public class ClassDiagramController extends VBox implements ClassDController {
         this.parentClass = parentClass;
         this.classNameWrapper = classNameWrapper;
 
+
         initComponents();
 
+        addMethodButton.setFocusTraversable(false);
+        addAttributeButton.setFocusTraversable(false);
         Platform.runLater(this::adjustButtonPosition);
 
         classNameWrapper.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) ->

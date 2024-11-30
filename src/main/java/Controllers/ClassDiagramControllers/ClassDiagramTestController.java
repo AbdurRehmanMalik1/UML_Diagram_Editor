@@ -20,7 +20,9 @@ public class ClassDiagramTestController extends VBox implements ClassDController
         this.classNameWrapper = classNameWrapper;
 
         initComponents();
-
+        addMethodButton.setFocusTraversable(false);
+        addAttributeButton.setFocusTraversable(false);
+        printModelButton.setFocusTraversable(false);
         Platform.runLater(this::adjustButtonPosition);
 
         classNameWrapper.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) ->

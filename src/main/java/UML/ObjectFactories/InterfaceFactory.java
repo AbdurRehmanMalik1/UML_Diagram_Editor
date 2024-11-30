@@ -3,9 +3,8 @@ package UML.ObjectFactories;
 import UML.Objects.InterfaceObject;
 import UML.Objects.UMLObject;
 
-public class InterfaceFactory implements ObjectFactory{
+public class InterfaceFactory {
 
-    @Override
     public UMLObject create(){
         return new InterfaceObject();
     }

@@ -1,79 +1,32 @@
 {
   "associationList" : [ {
     "id" : 0,
-    "type" : "Association",
-    "startX" : 193.99999999999994,
-    "startY" : 62.66666666666663,
-    "endX" : 416.66666666666674,
-    "endY" : 134.0,
+    "type" : "Inheritance",
+    "startX" : 115.33333333333333,
+    "startY" : 85.99999999999997,
+    "endX" : 161.33333333333331,
+    "endY" : 338.00000000000006,
     "startMultiplicity" : null,
     "endMultiplicity" : null,
     "startModel" : {
-      "type" : "Interface",
-      "id" : 2,
-      "x" : 430.6666666666666,
-      "y" : 35.99999999999996,
-      "interfaceName" : "Interface Name",
-      "methods" : [ "Method():string", "Method():int", "Method():string", "Method():int", "Method():string", "Method():int" ],
-      "modelId" : 2
-    },
-    "endModel" : {
       "type" : "Class",
       "id" : 1,
-      "x" : 454.0000000000001,
-      "y" : 311.33333333333337,
+      "x" : 99.33333333333333,
+      "y" : 312.0,
       "className" : "Class Name",
       "attributes" : [ ],
       "methods" : [ ],
       "modelId" : 1
-    }
-  }, {
-    "id" : 0,
-    "type" : "Inheritance",
-    "startX" : 88.0,
-    "startY" : 362.00000000000006,
-    "endX" : 502.0000000000001,
-    "endY" : 424.6666666666667,
-    "startMultiplicity" : null,
-    "endMultiplicity" : null,
-    "startModel" : {
-      "type" : "Class",
-      "id" : 3,
-      "x" : 320.66666666666663,
-      "y" : 503.9999999999999,
-      "className" : "Class Name",
-      "attributes" : [ ],
-      "methods" : [ ],
-      "modelId" : 3
     },
-    "endModel" : 1
-  }, {
-    "id" : 0,
-    "type" : "Composition",
-    "startX" : 262.66666666666663,
-    "startY" : 500.0,
-    "endX" : 156.66666666666663,
-    "endY" : 282.6666666666667,
-    "startMultiplicity" : null,
-    "endMultiplicity" : null,
-    "startModel" : 3,
     "endModel" : {
       "type" : "Interface",
-      "id" : 4,
-      "x" : 46.000000000000114,
-      "y" : 277.33333333333337,
+      "id" : 2,
+      "x" : 92.66666666666669,
+      "y" : 81.33333333333337,
       "interfaceName" : "Interface Name",
-      "methods" : [ "Method():string", "Method():int", "Method():string", "Method():int", "Method():string", "Method():int" ],
-      "modelId" : 4
+      "methods" : [ "Method():string", "Method():int" ],
+      "modelId" : 2
     }
   } ],
-  "models" : [ 2, 1, 3, 4, {
-    "type" : "Interface",
-    "id" : 5,
-    "x" : 65.33333333333331,
-    "y" : 82.66666666666667,
-    "interfaceName" : "Interface Name",
-    "methods" : [ "Method():string", "Method():int", "Method():string", "Method():int", "Method():string", "Method():int" ],
-    "modelId" : 5
-  } ]
+  "models" : [ 1, 2 ]
 }

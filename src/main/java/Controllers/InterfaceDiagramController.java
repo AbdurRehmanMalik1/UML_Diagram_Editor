@@ -17,7 +17,7 @@ public class InterfaceDiagramController extends VBox {
         this.classNameWrapper = classNameWrapper;
 
         initComponents();
-
+        addMethodButton.setFocusTraversable(false);
         Platform.runLater(this::adjustButtonPosition);
 
         classNameWrapper.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) ->
