@@ -20,17 +20,14 @@ public class InterfaceModel extends Model {
     @Column(name = "method")
     private List<String> methods;
 
-    @OneToMany(mappedBy = "startModel", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<AssociationModel> incomingAssociations = new ArrayList<>();
-
-    @OneToMany(mappedBy = "endModel", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<AssociationModel> outgoingAssociations = new ArrayList<>();
-
     public InterfaceModel() {
         super();
         methods = new ArrayList<>();
+    }
+    public InterfaceModel(InterfaceModel other) {
+        super(other);
+        this.interfaceName = other.interfaceName;
+        this.methods = new ArrayList<>(other.methods);
     }
 
     public String getInterfaceName() {
@@ -57,21 +54,6 @@ public class InterfaceModel extends Model {
         methods.remove(method);
     }
 
-    public List<AssociationModel> getIncomingAssociations() {
-        return incomingAssociations;
-    }
-
-    public void setIncomingAssociations(List<AssociationModel> incomingAssociations) {
-        this.incomingAssociations = incomingAssociations;
-    }
-
-    public List<AssociationModel> getOutgoingAssociations() {
-        return outgoingAssociations;
-    }
-
-    public void setOutgoingAssociations(List<AssociationModel> outgoingAssociations) {
-        this.outgoingAssociations = outgoingAssociations;
-    }
 
     @Override
     public String toString() {

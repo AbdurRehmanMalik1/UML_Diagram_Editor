@@ -10,6 +10,7 @@ import UML.ObjectFactories.ObjectFactory;
 import UML.Objects.UMLObject;
 import UML.Objects.UseCaseObject;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 
@@ -52,6 +53,9 @@ public class HelloController {
     UML.ObjectFactories.ObjectFactory objectFactory = new ObjectFactory();
 
     private BiConsumer<Double, Double> drawObjectFunc;
+
+    UMLObject copyTemp = null;
+
 
     @FXML
     public void initialize() {
@@ -393,6 +397,20 @@ public class HelloController {
             CodeGenerator codeGenerator = new CodeGenerator();
             codeGenerator.generateCode(obj.getModel());
             System.out.println("Code has been generated");
+        }
+    }
+
+    public void onCopyClick() {
+        Node focusedNode = canvas.getScene().getFocusOwner();
+        if (focusedNode instanceof UMLObject obj) {
+            associations.removeAll(obj.getAssociatedLines());
+            obj.delete();
+            umlObjects.remove(obj);
+        } else if(focusedNode instanceof UML.Line.Line line) {
+            associations.remove(line);
+            line.delete();
+        } else {
+            System.out.println("No UMLObject is focused.");
         }
     }
 }

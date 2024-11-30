@@ -11,6 +11,11 @@ public class Method implements Serializable {
 
     Method(){
     }
+    public Method(Method other) {
+        this.text = other.text;
+        this.isAbstract = other.isAbstract;
+    }
+
     public Method(String text) {
         this.text = text;
     }

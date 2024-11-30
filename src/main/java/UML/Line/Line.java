@@ -56,6 +56,7 @@ public abstract class Line extends javafx.scene.shape.Line {
         });
         updateMultiplicityPosition(true);
         updateMultiplicityPosition(true);
+        reloadModel();
     }
 
     public void updateLinePosition(UMLObject object, boolean isStart) {

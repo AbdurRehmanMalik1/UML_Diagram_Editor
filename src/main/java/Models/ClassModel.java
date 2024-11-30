@@ -38,6 +38,17 @@ public class ClassModel extends Model implements AttributeHolder{
         methods = new ArrayList<>();
     }
 
+    public ClassModel(ClassModel other) {
+        super();
+        this.className = other.className;
+        this.attributes = new ArrayList<>(other.attributes);
+        this.methods = new ArrayList<>();
+        for (Method method : other.methods) {
+            this.methods.add(new Method(method));
+        }
+        this.isAbstract = other.isAbstract;
+    }
+
     public String getClassName() {
         return className;
     }

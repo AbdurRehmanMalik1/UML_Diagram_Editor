@@ -1,20 +1,35 @@
 {
-  "associationList" : [ ],
-  "models" : [ {
-    "type" : "Class",
-    "id" : 1,
-    "x" : 159.99999999999991,
-    "y" : 213.33333333333334,
-    "className" : "Class Name",
-    "attributes" : [ ],
-    "methods" : [ {
-      "text" : "New Method",
-      "abstract" : true
-    }, {
-      "text" : "New Method",
-      "abstract" : true
-    } ],
-    "abstract" : true,
-    "modelId" : 1
-  } ]
+  "associationList" : [ {
+    "id" : 0,
+    "type" : "Aggregation",
+    "startX" : 186.0,
+    "startY" : 353.33333333333337,
+    "endX" : 228.0,
+    "endY" : 104.0,
+    "startMultiplicity" : "1",
+    "endMultiplicity" : "1",
+    "startModel" : {
+      "type" : "Class",
+      "id" : 5,
+      "x" : 150.0,
+      "y" : 353.33333333333337,
+      "className" : "Class Name",
+      "attributes" : [ ],
+      "methods" : [ ],
+      "abstract" : false,
+      "modelId" : 5
+    },
+    "endModel" : {
+      "type" : "Class",
+      "id" : 4,
+      "x" : 192.0,
+      "y" : 104.66666666666666,
+      "className" : "Class Name",
+      "attributes" : [ ],
+      "methods" : [ ],
+      "abstract" : false,
+      "modelId" : 4
+    }
+  } ],
+  "models" : [ 4, 5 ]
 }
