@@ -1,6 +1,7 @@
 package Main;
 
 import CodeGeneration.CodeGenerator;
+import Controllers.MyContextMenu;
 import Models.AssociationModel;
 import Models.Model;
 import Serializers.JSONSerializer;
@@ -14,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.*;
 import UML.Line.*;
@@ -55,7 +57,7 @@ public class HelloController {
     Model copyTemp = null;
     private double mouseX;
     private double mouseY;
-
+    //MyContextMenu contextMenu = new MyContextMenu();
 
     @FXML
     public void initialize() {
@@ -73,8 +75,8 @@ public class HelloController {
                 onDeleteClick();
             } else if (keyEvent.getCode() == KeyCode.C && keyEvent.isControlDown()) {
                 onCopyClick();
-            } else if (keyEvent.getCode() == KeyCode.V && keyEvent.isControlDown()){
-                if(copyTemp!=null) {
+            } else if (keyEvent.getCode() == KeyCode.V && keyEvent.isControlDown()) {
+                if (copyTemp != null) {
                     System.out.println("Pasted at x : " + mouseX + " y : " + mouseY);
                     onPasteClick();
                 }
@@ -92,8 +94,10 @@ public class HelloController {
         modelTree.setRoot(rootNode);
 
         setButtonsToggle();
-
-
+        MyContextMenu.createContextMenu(canvas,
+                this::onCopyClick,
+                this::onPasteClick,
+                this::onDeleteClick);
     }
 
     public void setButtonsToggle(){
@@ -101,17 +105,19 @@ public class HelloController {
         classButton.setToggleGroup(buttonToggleGroup);
         interfaceButton.setToggleGroup(buttonToggleGroup);
         canvas.setOnMouseClicked(event -> {
-            ToggleButton button =(ToggleButton) buttonToggleGroup.getSelectedToggle();
-            if (button!=null && drawObjectFunc!=null) {
-                double x = event.getX();
-                double y = event.getY();
-                if (x >= 0 && x <= canvas.getWidth() && y >= 0 && y <= canvas.getHeight()) {
-                    drawObjectFunc.accept(x,y);
-                } else {
-                    System.out.println("Can't add an object here");
+            if (event.getButton() == MouseButton.PRIMARY) {
+                ToggleButton button =(ToggleButton) buttonToggleGroup.getSelectedToggle();
+                if (button!=null && drawObjectFunc!=null) {
+                    double x = event.getX();
+                    double y = event.getY();
+                    if (x >= 0 && x <= canvas.getWidth() && y >= 0 && y <= canvas.getHeight()) {
+                        drawObjectFunc.accept(x,y);
+                    } else {
+                        System.out.println("Can't add an object here");
+                    }
+                    drawObjectFunc = null;
+                    button.setSelected(false);
                 }
-                drawObjectFunc = null;
-                button.setSelected(false);
             }
         });
     }
@@ -164,7 +170,6 @@ public class HelloController {
         drawObjectFunc = this::drawClass;
     }
     public void drawClass(double x , double y){
-        addClassNode("Class Name 1");
         UMLObject classDiagram = objectFactory.createClassObject();
         addToCanvas(classDiagram, x, y);
     }
@@ -173,11 +178,11 @@ public class HelloController {
         drawObjectFunc = this::drawInterface;
     }
     public void drawInterface(double x , double y){
-        addClassNode("Interface Name 1");
         UMLObject interfaceDiagram = objectFactory.createInterfaceObject();
         addToCanvas(interfaceDiagram, x, y);
     }
     void addToCanvas(UMLObject umlObject, double x, double y) {
+        addClassNode("Object " + umlObjects.size() + 1);
         umlObject.reloadModel();
         umlObject.setFocusTraversable(true);
         umlObjects.add(umlObject);
@@ -229,15 +234,16 @@ public class HelloController {
 
         for (UMLObject umlObject : umlObjects) {
             umlObject.setOnMousePressed(event -> {
-                if (firstObject[0] == null) {
-                    firstObject[0] = umlObject;
-                }
-                else if (secondObject[0] == null) {
-                    secondObject[0] = umlObject;
-                }
-                if (secondObject[0] != null) {
-                    drawLineBetweenObjects(firstObject[0], secondObject[0], lineType);
-                    removeMouseHandlers();
+                if(event.getButton()== MouseButton.PRIMARY) {
+                    if (firstObject[0] == null) {
+                        firstObject[0] = umlObject;
+                    } else if (secondObject[0] == null) {
+                        secondObject[0] = umlObject;
+                    }
+                    if (secondObject[0] != null) {
+                        drawLineBetweenObjects(firstObject[0], secondObject[0], lineType);
+                        removeMouseHandlers();
+                    }
                 }
             });
         }
