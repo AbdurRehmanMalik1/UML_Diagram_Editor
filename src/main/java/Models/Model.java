@@ -19,7 +19,8 @@ import java.util.List;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ClassModel.class, name = "Class"),
-        @JsonSubTypes.Type(value = InterfaceModel.class, name = "Interface")
+        @JsonSubTypes.Type(value = InterfaceModel.class, name = "Interface"),
+        @JsonSubTypes.Type(value = UseCaseModel.class, name = "Use Case")
 })
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

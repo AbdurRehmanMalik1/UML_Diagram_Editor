@@ -1,6 +1,7 @@
 package UML.Objects;
 
 import Models.Model;
+import Models.UseCaseModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -19,6 +20,7 @@ public class UseCaseObject extends UMLObject {
 
     public UseCaseObject(String initialText) {
         super();
+        model = new UseCaseModel();
         StackPane box = new StackPane();
         ellipse = new Ellipse();
         EditableField field = new EditableField(initialText);
