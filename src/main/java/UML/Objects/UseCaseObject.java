@@ -17,13 +17,13 @@ public class UseCaseObject extends UMLObject {
     private final Ellipse ellipse;
     private double radiusX = 70;
     private double radiusY = 50;
-
+    EditableField field;
     public UseCaseObject(String initialText) {
         super();
         model = new UseCaseModel();
         StackPane box = new StackPane();
         ellipse = new Ellipse();
-        EditableField field = new EditableField(initialText);
+        field = new EditableField(initialText , this::reloadModel);
 
         // Configure Ellipse
         ellipse.setFill(Color.TRANSPARENT);
@@ -63,15 +63,24 @@ public class UseCaseObject extends UMLObject {
 
     @Override
     public void setModel(Model model) {
+        if (model!=null){
+            this.model = model;
+
+        }
 
     }
 
     @Override
     public void reloadModel() {
         super.reloadModel();
-        //rest here
+        UseCaseModel useCaseModel = downcastModel();
+        useCaseModel.setUseCaseName(field.getText());
+
     }
 
+    public UseCaseModel downcastModel(){
+        return (UseCaseModel) model;
+    }
     public void setRadii(double newRadiusX, double newRadiusY) {
         this.radiusX = newRadiusX;
         this.radiusY = newRadiusY;
@@ -98,8 +107,9 @@ public class UseCaseObject extends UMLObject {
         private final TextField textField;
         private ChangeListener<String> labelListener;
         private ChangeListener<String> textFieldListener;
-
-        public EditableField(String text) {
+        Runnable reloadModel;
+        public EditableField(String text , Runnable runnable) {
+            reloadModel = runnable;
             setAlignment(Pos.CENTER); // Center the label and text field
             setPadding(new Insets(5));
             label = new Label(text);
@@ -163,6 +173,12 @@ public class UseCaseObject extends UMLObject {
                 getChildren().add(label);
                 switchToLabel();
             }
+        }
+        public String getText(){
+            if(getChildren().contains(textField))
+                return textField.getText();
+            else
+                return label.getText();
         }
     }
 }

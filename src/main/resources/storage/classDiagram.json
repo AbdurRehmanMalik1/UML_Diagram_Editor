@@ -1,25 +1,76 @@
+
 {
-  "associationList" : [ ],
-  "models" : [ {
-    "type" : "Interface",
-    "id" : 2,
-    "x" : 162.0,
-    "y" : 145.0,
-    "interfaceName" : "Interface Name",
-    "methods" : [ "Method():string", "Method():int" ],
-    "modelId" : 2
+  "associationList" : [ {
+    "id" : 0,
+    "type" : "Inheritance",
+    "startX" : 204.0,
+    "startY" : 313.33333333333337,
+    "endX" : 327.66666666666663,
+    "endY" : 152.66666666666666,
+    "startMultiplicity" : "1",
+    "endMultiplicity" : "1",
+    "startModel" : {
+      "type" : "Class",
+      "id" : 2,
+      "x" : 211.33333333333331,
+      "y" : 432.0,
+      "className" : "Class Name",
+      "attributes" : [ ],
+      "methods" : [ ],
+      "abstract" : false,
+      "modelId" : 2
+    },
+    "endModel" : {
+      "type" : "Interface",
+      "id" : 1,
+      "x" : 350.66666666666663,
+      "y" : 73.33333333333336,
+      "interfaceName" : "Interface Name",
+      "methods" : [ ],
+      "modelId" : 1
+    }
   }, {
-    "type" : "Class",
-    "id" : 3,
-    "x" : 420.0,
-    "y" : 211.0,
-    "className" : "Person",
-    "attributes" : [ ],
-    "methods" : [ {
-      "text" : "New Method",
-      "abstract" : false
-    } ],
-    "abstract" : true,
-    "modelId" : 3
-  } ]
+    "id" : 0,
+    "type" : "Inheritance",
+    "startX" : 204.0,
+    "startY" : 362.0,
+    "endX" : 193.33333333333331,
+    "endY" : 173.99999999999997,
+    "startMultiplicity" : "1",
+    "endMultiplicity" : "1",
+    "startModel" : 2,
+    "endModel" : {
+      "type" : "Class",
+      "id" : 3,
+      "x" : 71.33333333333331,
+      "y" : 162.66666666666663,
+      "className" : "Class Name",
+      "attributes" : [ ],
+      "methods" : [ ],
+      "abstract" : false,
+      "modelId" : 3
+    }
+  }, {
+    "id" : 0,
+    "type" : "Aggregation",
+    "startX" : 243.33333333333331,
+    "startY" : 444.0,
+    "endX" : 580.6666666666666,
+    "endY" : 268.6666666666667,
+    "startMultiplicity" : "1",
+    "endMultiplicity" : "1",
+    "startModel" : 2,
+    "endModel" : {
+      "type" : "Class",
+      "id" : 4,
+      "x" : 436.6666666666666,
+      "y" : 234.00000000000006,
+      "className" : "Class Name",
+      "attributes" : [ ],
+      "methods" : [ ],
+      "abstract" : false,
+      "modelId" : 4
+    }
+  } ],
+  "models" : [ 1, 2, 3, 4 ]
 }
