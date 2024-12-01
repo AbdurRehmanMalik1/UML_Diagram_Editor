@@ -1,0 +1,49 @@
+/* Entire Menu Styling */
+.context-menu
+{
+    -fx-background-color: #f0f0f0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 2, 2);
+}
+
+.context-menu .menu-item
+{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 20px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 4px;
+}
+
+.context-menu .menu-item:hover
+{
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+}
+
+.menu-text
+{
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.menu-shortcut
+{
+    -fx-font-size: 11px;
+    -fx-text-fill: #777777;
+    -fx-font-style: italic;
+    -fx-opacity: 1;
+    -fx-padding-left: 10px;
+}
+
+.context-menu .menu-item:focused
+{
+    -fx-background-color: #d4d4d4;
+    -fx-text-fill: white;
+}
+

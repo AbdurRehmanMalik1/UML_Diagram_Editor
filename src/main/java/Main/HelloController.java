@@ -64,7 +64,7 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-        contextMenu = new MyContextMenu(canvas,
+        MyContextMenu.createContextMenu(canvas,
                 this::onCopyClick,
                 this::onPasteClick,
                 this::onDeleteClick,
@@ -124,7 +124,7 @@ public class HelloController {
                     drawObjectFunc = null;
                     button.setSelected(false);
                 }
-                contextMenu.hideContextMenu();
+                //contextMenu.hideContextMenu();
             }
         });
     }
@@ -195,7 +195,7 @@ public class HelloController {
         umlObject.setLayoutX(x);
         umlObject.setLayoutY(y);
     }
-
+/*
     @FXML
     public void onAddUseCaseClick() {
         UseCaseObject newUseCase = new UseCaseObject();
@@ -211,7 +211,7 @@ public class HelloController {
         Model model = umlObject.getModel();
         jsonSerializer.serialize(model);
     }
-
+*/
     @FXML
     public void onDrawAssociationClick() {
         unselectToggleButton();
