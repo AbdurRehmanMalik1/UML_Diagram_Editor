@@ -45,8 +45,4 @@ public class MyContextMenu {
             contextMenu.hide();
         }
     }
-
-    public void removeContextMenu(Pane pane) {
-        hideContextMenu();
-    }
 }

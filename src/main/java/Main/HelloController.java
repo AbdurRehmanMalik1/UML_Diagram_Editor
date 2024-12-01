@@ -47,6 +47,8 @@ public class HelloController {
     private Button compositionButton;
     @FXML
     private Button inheritanceButton;
+    @FXML
+    private ComboBox<String> diagramTypeBox;
 
     List<UMLObject> umlObjects = new ArrayList<>();
     List<UML.Line.Line> associations = new ArrayList<>();
@@ -58,6 +60,7 @@ public class HelloController {
     private double mouseX;
     private double mouseY;
     MyContextMenu contextMenu;
+
 
     @FXML
     public void initialize() {
@@ -154,8 +157,6 @@ public class HelloController {
             rootNode.setValue(newName);
         }
     }
-    @FXML
-    private ComboBox<String> diagramTypeBox;
 
     @FXML
     public void changeDiagramType() {
