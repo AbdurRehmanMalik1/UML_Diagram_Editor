@@ -1,6 +1,8 @@
 package UML.Objects;
 
 import Controllers.InterfaceDiagramController;
+import Models.InterfaceModel;
+import Models.Model;
 import UML.UI_Components.EditableField;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -17,18 +19,15 @@ import java.util.List;
 public class InterfaceObject extends UMLObject {
     private final Group groupDiagram;
     private VBox detailsBox;
-    private VBox topBox;
     private EditableField className;
     private List<StackPane> methods;
     private VBox methodBox;
     private InterfaceDiagramController controller;
 
-    public void unfocusSelf(){
-        setFocused(false);
-    }
     public InterfaceObject() {
         super();
         groupDiagram = new Group();
+        model = new InterfaceModel();
 
         initComponents();
 
@@ -48,9 +47,22 @@ public class InterfaceObject extends UMLObject {
                 Platform.runLater(this::resizeOuterRect));
 
 
-        this.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            outerRect.setVisibility(newValue);
-        });
+        this.focusedProperty().addListener((observable, oldValue, newValue) ->
+            outerRect.setVisibility(newValue));
+    }
+
+    @Override
+    public Model getModel(){
+        return model;
+    }
+    @Override
+    public double getWidth() {
+        return detailsBox.getWidth();
+    }
+
+    @Override
+    public double getHeight() {
+        return detailsBox.getHeight();
     }
 
     public void resizeOuterRect() {
@@ -65,7 +77,7 @@ public class InterfaceObject extends UMLObject {
         detailsBox.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-        topBox = new VBox();
+        VBox topBox = new VBox();
         Label interfaceLabel =  new Label("<<interface>>");
         interfaceLabel.setAlignment(Pos.BASELINE_CENTER);
         HBox interfaceLabelWrapper = new HBox(interfaceLabel);
@@ -97,6 +109,43 @@ public class InterfaceObject extends UMLObject {
         StackPane method = new EditableField(temp);
         methods.add(method);
         methodBox.getChildren().add(method);
+    }
+
+    @Override
+    public void setModel(Model model){
+        InterfaceModel interfaceModel = (InterfaceModel) model;
+        this.setModel(interfaceModel);
+    }
+    public void setModel(InterfaceModel model) {
+        this.model = model;
+
+        methods.clear();
+
+        if (model.getInterfaceName() != null && !model.getInterfaceName().isEmpty()) {
+            className.setText(model.getInterfaceName());
+        }
+
+        for (String method : model.getMethods()) {
+            addMethod(method);
+        }
+        this.setLayoutX(model.getX());
+        this.setLayoutY(model.getY());
+    }
+    public void reloadModel() {
+        super.reloadModel();
+
+        InterfaceModel downcastModel = (InterfaceModel) model;
+
+        downcastModel.setInterfaceName(className.getText());
+
+        if (downcastModel.getMethods() != null) {
+            downcastModel.getMethods().clear();
+        }
+        for (StackPane methodStackPane : methods) {
+            if (methodStackPane instanceof EditableField editableField) {
+                downcastModel.addMethod(editableField.getText());
+            }
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package UML.Objects;
 
+import Models.Model;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -12,17 +13,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
 public class UseCaseObject extends UMLObject {
-    private final StackPane box;
     private final Ellipse ellipse;
-    private final EditableField field;
     private double radiusX = 70;
     private double radiusY = 50;
 
     public UseCaseObject(String initialText) {
         super();
-        box = new StackPane();
+        StackPane box = new StackPane();
         ellipse = new Ellipse();
-        field = new EditableField(initialText);
+        EditableField field = new EditableField(initialText);
 
         // Configure Ellipse
         ellipse.setFill(Color.TRANSPARENT);
@@ -36,12 +35,39 @@ public class UseCaseObject extends UMLObject {
 
         getChildren().add(box);
 
-        outerRect.setSize(box.getLayoutBounds().getWidth()+10,box.getLayoutBounds().getHeight()+10);
-        outerRect.setLocation(box.getLayoutX()-5,box.getLayoutY()-5);
+        outerRect.setSize(ellipse.getRadiusX()*2+4,ellipse.getRadiusY()*2+4);
+        outerRect.setLocation(box.getLayoutX()-1, box.getLayoutY()-1);
     }
 
     public UseCaseObject() {
         this("Use Case");
+    }
+
+
+    @Override
+    public double getWidth() {
+        return ellipse.getRadiusX()*2;
+    }
+
+    @Override
+    public double getHeight() {
+        return ellipse.getRadiusY()*2;
+    }
+
+    @Override
+    public Model getModel() {
+        return null;
+    }
+
+    @Override
+    public void setModel(Model model) {
+
+    }
+
+    @Override
+    public void reloadModel() {
+        super.reloadModel();
+        //rest here
     }
 
     public void setRadii(double newRadiusX, double newRadiusY) {
@@ -62,10 +88,9 @@ public class UseCaseObject extends UMLObject {
 
     public void setPosition(double x, double y) {
         setLayoutX(x);
-        setLayoutY(y); // Update position of the entire UseCase object
+        setLayoutY(y);
     }
 
-    // Inner class for editable field
     private class EditableField extends StackPane {
         private final Label label;
         private final TextField textField;

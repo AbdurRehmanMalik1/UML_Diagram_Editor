@@ -1,6 +1,8 @@
 package Models;
 
+import Models.CD.Method;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -8,41 +10,45 @@ import java.util.List;
 
 @Entity
 @Table(name="class")
-public class ClassModel extends Model{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "class_id")
-    private int id ;
+public class ClassModel extends Model implements AttributeHolder{
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
-    @Column(name = "class_name")
+    @JsonInclude()
+    @Column(name = "class_name" ,nullable = false)
     private String className;
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonInclude()
     @ElementCollection
     @CollectionTable(name = "class_attributes", joinColumns = @JoinColumn(name = "class_id"))
     @Column(name = "attribute")
     private List<String> attributes;
 
-    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonInclude()
     @ElementCollection
     @CollectionTable(name = "class_methods", joinColumns = @JoinColumn(name = "class_id"))
     @Column(name = "method")
+    private List<Method> methods;
 
-    private List<String> methods;
+    @JsonInclude()
+    @JsonProperty("abstract")
+    private boolean isAbstract;
 
     public ClassModel(){
-        className = "";
+        super();
         attributes = new ArrayList<>();
         methods = new ArrayList<>();
     }
 
-    public void setId(int id){
-        this.id = id;
+    public ClassModel(ClassModel other) {
+        super(other);
+        this.className = other.className;
+        this.attributes = new ArrayList<>(other.attributes);
+        this.methods = new ArrayList<>();
+        for (Method method : other.methods) {
+            this.methods.add(new Method(method));
+        }
+        this.isAbstract = other.isAbstract;
     }
-    public int getId(){
-        return id;
-    }
+
     public String getClassName() {
         return className;
     }
@@ -50,14 +56,14 @@ public class ClassModel extends Model{
         return attributes;
     }
 
-    public List<String> getMethods() {
+    public List<Method> getMethods() {
         return methods;
     }
     public void setAttributes(List<String> attributes) {
         this.attributes = attributes;
     }
 
-    public void setMethods(List<String> methods) {
+    public void setMethods(List<Method> methods) {
         this.methods = methods;
     }
     public void setClassName(String className) {
@@ -66,13 +72,13 @@ public class ClassModel extends Model{
     public void addAttribute(String attribute){
         attributes.add(attribute);
     }
-    public void addMethod(String method){
+    public void addMethod(Method method){
         methods.add(method);
     }
     public void removeAttribute(String attribute){
         attributes.remove(attribute);
     }
-    public void removeMethod(String method){
+    public void removeMethod(Method method){
         methods.remove(method);
     }
     @Override
@@ -87,12 +93,17 @@ public class ClassModel extends Model{
         }
 
         sb.append("Methods: \n");
-        for (String method : methods) {
-            sb.append("  ").append(method).append("\n");
+        for (Method method : methods) {
+            sb.append("  ").append(method.getText()).append("\n");
         }
-
         return sb.toString();
     }
 
+    public boolean isAbstract() {
+        return isAbstract;
+    }
 
+    public void setAbstract(boolean anAbstract) {
+        isAbstract = anAbstract;
+    }
 }
