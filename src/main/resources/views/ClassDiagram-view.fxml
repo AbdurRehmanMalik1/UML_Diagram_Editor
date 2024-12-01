@@ -15,43 +15,53 @@
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 <?import javafx.scene.control.ToggleButton?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Main.HelloController">
+            fx:controller="Main.HelloController"
+            stylesheets="@../Styling/MenuBarStyling.css">
+
     <top>
         <MenuBar>
             <!--Top Section-->
             <Menu text="File">
-                <MenuItem text="New" />
-                <MenuItem text="Open" />
-                <MenuItem text="Save" />
-                <MenuItem text="Save As" />
-                <MenuItem text="Close" />
+                <MenuItem text="New" accelerator="Ctrl+N" />
+                <MenuItem text="Open" accelerator="Ctrl+O" />
+                <MenuItem text="Save" accelerator="Ctrl+S" />
+                <MenuItem text="Save As" accelerator="Ctrl+Shift+S" />
+                <SeparatorMenuItem/>
                 <Menu text="Import">
-                    <MenuItem text="XML"/>
-                    <MenuItem onAction="#onLoadDiagram" text="JSON"/>
-                    <MenuItem text="Raw Form"/>
+                    <MenuItem text="XML" />
+                    <MenuItem onAction="#onLoadDiagram" text="JSON" />
+                    <MenuItem text="Raw Form" />
                 </Menu>
                 <Menu text="Export">
-                    <MenuItem text="PNG"/>
-                    <MenuItem text="JPEG"/>
-                    <MenuItem text="XML"/>
-                    <MenuItem onAction="#onSaveClassDiagram" text="JSON"/>
-                    <MenuItem text="Raw Form"/>
+                    <MenuItem text="PNG" />
+                    <MenuItem text="JPEG" />
+                    <MenuItem text="XML" />
+                    <MenuItem onAction="#onSaveClassDiagram" text="JSON" />
+                    <MenuItem text="Raw Form" />
                 </Menu>
-                <MenuItem text="Exit" />
+                <SeparatorMenuItem/>
+                <MenuItem text="Close" accelerator="Ctrl+W" />
+                <MenuItem text="Exit" accelerator="Alt+F4" />
             </Menu>
 
             <Menu text="Edit">
-                <MenuItem text="Undo" />
-                <MenuItem text="Redo" />
-                <MenuItem onAction="#onCutClick" text="Cut" />
-                <MenuItem onAction="#onCopyClick" text="Copy" />
-                <MenuItem onAction="#onPasteClick" text="Paste" />
-                <MenuItem onAction="#onDeleteClick" text="Delete" />
+                <SeparatorMenuItem/>
+                <MenuItem text="Undo" accelerator="Ctrl+Z" />
+                <MenuItem text="Redo" accelerator="Ctrl+Y" />
+                <SeparatorMenuItem/>
+                <MenuItem onAction="#onCutClick" text="Cut" accelerator="Ctrl+X" />
+                <MenuItem onAction="#onCopyClick" text="Copy" accelerator="Ctrl+C" />
+                <MenuItem onAction="#onPasteClick" text="Paste" accelerator="Ctrl+V" />
+                <MenuItem onAction="#onDeleteClick" text="Delete" accelerator="Delete" />
             </Menu>
 
             <Menu text="Debug">
-                <MenuItem text="Toggle Checker" />
+                <MenuItem text="Toggle Checker" accelerator="Ctrl+D" />
             </Menu>
         </MenuBar>
     </top>

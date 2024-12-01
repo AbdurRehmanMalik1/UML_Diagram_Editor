@@ -50,3 +50,15 @@ Dec 01, 2024 2:38:22 PM javafx.css.CssParser parse
 WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/CanvasContextMenuStyling.css: Expected LBRACE at [55,25]
 Dec 01, 2024 2:39:56 PM javafx.css.CssParser parse
 WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/CanvasContextMenuStyling.css: Expected LBRACE at [55,25]
+Dec 01, 2024 4:37:39 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+INFO: Could not find stylesheet: file:/C:/Users/HP/Desktop/SCD_Project/target/classes/views/Styling/MenuBarStyling.css
+Dec 01, 2024 5:56:46 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+WARNING: Resource "@/Styling/MenuBarStyling.css" not found.
+Dec 01, 2024 6:03:38 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+WARNING: Resource "/Styling/MenuBarStyling.css" not found.
+Dec 01, 2024 6:04:33 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+WARNING: Resource "/Styling/MenuBar.css" not found.
+Dec 01, 2024 6:08:50 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+WARNING: Resource "@Styling/MenuBarStyling.css" not found.
+Dec 01, 2024 6:09:32 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+WARNING: Resource "@/Styling/MenuBarStyling.css" not found.
