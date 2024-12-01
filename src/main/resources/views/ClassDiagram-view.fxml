@@ -21,7 +21,7 @@
 <?import javafx.scene.text.Text?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Main.HelloController"
-            stylesheets="@../Styling/MenuBarStyling.css">
+            stylesheets="@../Styling/MenuBarStyling.css,@../Styling/LeftPanelStyling.css">
 
     <top>
         <MenuBar>
@@ -70,49 +70,48 @@
         <!-- Left Section -->
         <SplitPane dividerPositions="0.2, 0.8">
             <VBox
+                    fx:id="toolbox"
                     spacing="10.0"
                     prefWidth="200"
-                    style="-fx-background-color: #F4F4F4;
-              -fx-border-color: #C4C4C4;
-              -fx-border-width: 1;">
+                    styleClass="toolbox"
+                    minWidth="170"
+                    maxWidth="300">
                 <Label text="TOOLBOX"
-                       style="-fx-font-weight: bold;
-                -fx-padding: 10;" />
+                       styleClass="toolbox-label" />
                 <VBox spacing="5.0"
-                      style="-fx-padding: 5;">
-                    <Label text="Classes" style="-fx-font-weight: bold;" />
+                      styleClass="toolbox-vbox">
+                    <Label text="Class Components" styleClass="toolbox-label" />
 
                     <HBox>
-                        <ToggleButton fx:id="classButton" focusTraversable="false" text="Class" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;"
-                                onAction="#onAddClassDiagramClick"/>
+                        <ToggleButton fx:id="classButton" focusTraversable="false" text="Class" styleClass="toolbox-toggle-button" onAction="#onAddClassDiagramClick" HBox.hgrow="ALWAYS"/>
                     </HBox>
                     <HBox>
-                        <ToggleButton fx:id="interfaceButton" focusTraversable="false" onAction="#onAddInterfaceDiagramClick" text="Interface" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <ToggleButton fx:id="interfaceButton" focusTraversable="false" onAction="#onAddInterfaceDiagramClick" text="Interface" styleClass="toolbox-toggle-button" HBox.hgrow="ALWAYS"/>
                     </HBox>
                     <HBox>
-                        <Button fx:id="associationButton" focusTraversable="false" onAction="#onDrawAssociationClick" text="Association" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button fx:id="associationButton" focusTraversable="false" onAction="#onDrawAssociationClick" text="Association" styleClass="toolbox-button" HBox.hgrow="ALWAYS"/>
                     </HBox>
                     <HBox>
-                        <Button fx:id="aggregationButton" focusTraversable="false" onAction="#onDrawAggregationClick"  text="Aggregation" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button fx:id="aggregationButton" focusTraversable="false" onAction="#onDrawAggregationClick"  text="Aggregation" styleClass="toolbox-button" HBox.hgrow="ALWAYS"/>
                     </HBox>
                     <HBox>
-                        <Button fx:id="compositionButton" focusTraversable="false" onAction="#onDrawCompositionClick" text="Composition" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button fx:id="compositionButton" focusTraversable="false" onAction="#onDrawCompositionClick" text="Composition" styleClass="toolbox-button" HBox.hgrow="ALWAYS"/>
                     </HBox>
                     <HBox>
-                        <Button fx:id="inheritanceButton" focusTraversable="false"  onAction="#onDrawInheritanceClick" text="Inheritance" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button fx:id="inheritanceButton" focusTraversable="false"  onAction="#onDrawInheritanceClick" text="Inheritance" styleClass="toolbox-button" HBox.hgrow="ALWAYS"/>
                     </HBox>
                 </VBox>
                 <VBox spacing="5.0"
-                      style="-fx-padding: 5;">
-                    <Label text="Annotations" style="-fx-font-weight: bold;" />
+                      styleClass="toolbox-vbox">
+                    <Label text="Annotations" styleClass="toolbox-label" />
                     <HBox >
-                        <Button focusTraversable="false" text="Text" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button focusTraversable="false" text="Text" styleClass="annotations-hbox" HBox.hgrow="ALWAYS"/>
                     </HBox>
                     <HBox>
-                        <Button focusTraversable="false" text="Text Box" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button focusTraversable="false" text="Text Box" styleClass="annotations-hbox" HBox.hgrow="ALWAYS"/>
                     </HBox>
                     <HBox >
-                        <Button focusTraversable="false" onAction="#onCodeGenerateClick" text="Generate Code" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button focusTraversable="false" onAction="#onCodeGenerateClick" text="Generate Code" styleClass="annotations-hbox" HBox.hgrow="ALWAYS"/>
                     </HBox>
                 </VBox>
             </VBox>
