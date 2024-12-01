@@ -15,12 +15,10 @@
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 <?import javafx.scene.control.ToggleButton?>
-
-<?import java.net.URL?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.text.Text?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Region?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Main.HelloController"
             stylesheets="@../Styling/MenuBarStyling.css,@../Styling/LeftPanelStyling.css">
@@ -173,23 +171,30 @@
                   -fx-border-width: 1;"/>
 
             <!-- Right Panel -->
-            <VBox style="-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10; -fx-min-width: 250px; -fx-max-width: 350px;">
+            <!-- Right Panel -->
+            <VBox style="-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10; -fx-min-width: 260px; -fx-max-width: 350px;">
                 <Label text="MODEL EXPLORER" style="-fx-font-weight: bold;" />
                 <HBox spacing="5">
                     <TextField focusTraversable="false" fx:id="modelNameField" promptText="Model Name" />
                     <Button focusTraversable="false" text="Set Name" onAction="#setModelName" />
                 </HBox>
-                <TreeView focusTraversable="false"  fx:id="modelTree" style="-fx-pref-height: 400;" />
+                <TreeView focusTraversable="false" fx:id="modelTree" style="-fx-pref-height: 400;" />
+
+                <!-- Add space between TreeView and ComboBox -->
+                <Region style="-fx-min-height: 20px;" />
+
+                <!-- ComboBox -->
+                <ComboBox focusTraversable="false" fx:id="diagramTypeBox" promptText="Select Diagram Type"
+                          onAction="#changeDiagramType"
+                          style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: black; -fx-padding: 10px 20px 10px 10px; -fx-min-width: 240px; -fx-max-width: 340px; -fx-pref-width: 100%;">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Class Diagram" />
+                            <String fx:value="Use Case Diagram" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
             </VBox>
-            <ComboBox focusTraversable="false" fx:id="diagramTypeBox" promptText="Select Diagram Type"
-                      onAction="#changeDiagramType">
-                <items >
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Class Diagram" />
-                        <String fx:value="Use Case Diagram" />
-                    </FXCollections>
-                </items>
-            </ComboBox>
 
         </SplitPane>
     </center>
