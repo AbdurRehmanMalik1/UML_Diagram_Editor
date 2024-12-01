@@ -47,6 +47,8 @@ public class HelloController {
     private Button compositionButton;
     @FXML
     private Button inheritanceButton;
+    @FXML
+    private ComboBox<String> diagramTypeBox;
 
     List<UMLObject> umlObjects = new ArrayList<>();
     List<UML.Line.Line> associations = new ArrayList<>();
@@ -59,9 +61,10 @@ public class HelloController {
     private double mouseY;
     MyContextMenu contextMenu;
 
+
     @FXML
     public void initialize() {
-        contextMenu = new MyContextMenu(canvas,
+        MyContextMenu.createContextMenu(canvas,
                 this::onCopyClick,
                 this::onPasteClick,
                 this::onDeleteClick,
@@ -121,7 +124,7 @@ public class HelloController {
                     drawObjectFunc = null;
                     button.setSelected(false);
                 }
-                contextMenu.hideContextMenu();
+                //contextMenu.hideContextMenu();
             }
         });
     }
@@ -154,8 +157,6 @@ public class HelloController {
             rootNode.setValue(newName);
         }
     }
-    @FXML
-    private ComboBox<String> diagramTypeBox;
 
     @FXML
     public void changeDiagramType() {
@@ -194,7 +195,7 @@ public class HelloController {
         umlObject.setLayoutX(x);
         umlObject.setLayoutY(y);
     }
-
+/*
     @FXML
     public void onAddUseCaseClick() {
         UseCaseObject newUseCase = new UseCaseObject();
@@ -210,7 +211,7 @@ public class HelloController {
         Model model = umlObject.getModel();
         jsonSerializer.serialize(model);
     }
-
+*/
     @FXML
     public void onDrawAssociationClick() {
         unselectToggleButton();
