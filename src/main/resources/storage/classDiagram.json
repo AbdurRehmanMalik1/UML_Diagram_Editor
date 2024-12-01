@@ -1,42 +1,25 @@
 {
   "associationList" : [ ],
   "models" : [ {
-    "type" : "Class",
-    "id" : 6,
-    "x" : 485.3333435058593,
-    "y" : 120.6666590372721,
-    "className" : "Class Name",
-    "attributes" : [ "New Attribute", "New Attribute", "New Attribute" ],
-    "methods" : [ {
-      "text" : "New Method",
-      "abstract" : false
-    }, {
-      "text" : "New Method",
-      "abstract" : false
-    }, {
-      "text" : "New Method",
-      "abstract" : false
-    } ],
-    "abstract" : false,
-    "modelId" : 6
+    "type" : "Interface",
+    "id" : 2,
+    "x" : 162.0,
+    "y" : 145.0,
+    "interfaceName" : "Interface Name",
+    "methods" : [ "Method():string", "Method():int" ],
+    "modelId" : 2
   }, {
     "type" : "Class",
-    "id" : 8,
-    "x" : 158.66666666666669,
-    "y" : 254.0,
-    "className" : "Class Name",
-    "attributes" : [ "New Attribute", "New Attribute", "New Attribute" ],
+    "id" : 3,
+    "x" : 420.0,
+    "y" : 211.0,
+    "className" : "Person",
+    "attributes" : [ ],
     "methods" : [ {
       "text" : "New Method",
       "abstract" : false
-    }, {
-      "text" : "New Method",
-      "abstract" : false
-    }, {
-      "text" : "New Method",
-      "abstract" : false
     } ],
-    "abstract" : false,
-    "modelId" : 8
+    "abstract" : true,
+    "modelId" : 3
   } ]
 }

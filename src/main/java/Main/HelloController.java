@@ -190,7 +190,7 @@ public class HelloController {
         umlObject.setLayoutX(x);
         umlObject.setLayoutY(y);
     }
-
+/*
     @FXML
     public void onAddUseCaseClick() {
         UseCaseObject newUseCase = new UseCaseObject();
@@ -206,7 +206,7 @@ public class HelloController {
         Model model = umlObject.getModel();
         jsonSerializer.serialize(model);
     }
-
+*/
     @FXML
     public void onDrawAssociationClick() {
         unselectToggleButton();
