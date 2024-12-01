@@ -19,6 +19,8 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Main.HelloController"
             stylesheets="@../Styling/MenuBarStyling.css,@../Styling/LeftPanelStyling.css">
@@ -83,34 +85,82 @@
                     <Label text="Class Components" styleClass="toolbox-label" />
 
                     <HBox>
-                        <ToggleButton fx:id="classButton" focusTraversable="false" text="Class" styleClass="toolbox-toggle-button" onAction="#onAddClassDiagramClick" HBox.hgrow="ALWAYS"/>
+                        <ToggleButton fx:id="classButton" focusTraversable="false" text="Class" styleClass="toolbox-toggle-button" onAction="#onAddClassDiagramClick" HBox.hgrow="ALWAYS" >
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/class_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </ToggleButton>
                     </HBox>
                     <HBox>
-                        <ToggleButton fx:id="interfaceButton" focusTraversable="false" onAction="#onAddInterfaceDiagramClick" text="Interface" styleClass="toolbox-toggle-button" HBox.hgrow="ALWAYS"/>
+                        <ToggleButton fx:id="interfaceButton" focusTraversable="false" onAction="#onAddInterfaceDiagramClick" text="Interface" styleClass="toolbox-toggle-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/class_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </ToggleButton>
                     </HBox>
                     <HBox>
-                        <Button fx:id="associationButton" focusTraversable="false" onAction="#onDrawAssociationClick" text="Association" styleClass="toolbox-button" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="associationButton" focusTraversable="false" onAction="#onDrawAssociationClick" text="Association" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/association_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </HBox>
                     <HBox>
-                        <Button fx:id="aggregationButton" focusTraversable="false" onAction="#onDrawAggregationClick"  text="Aggregation" styleClass="toolbox-button" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="aggregationButton" focusTraversable="false" onAction="#onDrawAggregationClick"  text="Aggregation" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/aggregation_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </HBox>
                     <HBox>
-                        <Button fx:id="compositionButton" focusTraversable="false" onAction="#onDrawCompositionClick" text="Composition" styleClass="toolbox-button" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="compositionButton" focusTraversable="false" onAction="#onDrawCompositionClick" text="Composition" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/composition_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </HBox>
                     <HBox>
-                        <Button fx:id="inheritanceButton" focusTraversable="false"  onAction="#onDrawInheritanceClick" text="Inheritance" styleClass="toolbox-button" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="inheritanceButton" focusTraversable="false"  onAction="#onDrawInheritanceClick" text="Inheritance" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/inheritance_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </HBox>
                 </VBox>
                 <VBox spacing="5.0"
                       styleClass="toolbox-vbox">
                     <Label text="Annotations" styleClass="toolbox-label" />
                     <HBox >
-                        <Button focusTraversable="false" text="Text" styleClass="annotations-hbox" HBox.hgrow="ALWAYS"/>
+                        <Button focusTraversable="false" text="Text" styleClass="annotations-hbox" HBox.hgrow="ALWAYS">
+                        <graphic>
+                            <ImageView fitHeight="20" fitWidth="20">
+                                <Image url="@../Images/text_icon.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
                     </HBox>
                     <HBox>
-                        <Button focusTraversable="false" text="Text Box" styleClass="annotations-hbox" HBox.hgrow="ALWAYS"/>
+                        <Button focusTraversable="false" text="Text Box" styleClass="annotations-hbox" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/textbox_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </HBox>
-                    <HBox >
+                    <HBox>
                         <Button focusTraversable="false" onAction="#onCodeGenerateClick" text="Generate Code" styleClass="annotations-hbox" HBox.hgrow="ALWAYS"/>
                     </HBox>
                 </VBox>
@@ -123,7 +173,7 @@
                   -fx-border-width: 1;"/>
 
             <!-- Right Panel -->
-            <VBox style="-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10;">
+            <VBox style="-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10; -fx-min-width: 250px; -fx-max-width: 350px;">
                 <Label text="MODEL EXPLORER" style="-fx-font-weight: bold;" />
                 <HBox spacing="5">
                     <TextField focusTraversable="false" fx:id="modelNameField" promptText="Model Name" />
