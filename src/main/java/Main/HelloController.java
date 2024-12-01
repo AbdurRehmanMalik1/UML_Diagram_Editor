@@ -56,8 +56,6 @@ public class HelloController {
     Model copyTemp = null;
     private double mouseX;
     private double mouseY;
-    MyContextMenu contextMenu;
-
 
     @FXML
     public void initialize() {
