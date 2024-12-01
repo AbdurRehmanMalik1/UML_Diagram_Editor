@@ -32,8 +32,8 @@
                     <MenuItem text="Raw Form"/>
                 </Menu>
                 <Menu text="Export">
-                    <MenuItem text="PNG"/>
-                    <MenuItem text="JPEG"/>
+                    <MenuItem onAction="#onPNGClick" text="PNG"/>
+                    <MenuItem onAction="#onJPEGClick" text="JPEG"/>
                     <MenuItem text="XML"/>
                     <MenuItem onAction="#onSaveClassDiagram" text="JSON"/>
                     <MenuItem text="Raw Form"/>

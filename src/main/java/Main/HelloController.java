@@ -2,24 +2,21 @@ package Main;
 
 import CodeGeneration.CodeGenerator;
 import Controllers.MyContextMenu;
+import Util.ImageSaverUtil;
+import Util.ToastMessage;
 import Models.AssociationModel;
 import Models.Model;
-import Serializers.JSONSerializer;
-import Serializers.Serializer;
 import UML.Diagrams.ClassDiagram;
 import UML.ObjectFactories.ObjectFactory;
 import UML.Objects.UMLObject;
-import UML.Objects.UseCaseObject;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.*;
 import UML.Line.*;
-
 import java.util.*;
 import java.util.function.BiConsumer;
 
@@ -456,4 +453,26 @@ public class HelloController {
             System.out.println("No UMLObject is focused.");
         }
     }
+
+    @FXML
+    public void onPNGClick() {
+        try {
+            ImageSaverUtil.savePNG(canvas);
+            ToastMessage.showPositiveToast(canvas, "PNG Screenshot Taken Successfully", 3);
+        } catch (ImageSaverUtil.ImageSaveException e) {
+            ToastMessage.showNegativeToast(canvas, e.getMessage(), 3);
+        }
+    }
+
+    @FXML
+    public void onJPEGClick() {
+        try {
+            ImageSaverUtil.saveJPEG(canvas);
+            ToastMessage.showPositiveToast(canvas, "JPEG Screenshot Taken Successfully", 3);
+        } catch (ImageSaverUtil.ImageSaveException e) {
+            ToastMessage.showNegativeToast(canvas, e.getMessage(), 3);
+        }
+    }
+
+
 }
