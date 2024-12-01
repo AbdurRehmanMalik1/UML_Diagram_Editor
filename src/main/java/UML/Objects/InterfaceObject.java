@@ -96,8 +96,7 @@ public class InterfaceObject extends UMLObject {
         methods = new ArrayList<>();
         methodBox.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1, 0, 0, 0))));
-        addMethod("Method():string");
-        addMethod("Method():int");
+
         detailsBox.getChildren().add(methodBox);
 
         groupDiagram.getChildren().add(detailsBox);

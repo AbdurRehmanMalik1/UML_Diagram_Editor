@@ -11,7 +11,6 @@ import UML.ObjectFactories.ObjectFactory;
 import UML.Objects.UMLObject;
 import UML.Objects.UseCaseObject;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 
@@ -58,10 +57,15 @@ public class HelloController {
     Model copyTemp = null;
     private double mouseX;
     private double mouseY;
-    //MyContextMenu contextMenu = new MyContextMenu();
+    MyContextMenu contextMenu;
 
     @FXML
     public void initialize() {
+        contextMenu = new MyContextMenu(canvas,
+                this::onCopyClick,
+                this::onPasteClick,
+                this::onDeleteClick,
+                this::onCutClick);
 
         canvas.focusedProperty().removeListener((observable, oldValue, newValue) -> {
         });
@@ -81,6 +85,8 @@ public class HelloController {
                     System.out.println("Pasted at x : " + mouseX + " y : " + mouseY);
                     onPasteClick();
                 }
+            } else if(keyEvent.getCode()==KeyCode.X && keyEvent.isControlDown()){
+                onCutClick();
             }
         });
 
@@ -95,10 +101,7 @@ public class HelloController {
         modelTree.setRoot(rootNode);
 
         setButtonsToggle();
-        MyContextMenu.createContextMenu(canvas,
-                this::onCopyClick,
-                this::onPasteClick,
-                this::onDeleteClick,this::onCutClick);
+
     }
     public void setButtonsToggle(){
         buttonToggleGroup = new ToggleGroup();
@@ -118,6 +121,7 @@ public class HelloController {
                     drawObjectFunc = null;
                     button.setSelected(false);
                 }
+                contextMenu.hideContextMenu();
             }
         });
     }
