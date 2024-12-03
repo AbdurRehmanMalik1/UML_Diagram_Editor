@@ -16,7 +16,10 @@ public class UseCaseModel extends Model{
     public UseCaseModel(){
         super();
     }
-
+    public UseCaseModel(UseCaseModel other){
+        super(other);
+        this.useCaseName = other.useCaseName;
+    }
     public String getUseCaseName() {
         return useCaseName;
     }

@@ -2,6 +2,7 @@ package Main;
 
 import CodeGeneration.CodeGenerator;
 import Controllers.MyContextMenu;
+import UML.Diagrams.UMLDiagram;
 import Util.ImageSaverUtil;
 import Util.ToastMessage;
 import Models.AssociationModel;
@@ -20,7 +21,7 @@ import UML.Line.*;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-public class HelloController {
+public class ClassController {
     @FXML
     private TextField modelNameField;
     @FXML
@@ -293,8 +294,8 @@ public class HelloController {
     public void onSaveClassDiagram() {
         List<AssociationModel> associationModels = getAssociations();
         List<Model> models = getModels();
-        ClassDiagram classDiagram = new ClassDiagram(models, associationModels);
-        classDiagram.saveClassDiagram();
+        UMLDiagram classDiagram = new ClassDiagram(models, associationModels);
+        classDiagram.saveDiagram();
     }
 
     @FXML
@@ -302,7 +303,7 @@ public class HelloController {
         List<AssociationModel> associationModels = getAssociations();
         List<Model> models = getModels();
         ClassDiagram classDiagram = new ClassDiagram(models, associationModels);
-        classDiagram.loadClassDiagram();
+        classDiagram.loadDiagram();
 
         List<AssociationModel> loadedAssociationModels = null;
         List<Model> loadedModels = null;

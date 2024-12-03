@@ -1,83 +1,30 @@
 {
   "associationList" : [ {
     "id" : 0,
-    "type" : "Inheritance",
-    "startX" : 204.0,
-    "startY" : 313.33333333333337,
-    "endX" : 327.66666666666663,
-    "endY" : 152.66666666666666,
+    "associationName" : "Association Name",
+    "type" : "Uses",
+    "startX" : 352.66666666666663,
+    "startY" : 102.0,
+    "endX" : 324.99999999999994,
+    "endY" : 364.6666666666667,
     "startMultiplicity" : "1",
     "endMultiplicity" : "1",
     "startModel" : {
-      "type" : "Class",
-      "id" : 2,
-      "x" : 219.99999999999994,
-      "y" : 434.0,
-      "className" : "Class Name",
-      "attributes" : [ ],
-      "methods" : [ ],
-      "abstract" : false,
-      "modelId" : 2
+      "type" : "Use Case",
+      "id" : 1,
+      "x" : 282.66666666666663,
+      "y" : 102.0,
+      "useCaseName" : "Use Case",
+      "modelId" : 1
     },
     "endModel" : {
-      "type" : "Interface",
-      "id" : 1,
-      "x" : 442.66666666666663,
-      "y" : 100.00000000000003,
-      "interfaceName" : "Interface Name",
-      "methods" : [ ],
-      "modelId" : 1
-    }
-  }, {
-    "id" : 0,
-    "type" : "Inheritance",
-    "startX" : 204.0,
-    "startY" : 362.0,
-    "endX" : 193.33333333333331,
-    "endY" : 173.99999999999997,
-    "startMultiplicity" : "1",
-    "endMultiplicity" : "1",
-    "startModel" : 2,
-    "endModel" : {
-      "type" : "Class",
-      "id" : 3,
-      "x" : 75.33333333333331,
-      "y" : 157.33333333333331,
-      "className" : "Class Name",
-      "attributes" : [ ],
-      "methods" : [ ],
-      "abstract" : false,
-      "modelId" : 3
-    }
-  }, {
-    "id" : 0,
-    "type" : "Aggregation",
-    "startX" : 243.33333333333331,
-    "startY" : 444.0,
-    "endX" : 580.6666666666666,
-    "endY" : 268.6666666666667,
-    "startMultiplicity" : "1",
-    "endMultiplicity" : "1",
-    "startModel" : 2,
-    "endModel" : {
-      "type" : "Class",
-      "id" : 4,
-      "x" : 503.99999999999994,
-      "y" : 217.33333333333343,
-      "className" : "Class Name",
-      "attributes" : [ ],
-      "methods" : [ ],
-      "abstract" : false,
-      "modelId" : 4
+      "type" : "Actor",
+      "id" : 2,
+      "x" : 162.0,
+      "y" : 318.6666666666667,
+      "actorName" : "Actor",
+      "modelId" : 2
     }
   } ],
-  "models" : [ 2, 1, 3, 4, {
-    "type" : "Interface",
-    "id" : 15,
-    "x" : 174.66666666666663,
-    "y" : 44.666666666666664,
-    "interfaceName" : "Interface Name",
-    "methods" : [ ],
-    "modelId" : 15
-  } ]
+  "models" : [ 1, 2 ]
 }

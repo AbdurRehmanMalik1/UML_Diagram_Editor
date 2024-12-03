@@ -35,7 +35,7 @@
                     <MenuItem onAction="#onPNGClick" text="PNG"/>
                     <MenuItem onAction="#onJPEGClick" text="JPEG"/>
                     <MenuItem text="XML"/>
-                    <MenuItem onAction="#onSaveClassDiagram" text="JSON"/>
+                    <MenuItem onAction="#onSaveUseCaseDiagram" text="JSON"/>
                     <MenuItem text="Raw Form"/>
                 </Menu>
                 <MenuItem text="Exit" />

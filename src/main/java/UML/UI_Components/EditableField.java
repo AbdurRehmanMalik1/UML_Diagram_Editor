@@ -11,6 +11,7 @@ public class EditableField extends StackPane {
     private final TextField textField;
     private final Runnable onCommitCallback;
     boolean isAbstract = false;
+    private boolean isEditable = true;
 
     public EditableField(String s) {
         this(s,null);
@@ -84,5 +85,10 @@ public class EditableField extends StackPane {
             textField.setStyle("-fx-font-style: normal;");
             label.setStyle("-fx-font-style: normal;");
         }
+    }
+    public void setEditable(boolean editable) {
+        this.isEditable = editable;
+        textField.setEditable(editable);
+        textField.setStyle("-fx-background-color: transparent;");
     }
 }

@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class ClassDiagramSerializer  {
+public class DiagramSerializer {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -29,7 +29,7 @@ public class ClassDiagramSerializer  {
         }
     }
     private void writeToFile(String object) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter("./src/Main/resources/storage/classDiagram.json", true))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter("./src/Main/resources/storage/diagram.json", true))) {
             pw.println(object);
         } catch (IOException e) {
             throw new RuntimeException("Error writing to file: " + e.getMessage(), e);

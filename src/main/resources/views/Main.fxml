@@ -1,0 +1,8 @@
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.ListView?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="Main.MainController">
+    <center>
+        <ListView fx:id="diagramListView" />
+    </center>
+</BorderPane>

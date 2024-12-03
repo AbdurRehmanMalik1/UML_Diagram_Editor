@@ -16,7 +16,7 @@
 <?import java.lang.String?>
 <?import javafx.scene.control.ToggleButton?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Main.HelloController">
+            fx:controller="Main.ClassController">
     <top>
         <MenuBar>
             <!--Top Section-->

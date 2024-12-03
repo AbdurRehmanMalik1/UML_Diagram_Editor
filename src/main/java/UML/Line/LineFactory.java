@@ -20,7 +20,7 @@ public class LineFactory {
         UMLObject endObject = objectFactory.createUMLObject(model.getEndModel());
         return this.createLine(type,startX,startY,endX,endY,canvas,model,startObject,endObject);
     }
-    public UML.Line.Line createLine(String lineType, double startX, double startY, double endX, double endY, Pane canvas, AssociationModel associationModel, UMLObject object1, UMLObject object2){
+    public UML.Line.Line createLine(String lineType, double startX, double startY, double endX, double endY, Pane canvas, AssociationModel associationModel, UMLObject object1, UMLObject object2) {
         UML.Line.Line line = null;
         switch (lineType) {
             case "Association":
@@ -34,6 +34,15 @@ public class LineFactory {
                 break;
             case "Inheritance":
                 line = new Inheritance(startX, startY, endX, endY, canvas, associationModel, object1, object2);
+                break;
+            case "Uses":
+                line = new Uses(startX, startY, endX, endY, canvas, associationModel, object1, object2);
+                break;
+            case "Includes":
+                line = new Include(startX, startY, endX, endY, canvas, associationModel, object1, object2);
+                break;
+            case "Extends":
+                line = new Extend(startX, startY, endX, endY, canvas, associationModel, object1, object2);
                 break;
             default:
                 System.out.println("Invalid line type");

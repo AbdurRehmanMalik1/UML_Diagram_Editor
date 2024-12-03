@@ -2,6 +2,7 @@ package Main;
 
 import CodeGeneration.CodeGenerator;
 import Controllers.MyContextMenu;
+import UML.Diagrams.UMLDiagram;
 import Util.ImageSaverUtil;
 import Util.ToastMessage;
 import Models.AssociationModel;
@@ -209,17 +210,17 @@ public class UseCaseController {
     @FXML
     public void onDrawUsesClick() {
         unselectToggleButton();
-        handleLineDrawing("Association");
+        handleLineDrawing("Uses");
     }
     @FXML
     public void onDrawIncludeClick() {
         unselectToggleButton();
-        handleLineDrawing("Inheritance");
+        handleLineDrawing("Includes");
     }
     @FXML
     public void onDrawExtendsClick() {
         unselectToggleButton();
-        handleLineDrawing("Aggregation");
+        handleLineDrawing("Extends");
     }
 //    @FXML
 //    public void onDrawCompositionClick() {
@@ -289,11 +290,11 @@ public class UseCaseController {
     }
 
     @FXML
-    public void onSaveClassDiagram() {
+    public void onSaveUseCaseDiagram() {
         List<AssociationModel> associationModels = getAssociations();
         List<Model> models = getModels();
-        ClassDiagram classDiagram = new ClassDiagram(models, associationModels);
-        classDiagram.saveClassDiagram();
+        UMLDiagram useCaseDiagram = new ClassDiagram(models, associationModels);
+        useCaseDiagram.saveDiagram();
     }
 
     @FXML
@@ -301,7 +302,7 @@ public class UseCaseController {
         List<AssociationModel> associationModels = getAssociations();
         List<Model> models = getModels();
         ClassDiagram classDiagram = new ClassDiagram(models, associationModels);
-        classDiagram.loadClassDiagram();
+        classDiagram.loadDiagram();
 
         List<AssociationModel> loadedAssociationModels = null;
         List<Model> loadedModels = null;
