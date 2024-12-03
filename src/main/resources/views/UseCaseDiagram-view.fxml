@@ -23,9 +23,9 @@
             <Menu text="File">
                 <MenuItem text="New" />
                 <MenuItem text="Open" />
-                <MenuItem text="Save" />
+                <MenuItem onAction="#onSaveProjectClick" text="Save" />
                 <MenuItem text="Save As" />
-                <MenuItem text="Close" />
+                <MenuItem onAction="#onCloseButtonClick" text="Close" />
                 <Menu text="Import">
                     <MenuItem text="XML"/>
                     <MenuItem onAction="#onLoadDiagram" text="JSON"/>

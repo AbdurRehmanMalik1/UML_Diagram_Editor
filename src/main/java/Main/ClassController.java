@@ -3,6 +3,7 @@ package Main;
 import CodeGeneration.CodeGenerator;
 import Controllers.MyContextMenu;
 import UML.Diagrams.UMLDiagram;
+import UML.Project;
 import Util.ImageSaverUtil;
 import Util.ToastMessage;
 import Models.AssociationModel;
@@ -11,13 +12,19 @@ import UML.Diagrams.ClassDiagram;
 import UML.ObjectFactories.ObjectFactory;
 import UML.Objects.UMLObject;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.*;
 import UML.Line.*;
+
+import java.io.IOException;
 import java.util.*;
 import java.util.function.BiConsumer;
 
@@ -57,9 +64,12 @@ public class ClassController {
     Model copyTemp = null;
     private double mouseX;
     private double mouseY;
-
+    private Project project;
+    UMLDiagram diagram;
     @FXML
-    public void initialize() {
+    public void initialize(List<AssociationModel> associationList, List<Model> models , Project project, UMLDiagram diagram) {
+        this.project = project;
+        this.diagram = diagram;
         MyContextMenu.createContextMenu(canvas,
                 this::onCopyClick,
                 this::onPasteClick,
@@ -101,6 +111,7 @@ public class ClassController {
 
         setButtonsToggle();
 
+        loadSavedDiagram(models, associationList);
     }
     public void setButtonsToggle(){
         buttonToggleGroup = new ToggleGroup();
@@ -474,4 +485,29 @@ public class ClassController {
     }
 
 
+    @FXML
+    public void onSaveProjectClick() {
+        diagram.setModelList(getModels());
+        diagram.setAssociationList(getAssociations());
+        project.saveProject();
+    }
+
+    @FXML
+    private void onCloseButtonClick() {
+        try {
+            // Load the Main.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Main.fxml")); // Adjust path as needed
+            BorderPane pane = loader.load();
+
+            // Get the controller and reinitialize it
+            MainController mainController = loader.getController();
+            mainController.initialize(project); // Pass the current project
+
+            // Set the loaded scene to the primary stage
+            Scene scene = new Scene(pane);
+            HelloApplication.getPrimaryStage().setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace(); // Log any exceptions for debugging
+        }
+    }
 }

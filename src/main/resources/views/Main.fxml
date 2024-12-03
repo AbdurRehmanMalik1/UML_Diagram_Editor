@@ -1,8 +1,23 @@
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.control.ListView?>
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="Main.MainController">
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Main.MainController">
+    <top>
+        <Label text="Project Manager" style="-fx-font-size: 20px;" BorderPane.alignment="CENTER" />
+    </top>
     <center>
-        <ListView fx:id="diagramListView" />
+        <VBox spacing="10" alignment="CENTER" prefHeight="400" prefWidth="300">
+            <Label text="Diagrams in Project:" style="-fx-font-size: 14px;" />
+            <ListView fx:id="diagramListView" prefHeight="200" prefWidth="250" />
+        </VBox>
     </center>
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" prefHeight="100" prefWidth="300" BorderPane.alignment="CENTER">
+            <Button fx:id="addClassDiagramButton" text="Add Class Diagram" />
+            <Button fx:id="addUseCaseDiagramButton" text="Add Use Case Diagram" />
+            <Button fx:id="renameDiagramButton" text="Rename Diagram Name"/>
+        </HBox>
+    </bottom>
 </BorderPane>
