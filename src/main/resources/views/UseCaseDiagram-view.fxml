@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.scene.control.ToggleButton?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Main.UseCaseController">
+    <top>
+        <MenuBar>
+            <!--Top Section-->
+            <Menu text="File">
+                <MenuItem text="New" />
+                <MenuItem text="Open" />
+                <MenuItem text="Save" />
+                <MenuItem text="Save As" />
+                <MenuItem text="Close" />
+                <Menu text="Import">
+                    <MenuItem text="XML"/>
+                    <MenuItem onAction="#onLoadDiagram" text="JSON"/>
+                    <MenuItem text="Raw Form"/>
+                </Menu>
+                <Menu text="Export">
+                    <MenuItem onAction="#onPNGClick" text="PNG"/>
+                    <MenuItem onAction="#onJPEGClick" text="JPEG"/>
+                    <MenuItem text="XML"/>
+                    <MenuItem onAction="#onSaveClassDiagram" text="JSON"/>
+                    <MenuItem text="Raw Form"/>
+                </Menu>
+                <MenuItem text="Exit" />
+            </Menu>
+
+            <Menu text="Edit">
+                <MenuItem text="Undo" />
+                <MenuItem text="Redo" />
+                <MenuItem onAction="#onCutClick" text="Cut" />
+                <MenuItem onAction="#onCopyClick" text="Copy" />
+                <MenuItem onAction="#onPasteClick" text="Paste" />
+                <MenuItem onAction="#onDeleteClick" text="Delete" />
+            </Menu>
+
+            <Menu text="Debug">
+                <MenuItem text="Toggle Checker" />
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <center><!-- Using SplitPane for left, center, and right sections -->
+        <!-- Left Section -->
+        <SplitPane dividerPositions="0.2, 0.8">
+            <VBox
+                    spacing="10.0"
+                    prefWidth="200"
+                    style="-fx-background-color: #F4F4F4;
+              -fx-border-color: #C4C4C4;
+              -fx-border-width: 1;">
+                <Label text="TOOLBOX"
+                       style="-fx-font-weight: bold;
+                -fx-padding: 10;" />
+                <VBox spacing="5.0"
+                      style="-fx-padding: 5;">
+                    <Label text="Classes" style="-fx-font-weight: bold;" />
+
+                    <HBox>
+                        <ToggleButton fx:id="useCaseButton" focusTraversable="false" text="Use Case" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;"
+                                      onAction="#onAddUseCaseClick"/>
+                    </HBox>
+                    <HBox>
+                        <ToggleButton fx:id="actorButton" focusTraversable="false" onAction="#onAddActorClick" text="Actor" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                    <HBox>
+                        <Button fx:id="usesButton" focusTraversable="false" onAction="#onDrawUsesClick"  text="Use" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                    <HBox>
+                        <Button fx:id="includesButton" focusTraversable="false" onAction="#onDrawIncludeClick" text="Includes" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                    <HBox>
+                        <Button fx:id="extendsButton" focusTraversable="false"  onAction="#onDrawExtendsClick" text="Extends" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                </VBox>
+                <VBox spacing="5.0"
+                      style="-fx-padding: 5;">
+                    <Label text="Annotations" style="-fx-font-weight: bold;" />
+                    <HBox >
+                        <Button focusTraversable="false" text="Text" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                    <HBox>
+                        <Button focusTraversable="false" text="Text Box" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                    <HBox >
+                        <Button focusTraversable="false" onAction="#onCodeGenerateClick" text="Generate Code" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Center Section -->
+            <Pane fx:id="canvas"
+                  style="-fx-background-color: white;
+                  -fx-border-color: #C4C4C4;
+                  -fx-border-width: 1;"/>
+
+            <!-- Right Panel -->
+            <VBox style="-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10;">
+                <Label text="MODEL EXPLORER" style="-fx-font-weight: bold;" />
+                <HBox spacing="5">
+                    <TextField focusTraversable="false" fx:id="modelNameField" promptText="Model Name" />
+                    <Button focusTraversable="false" text="Set Name" onAction="#setModelName" />
+                </HBox>
+                <TreeView focusTraversable="false"  fx:id="modelTree" style="-fx-pref-height: 400;" />
+            </VBox>
+            <ComboBox focusTraversable="false" fx:id="diagramTypeBox" promptText="Select Diagram Type"
+                      onAction="#changeDiagramType">
+                <items >
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Class Diagram" />
+                        <String fx:value="Use Case Diagram" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+        </SplitPane>
+    </center>
+</BorderPane>

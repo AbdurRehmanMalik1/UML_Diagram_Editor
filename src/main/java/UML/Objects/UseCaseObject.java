@@ -25,13 +25,12 @@ public class UseCaseObject extends UMLObject {
         ellipse = new Ellipse();
         field = new EditableField(initialText , this::reloadModel);
 
-        // Configure Ellipse
+
         ellipse.setFill(Color.TRANSPARENT);
         ellipse.setStroke(Color.BLACK);
         ellipse.setStrokeWidth(1);
         setRadii(radiusX, radiusY);
 
-        // Add elements to StackPane
         box.getChildren().addAll(ellipse, field);
         box.setAlignment(Pos.CENTER);
 
@@ -58,16 +57,19 @@ public class UseCaseObject extends UMLObject {
 
     @Override
     public Model getModel() {
-        return null;
+        return model;
     }
 
     @Override
     public void setModel(Model model) {
         if (model!=null){
             this.model = model;
-
+            setModel(downcastModel());
         }
+    }
 
+    private void setModel(UseCaseModel model) {
+        model.setUseCaseName(field.getText());
     }
 
     @Override
@@ -75,7 +77,6 @@ public class UseCaseObject extends UMLObject {
         super.reloadModel();
         UseCaseModel useCaseModel = downcastModel();
         useCaseModel.setUseCaseName(field.getText());
-
     }
 
     public UseCaseModel downcastModel(){

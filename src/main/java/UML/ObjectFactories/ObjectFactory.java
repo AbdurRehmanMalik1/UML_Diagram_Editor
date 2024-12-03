@@ -3,9 +3,7 @@ package UML.ObjectFactories;
 import Models.ClassModel;
 import Models.InterfaceModel;
 import Models.Model;
-import UML.Objects.ClassObject;
-import UML.Objects.InterfaceObject;
-import UML.Objects.UMLObject;
+import UML.Objects.*;
 
 public class ObjectFactory {
     static InterfaceFactory interfaceFactory ;
@@ -32,6 +30,8 @@ public class ObjectFactory {
     public UMLObject createInterfaceObject(){
         return new InterfaceObject();
     }
+    public UMLObject createUseCaseObject(){return  new UseCaseObject();}
+    public UMLObject createActorObject(){return  new ActorObject();}
 
     public UMLObject copyUMLObject(Model model) {
         UMLObject copiedUMLObject = null;
