@@ -73,7 +73,7 @@ public class Project implements Serializable {
         try {
             Project project = mapper.readValue(new File(filePath), Project.class);
 
-//            System.out.println("Deserialzied Project size = " + project.getUmlDiagramList());
+//            System.out.println("Deserialize Project size = " + project.getUmlDiagramList());
 //            System.out.println("Association list : " + project.getUmlDiagramList().getLast().getAssociationList());
 //            System.out.println("Association list : " + project.getUmlDiagramList().getLast().getAssociationList().getFirst().getStartX());
 

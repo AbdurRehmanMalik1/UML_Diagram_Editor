@@ -29,7 +29,7 @@
                 <MenuItem text="Open" accelerator="Ctrl+O"/>
                 <MenuItem onAction="#onSaveProjectClick" text="Save"  accelerator="Ctrl+S"/>
                 <MenuItem text="Save As" />
-                <MenuItem onAction="#onCloseButtonClick" text="Close" accelerator="Ctrl+Shift+S" />
+<!--                <MenuItem  text="Close" accelerator="Ctrl+Shift+S" />-->
                 <Menu text="Import">
                     <MenuItem text="XML"/>
                     <MenuItem onAction="#onLoadDiagram" text="JSON"/>
@@ -43,7 +43,7 @@
                     <MenuItem text="Raw Form"/>
                 </Menu>
                 <SeparatorMenuItem/>
-                <MenuItem text="Close" accelerator="Ctrl+W" />
+                <MenuItem onAction="#onCloseButtonClick" text="Close" accelerator="Ctrl+W" />
                 <MenuItem text="Exit" accelerator="Alt+F4" />
             </Menu>
 
@@ -65,7 +65,6 @@
     </top>
 
     <center><!-- Using SplitPane for left, center, and right sections -->
-        <!-- Left Section -->
         <SplitPane dividerPositions="0.2, 0.8">
             <VBox
                     fx:id="toolbox"
