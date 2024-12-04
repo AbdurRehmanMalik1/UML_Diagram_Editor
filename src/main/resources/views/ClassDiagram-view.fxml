@@ -15,17 +15,21 @@
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Region?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Main.ClassController">
     <top>
         <MenuBar>
             <!--Top Section-->
             <Menu text="File">
-                <MenuItem text="New" />
-                <MenuItem text="Open" />
-                <MenuItem onAction="#onSaveProjectClick" text="Save" />
+                <MenuItem text="New"  accelerator="Ctrl+N"/>
+                <MenuItem text="Open" accelerator="Ctrl+O"/>
+                <MenuItem onAction="#onSaveProjectClick" text="Save"  accelerator="Ctrl+S"/>
                 <MenuItem text="Save As" />
-                <MenuItem onAction="#onCloseButtonClick" text="Close" />
+                <MenuItem onAction="#onCloseButtonClick" text="Close" accelerator="Ctrl+Shift+S" />
                 <Menu text="Import">
                     <MenuItem text="XML"/>
                     <MenuItem onAction="#onLoadDiagram" text="JSON"/>
@@ -38,20 +42,24 @@
                     <MenuItem onAction="#onSaveClassDiagram" text="JSON"/>
                     <MenuItem text="Raw Form"/>
                 </Menu>
-                <MenuItem text="Exit" />
+                <SeparatorMenuItem/>
+                <MenuItem text="Close" accelerator="Ctrl+W" />
+                <MenuItem text="Exit" accelerator="Alt+F4" />
             </Menu>
 
             <Menu text="Edit">
-                <MenuItem text="Undo" />
-                <MenuItem text="Redo" />
-                <MenuItem onAction="#onCutClick" text="Cut" />
-                <MenuItem onAction="#onCopyClick" text="Copy" />
-                <MenuItem onAction="#onPasteClick" text="Paste" />
-                <MenuItem onAction="#onDeleteClick" text="Delete" />
+                <SeparatorMenuItem/>
+                <MenuItem text="Undo" accelerator="Ctrl+Z" />
+                <MenuItem text="Redo" accelerator="Ctrl+Y" />
+                <SeparatorMenuItem/>
+                <MenuItem onAction="#onCutClick" text="Cut" accelerator="Ctrl+X" />
+                <MenuItem onAction="#onCopyClick" text="Copy" accelerator="Ctrl+C" />
+                <MenuItem onAction="#onPasteClick" text="Paste" accelerator="Ctrl+V" />
+                <MenuItem onAction="#onDeleteClick" text="Delete" accelerator="Delete" />
             </Menu>
 
             <Menu text="Debug">
-                <MenuItem text="Toggle Checker" />
+                <MenuItem text="Toggle Checker" accelerator="Ctrl+D" />
             </Menu>
         </MenuBar>
     </top>
@@ -60,49 +68,96 @@
         <!-- Left Section -->
         <SplitPane dividerPositions="0.2, 0.8">
             <VBox
+                    fx:id="toolbox"
                     spacing="10.0"
                     prefWidth="200"
-                    style="-fx-background-color: #F4F4F4;
-              -fx-border-color: #C4C4C4;
-              -fx-border-width: 1;">
+                    styleClass="toolbox"
+                    minWidth="170"
+                    maxWidth="300">
                 <Label text="TOOLBOX"
-                       style="-fx-font-weight: bold;
-                -fx-padding: 10;" />
+                       styleClass="toolbox-label" />
                 <VBox spacing="5.0"
-                      style="-fx-padding: 5;">
-                    <Label text="Classes" style="-fx-font-weight: bold;" />
+                      styleClass="toolbox-vbox">
+                    <Label text="Class Components" styleClass="toolbox-label" />
 
                     <HBox>
-                        <ToggleButton fx:id="classButton" focusTraversable="false" text="Class" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;"
-                                onAction="#onAddClassDiagramClick"/>
+                        <ToggleButton fx:id="classButton" focusTraversable="false" text="Class" styleClass="toolbox-toggle-button" onAction="#onAddClassDiagramClick" HBox.hgrow="ALWAYS" >
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/class_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </ToggleButton>
                     </HBox>
                     <HBox>
-                        <ToggleButton fx:id="interfaceButton" focusTraversable="false" onAction="#onAddInterfaceDiagramClick" text="Interface" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <ToggleButton fx:id="interfaceButton" focusTraversable="false" onAction="#onAddInterfaceDiagramClick" text="Interface" styleClass="toolbox-toggle-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/class_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </ToggleButton>
                     </HBox>
                     <HBox>
-                        <Button fx:id="associationButton" focusTraversable="false" onAction="#onDrawAssociationClick" text="Association" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button fx:id="associationButton" focusTraversable="false" onAction="#onDrawAssociationClick" text="Association" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/association_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </HBox>
                     <HBox>
-                        <Button fx:id="aggregationButton" focusTraversable="false" onAction="#onDrawAggregationClick"  text="Aggregation" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button fx:id="aggregationButton" focusTraversable="false" onAction="#onDrawAggregationClick"  text="Aggregation" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/aggregation_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </HBox>
                     <HBox>
-                        <Button fx:id="compositionButton" focusTraversable="false" onAction="#onDrawCompositionClick" text="Composition" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button fx:id="compositionButton" focusTraversable="false" onAction="#onDrawCompositionClick" text="Composition" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/composition_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </HBox>
                     <HBox>
-                        <Button fx:id="inheritanceButton" focusTraversable="false"  onAction="#onDrawInheritanceClick" text="Inheritance" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button fx:id="inheritanceButton" focusTraversable="false"  onAction="#onDrawInheritanceClick" text="Inheritance" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/inheritance_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </HBox>
                 </VBox>
                 <VBox spacing="5.0"
-                      style="-fx-padding: 5;">
-                    <Label text="Annotations" style="-fx-font-weight: bold;" />
+                      styleClass="toolbox-vbox">
+                    <Label text="Annotations" styleClass="toolbox-label" />
                     <HBox >
-                        <Button focusTraversable="false" text="Text" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button focusTraversable="false" text="Text" styleClass="annotations-hbox" HBox.hgrow="ALWAYS">
+                        <graphic>
+                            <ImageView fitHeight="20" fitWidth="20">
+                                <Image url="@../Images/text_icon.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
                     </HBox>
                     <HBox>
-                        <Button focusTraversable="false" text="Text Box" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                        <Button focusTraversable="false" text="Text Box" styleClass="annotations-hbox" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/textbox_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </HBox>
-                    <HBox >
-                        <Button focusTraversable="false" onAction="#onCodeGenerateClick" text="Generate Code" style="-fx-text-alignment: LEFT; -fx-pref-width: 150;" />
+                    <HBox>
+                        <Button focusTraversable="false" onAction="#onCodeGenerateClick" text="Generate Code" styleClass="annotations-hbox" HBox.hgrow="ALWAYS"/>
                     </HBox>
                 </VBox>
             </VBox>
@@ -114,23 +169,30 @@
                   -fx-border-width: 1;"/>
 
             <!-- Right Panel -->
-            <VBox style="-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10;">
+            <!-- Right Panel -->
+            <VBox style="-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10; -fx-min-width: 260px; -fx-max-width: 350px;">
                 <Label text="MODEL EXPLORER" style="-fx-font-weight: bold;" />
                 <HBox spacing="5">
                     <TextField focusTraversable="false" fx:id="modelNameField" promptText="Model Name" />
                     <Button focusTraversable="false" text="Set Name" onAction="#setModelName" />
                 </HBox>
-                <TreeView focusTraversable="false"  fx:id="modelTree" style="-fx-pref-height: 400;" />
+                <TreeView focusTraversable="false" fx:id="modelTree" style="-fx-pref-height: 400;" />
+
+                <!-- Add space between TreeView and ComboBox -->
+                <Region style="-fx-min-height: 20px;" />
+
+                <!-- ComboBox -->
+                <ComboBox focusTraversable="false" fx:id="diagramTypeBox" promptText="Select Diagram Type"
+                          onAction="#changeDiagramType"
+                          style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: black; -fx-padding: 10px 20px 10px 10px; -fx-min-width: 240px; -fx-max-width: 340px; -fx-pref-width: 100%;">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Class Diagram" />
+                            <String fx:value="Use Case Diagram" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
             </VBox>
-            <ComboBox focusTraversable="false" fx:id="diagramTypeBox" promptText="Select Diagram Type"
-                      onAction="#changeDiagramType">
-                <items >
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Class Diagram" />
-                        <String fx:value="Use Case Diagram" />
-                    </FXCollections>
-                </items>
-            </ComboBox>
 
         </SplitPane>
     </center>

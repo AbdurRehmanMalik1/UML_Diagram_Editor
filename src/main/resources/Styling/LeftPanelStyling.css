@@ -1,0 +1,65 @@
+
+.toolbox
+{
+    -fx-background-color: #F4F4F4;
+    -fx-border-color: #C4C4C4;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, #B0B0B0, 5, 0.3, 0, 3); /* Lighter shadow with smaller blur */
+}
+
+.toolbox-label
+{
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-padding: 10;
+    -fx-alignment: CENTER;
+}
+
+.toolbox-vbox
+{
+    -fx-padding: 5;
+    -fx-spacing: 10.0;
+    -fx-alignment: CENTER;
+}
+
+.toolbox-hbox
+{
+    -fx-text-alignment: LEFT;
+    -fx-spacing: 10px;
+    -fx-alignment: CENTER;
+}
+
+.toolbox-button, .toolbox-toggle-button
+{
+    -fx-text-alignment: LEFT;
+    -fx-hgrow: ALWAYS;
+    -fx-min-width: 100;
+    -fx-max-width: 300;
+    -fx-spacing: 10px;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+}
+
+
+.annotations-hbox
+{
+    -fx-text-alignment: LEFT;
+    -fx-hgrow: ALWAYS;
+    -fx-min-width: 100;
+    -fx-max-width: 300;
+    -fx-spacing: 10px;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+}
+
+.toolbox-button .graphic, .toolbox-toggle-button .graphic
+{
+    -fx-padding: 0 10 0 0;
+}
+
+.toolbox-button:hover, .toolbox-toggle-button:hover, .annotations-hbox:hover
+{
+    -fx-background-color: #D3D3D3;
+        -fx-text-fill: #000000;
+}
+
