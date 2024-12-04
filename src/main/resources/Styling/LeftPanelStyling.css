@@ -63,3 +63,37 @@
         -fx-text-fill: #000000;
 }
 
+.custom-combo-box
+{
+    -fx-font-size: 13px;
+    -fx-padding: 5px 10px;
+    -fx-pref-width: 190px;
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+}
+
+/* Styling the items within the ComboBox */
+.custom-combo-box .list-cell
+{
+    -fx-font-weight: normal;
+    -fx-text-fill: black;
+    -fx-padding: 5px 10px;
+}
+
+/* Styling the Button */
+.custom-button
+{
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+    -fx-padding: 5px 10px;
+    -fx-background-color: #e0e0e0;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-pref-width = 50px;
+}
+
+.custom-button:hover {
+    -fx-background-color: #d0d0d0;
+}

@@ -131,32 +131,34 @@
                   -fx-border-width: 1;"/>
 
             <!-- Right Panel -->
-            <VBox style="-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10; -fx-min-width: 260px; -fx-max-width: 350px;">
-                <Label text="MODEL EXPLORER" style="-fx-font-weight: bold;" />
+            <VBox style="-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10; -fx-min-width: 280px; -fx-max-width: 300px;">
+                <Label text="MODEL EXPLORER" style ="-fx-font-weight: bold; -fx-font-size: 14px; "/>
+                <Region style="-fx-min-height: 10px;" />
                 <HBox spacing="5">
                     <TextField focusTraversable="false" fx:id="modelNameField" promptText="Model Name" />
                     <Button focusTraversable="false" text="Set Name" onAction="#setModelName" />
                 </HBox>
+                <Region style="-fx-min-height: 8px;" />
                 <TreeView focusTraversable="false"  fx:id="modelTree" style="-fx-pref-height: 400;" />
 
                 <!-- Add space between TreeView and ComboBox -->
                 <Region style="-fx-min-height: 20px;" />
 
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <!-- ComboBox for diagram type -->
-                    <ComboBox fx:id="diagramTypeBox" promptText="Select Diagram Type"
-                              style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: black; -fx-padding: 10px 20px 10px 10px; -fx-min-width: 240px; -fx-max-width: 340px; -fx-pref-width: 100%;">
-                        <items>
-                            <FXCollections fx:factory="observableArrayList">
-                                <String fx:value="Class Diagram" />
-                                <String fx:value="Use Case Diagram" />
-                            </FXCollections>
-                        </items>
-                    </ComboBox>
-
-                    <Button text="Add Diagram" onAction="#addDiagram"
-                            style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: black; -fx-padding: 10px 20px;"/>
-                </HBox>
+                <VBox spacing="5" styleClass="toolbox-vbox" >
+                    <Label text="Add Diagram to Project" styleClass="toolbox-label"/>
+                    <!-- ComboBox -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <ComboBox fx:id="diagramTypeBox" promptText="Select Diagram Type" styleClass="custom-combo-box" HBox.hgrow="ALWAYS">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Class Diagram" />
+                                    <String fx:value="Use Case Diagram" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        <Button text="Add" onAction="#addDiagram" styleClass="custom-button" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+                </VBox>
             </VBox>
         </SplitPane>
     </center>
