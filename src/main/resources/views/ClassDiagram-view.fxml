@@ -20,7 +20,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.Region?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Main.ClassController">
+            fx:controller="Main.ClassController"
+            stylesheets="@../Styling/MenuBarStyling.css,@../Styling/LeftPanelStyling.css">
     <top>
         <MenuBar>
             <!--Top Section-->
@@ -30,6 +31,7 @@
                 <MenuItem onAction="#onSaveProjectClick" text="Save"  accelerator="Ctrl+S"/>
                 <MenuItem text="Save As" />
 <!--                <MenuItem  text="Close" accelerator="Ctrl+Shift+S" />-->
+                <SeparatorMenuItem/>
                 <Menu text="Import">
                     <MenuItem text="XML"/>
                     <MenuItem onAction="#onLoadDiagram" text="JSON"/>
