@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "actor")
 public class ActorModel extends Model {
-    @JsonInclude
+    @JsonInclude()
     @Column(name = "actor_name", nullable = false)
     private String actorName;
 

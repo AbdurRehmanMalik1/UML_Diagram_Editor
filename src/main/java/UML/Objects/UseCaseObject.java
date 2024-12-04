@@ -18,16 +18,23 @@ public class UseCaseObject extends UMLObject {
     private double radiusX = 70;
     private double radiusY = 50;
     EditableField field;
+
     public UseCaseObject(String initialText) {
         super();
-        model = new UseCaseModel();
+
+        if(model==null)
+            model = new UseCaseModel();
         StackPane box = new StackPane();
         ellipse = new Ellipse();
-        field = new EditableField(initialText , this::reloadModel);
 
 
 
+        String useCaseName = (downcastModel().getUseCaseName() == null || downcastModel().getUseCaseName().trim().isEmpty() || downcastModel().getUseCaseName().equals("Use Case"))
+                ? "Use Case"
+                : initialText;
 
+
+        field = new EditableField(useCaseName, this::reloadModel);
         ellipse.setFill(Color.TRANSPARENT);
         ellipse.setStroke(Color.BLACK);
         ellipse.setStrokeWidth(1);
@@ -46,6 +53,9 @@ public class UseCaseObject extends UMLObject {
         });
         this.layoutBoundsProperty().addListener((observable,oldValue,newValue)->{
             outerRect.setSize(ellipse.getRadiusX()*2+4,ellipse.getRadiusY()*2+4);
+        });
+        box.setOnMouseClicked(event -> {
+            this.requestFocus();  // Request focus when the object is clicked
         });
     }
 
@@ -79,8 +89,7 @@ public class UseCaseObject extends UMLObject {
     }
 
     private void setModel(UseCaseModel model) {
-
-        model.setUseCaseName(field.getText());
+        field.setText(model.getUseCaseName());
         this.setLayoutX(model.getX());
         this.setLayoutY(model.getY());
     }
@@ -91,6 +100,7 @@ public class UseCaseObject extends UMLObject {
         UseCaseModel useCaseModel = downcastModel();
         useCaseModel.setUseCaseName(field.getText());
         model.setCoordinate(this.getLayoutX(),this.getLayoutY());
+        System.out.println(useCaseModel.getUseCaseName());
     }
 
     public UseCaseModel downcastModel(){
@@ -139,6 +149,7 @@ public class UseCaseObject extends UMLObject {
                 requestFocus();
                 if (event.getClickCount() == 2 && getChildren().contains(label)) {
                     switchToTextField();
+                    event.consume();  // Stop event propagation to parent
                 }
             });
 
@@ -188,6 +199,7 @@ public class UseCaseObject extends UMLObject {
                 label.setText(textField.getText());
                 getChildren().add(label);
                 switchToLabel();
+                reloadModel.run();
             }
         }
         public String getText(){
@@ -196,5 +208,11 @@ public class UseCaseObject extends UMLObject {
             else
                 return label.getText();
         }
+
+        public void setText(String text) {
+            label.setText(text);
+            textField.setText(text);
+        }
+
     }
 }

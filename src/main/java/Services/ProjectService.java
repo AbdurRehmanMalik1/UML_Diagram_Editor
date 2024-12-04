@@ -10,6 +10,7 @@ import UML.Project;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -151,11 +152,18 @@ public class ProjectService {
             Scene scene = new Scene(pane);
             HelloApplication.getPrimaryStage().setScene(scene);
 
+            // Set maximum size for the window
+            Stage stage = HelloApplication.getPrimaryStage();
+            stage.setWidth(1200);  // Set a fixed width (adjust as needed)
+            stage.setHeight(800);  // Set a fixed height (adjust as needed)
+            stage.setMaxWidth(1200);  // Optionally limit the max width
+            stage.setMaxHeight(800);  // Optionally limit the max height
         } catch (IOException e) {
             System.err.println("Failed to load FXML: " + fxmlFile);
             e.printStackTrace();
         }
     }
+
 
     /**
      * Opens the first diagram view if any diagrams exist in the project.

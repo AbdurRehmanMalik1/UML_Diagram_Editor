@@ -17,12 +17,18 @@ public class ActorObject extends UMLObject {
     public ActorObject(String initialText) {
         super();
 
-        model = new ActorModel();
+        if(model==null)
+            model = new ActorModel();
         actorSVG = new SVGPath();
         this.setOnMouseClicked(e->{
             requestFocus();
         });
-        downcastModel().setActorName("Actor");
+        String actorName = downcastModel().getActorName();
+        System.out.println("Downcasted Actor name = " + actorName);
+        if (actorName == null || actorName.isEmpty() || actorName.equals("Actor")) {
+
+            downcastModel().setActorName("Actor");
+        }
 
         actorSVG.setContent("M75 25a20 20 0 1 0 0.01 0 M75 65v60 M50 80h50 M75 125l-25 40 M75 125l25 40");
         actorSVG.setFill(Color.TRANSPARENT);
@@ -70,6 +76,7 @@ public class ActorObject extends UMLObject {
     @Override
     public void setModel(Model model) {
         this.model = model;
+        field.setText(downcastModel().getActorName());
         this.setLayoutX(model.getX());
         this.setLayoutY(model.getY());
         reloadModel();
