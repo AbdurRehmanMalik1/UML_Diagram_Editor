@@ -82,19 +82,49 @@
                     <Label text="Usecase Components" styleClass="toolbox-label" />
 
                     <HBox>
-                        <ToggleButton fx:id="useCaseButton" focusTraversable="false" text="Use Case" styleClass="toolbox-toggle-button" onAction="#onAddUseCaseClick" HBox.hgrow="ALWAYS"/>
+                        <ToggleButton fx:id="useCaseButton" focusTraversable="false" text="Use Case" styleClass="toolbox-toggle-button" onAction="#onAddUseCaseClick" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="25" fitWidth="40">
+                                    <Image url="@../Images/usecase_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </ToggleButton>
                     </HBox>
                     <HBox>
-                        <ToggleButton fx:id="actorButton" focusTraversable="false" onAction="#onAddActorClick" text="Actor" styleClass="toolbox-toggle-button" HBox.hgrow="ALWAYS" />
+                        <ToggleButton fx:id="actorButton" focusTraversable="false" onAction="#onAddActorClick" text="Actor" styleClass="toolbox-toggle-button" HBox.hgrow="ALWAYS" >
+                        <graphic>
+                            <ImageView fitHeight="25" fitWidth="20">
+                                <Image url="@../Images/actor_icon.png"/>
+                            </ImageView>
+                        </graphic>
+                    </ToggleButton>
                     </HBox>
                     <HBox>
-                        <Button fx:id="usesButton" focusTraversable="false" onAction="#onDrawUsesClick"  text="Use" styleClass="toolbox-button" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="usesButton" focusTraversable="false" onAction="#onDrawUsesClick"  text="Use" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="25" fitWidth="40">
+                                    <Image url="@../Images/use_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </HBox>
                     <HBox>
-                        <Button fx:id="includesButton" focusTraversable="false" onAction="#onDrawIncludeClick" text="Includes" styleClass="toolbox-button" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="includesButton" focusTraversable="false" onAction="#onDrawIncludeClick" text="Includes" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                        <graphic>
+                            <ImageView fitHeight="25" fitWidth="60">
+                                <Image url="@../Images/include_icon.png"/>
+                            </ImageView>
+                        </graphic>
+                        </Button>
                     </HBox>
                     <HBox>
-                        <Button fx:id="extendsButton" focusTraversable="false"  onAction="#onDrawExtendsClick" text="Extends" styleClass="toolbox-button" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="extendsButton" focusTraversable="false"  onAction="#onDrawExtendsClick" text="Extends" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                        <graphic>
+                            <ImageView fitHeight="25" fitWidth="60">
+                                <Image url="@../Images/extend_icon.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
                     </HBox>
                 </VBox>
                 <VBox spacing="5.0"

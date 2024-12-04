@@ -96,3 +96,11 @@ Dec 05, 2024 2:09:57 AM javafx.css.CssParser declaration
 WARNING: CSS Error parsing '*{-fx-font-weight: bold; -fx-font-size: 14px; -fx-alignment: CENTER; -fx-padding = 10}: Expected COLON at [1,81]
 Dec 05, 2024 2:10:49 AM javafx.css.CssParser declaration
 WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:18:14 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:33:00 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:33:37 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:35:11 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
