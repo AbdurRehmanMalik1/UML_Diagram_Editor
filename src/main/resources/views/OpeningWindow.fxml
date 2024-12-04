@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" stylesheets="@../Styling/OpeningWindow.css"
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="Main.OpeningWindowController" stylesheets="@../Styling/OpeningWindow.css"
             prefHeight="400.0" prefWidth="600.0"
             style="-fx-background-color: linear-gradient(to bottom, #f2f2f2, #d9d9d9);">
 
@@ -18,8 +18,8 @@
             </padding>
             <Label text="Welcome to UML Diagram Creator!" fx:id="welcomeLabel" styleClass="label"/>
             <HBox spacing="20.0" alignment="CENTER">
-                <Button text="Start New Project" focusTraversable="false" styleClass="button" fx:id="startProjectButton"/>
-                <Button text="Open Existing Project" focusTraversable="false" styleClass="button" fx:id="openProjectButton"/>
+                <Button onAction="#onStartNewProjectClick" text="Start New Project" focusTraversable="false" styleClass="button" fx:id="startProjectButton"/>
+                <Button onAction="#onOpenExistingProjectClick" text="Open Existing Project" focusTraversable="false" styleClass="button" fx:id="openProjectButton"/>
             </HBox>
         </VBox>
     </center>

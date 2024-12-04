@@ -1,99 +1,87 @@
 package Main;
 
-import UML.Project;
+import Services.ProjectService;
 import Util.Dialogs;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.logging.LogManager;
 
 public class HelloApplication extends Application {
     private static Stage primaryStage;
+    private static ProjectService projectService;
 
-    public static void settingUpLogging() {
+    /**
+     * Sets up logging configuration.
+     */
+    private static void setupLogging() {
         try {
             LogManager.getLogManager().readConfiguration(new FileInputStream("logging.properties"));
-        } catch (Exception e) {
-            System.err.println("Could not load logging properties file");
+        } catch (IOException e) {
+            System.err.println("Failed to load logging properties: " + e.getMessage());
         }
     }
 
+    /**
+     * Returns the primary stage of the application.
+     *
+     * @return the primary stage.
+     */
     public static Stage getPrimaryStage() {
         return primaryStage;
     }
 
+    /**
+     * Returns the instance of the project service.
+     *
+     * @return the project service.
+     */
+    public static ProjectService getProjectService() {
+        return projectService;
+    }
+
+    /**
+     * Entry point for JavaFX application.
+     *
+     * @param stage the primary stage.
+     */
     @Override
     public void start(Stage stage) {
+        setupLogging();
+        primaryStage = stage;
+
         try {
-            settingUpLogging();
-            primaryStage = stage; // Set the primary stage
+            // Load the OpeningWindow.fxml file
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/OpeningWindow.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
 
-            Project project = promptUserForProject(stage);
+            stage.setTitle("UML Project Manager");
+            stage.setScene(scene);
+            stage.show();
 
-            if (project != null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/views/Main.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 600, 600);
-                MainController controller = fxmlLoader.getController();
-                controller.initialize(project);
+            // Initialize the ProjectService
+            projectService = new ProjectService(null);
 
-                stage.setTitle("UML Project Manager");
-                stage.setScene(scene);
-                stage.show();
-            } else {
-                System.out.println("No project selected. Exiting application.");
-            }
         } catch (IOException e) {
+            System.err.println("Failed to load OpeningWindow.fxml: " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            System.out.println("Entity Manager Factories Shutting Down");
         }
     }
 
-    private Project promptUserForProject(Stage stage) {
-        boolean createNew = Dialogs.showConfirmDialog(
-                "New or Load Project",
-                "Do you want to create a new project?",
-                "New",
-                "Load"
-        );
-
-        if (createNew) {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save New Project");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
-            File selectedFile = fileChooser.showSaveDialog(stage);
-
-            if (selectedFile != null) {
-                Project newProject = new Project();
-                newProject.setProjectFilePath(selectedFile.getAbsolutePath());
-                newProject.saveProject();
-                return newProject;
-            }
-        } else {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Existing Project");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
-            File selectedFile = fileChooser.showOpenDialog(stage);
-
-            if (selectedFile != null) {
-                return Project.loadProject(selectedFile.getAbsolutePath());
-            }
-        }
-
-        return null; // No project selected
-    }
-
+    /**
+     * Main entry point for the application.
+     *
+     * @param args command-line arguments.
+     */
     public static void main(String[] args) {
         try {
             launch();
         } finally {
-            System.out.println("Entity Manager Factories Shutting Down");
+            System.out.println("Shutting down resources...");
         }
     }
 }

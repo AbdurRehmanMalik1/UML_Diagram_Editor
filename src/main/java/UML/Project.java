@@ -14,14 +14,14 @@ import java.util.List;
 public class Project implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<UMLDiagram> umlDiagramList = new ArrayList<>(); // Initialize the list
-
+    private String projectName;
     private String projectFilePath; // File path for saving/loading the project
 
     // Constructor
     public Project() {
         // Default constructor
+        projectName = "Project";
     }
-
     public Project(String projectFilePath) {
         this.projectFilePath = projectFilePath;
     }
@@ -82,5 +82,13 @@ public class Project implements Serializable {
             System.out.println("Could not load project: " + e.getMessage());
             return new Project(filePath); // Return a new project if loading fails
         }
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }
