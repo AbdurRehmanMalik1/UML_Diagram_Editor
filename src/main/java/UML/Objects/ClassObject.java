@@ -55,12 +55,24 @@ public class ClassObject extends UMLObject {
 
         this.focusedProperty().addListener((observable, oldValue, newValue) ->{
             outerRect.setVisibility(newValue);
-//            if(newValue)
-//                controller.setParentClass(this);
-//            else
-//                this.getChildren().remove(controller);
+            if (!newValue) {
+                hideController();
+            } else {
+                showController();
+            }
         });
 
+    }
+    private void hideController() {
+        // This will hide the controller when the ClassObject loses focus
+        groupDiagram.getChildren().remove(controller);
+    }
+
+    private void showController() {
+        // This will show the controller when the ClassObject gains focus
+        if (!groupDiagram.getChildren().contains( controller)) {
+            groupDiagram.getChildren().add( controller);
+        }
     }
 
     @Override
