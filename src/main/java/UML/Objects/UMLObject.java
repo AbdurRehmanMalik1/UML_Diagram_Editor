@@ -1,21 +1,21 @@
 package UML.Objects;
 
 import Models.Model;
-import UML.CustomPoint;
 import UML.Line.Line;
-import UML.Moveable;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class UMLObject extends Moveable {
+public abstract class UMLObject extends Parent {
     transient public OuterRectangle outerRect;
     protected Model model;
     List<Line> associatedLines;
@@ -30,7 +30,7 @@ public abstract class UMLObject extends Moveable {
     }
     public UMLObject (){
         //super();
-        point = new CustomPoint(getLayoutX(),getLayoutY());
+        point = new CustomPoint(getLayoutX(), getLayoutY());
         addMouseEvents();
         outerRect = new OuterRectangle();
         associatedLines = new ArrayList<>();
@@ -197,4 +197,25 @@ public abstract class UMLObject extends Moveable {
                 line.updateLinePosition(this,false);
         }
     }
+    public static class CustomPoint extends Point2D.Double {
+        public CustomPoint(double layoutX, double layoutY) {
+            super(layoutX, layoutY);
+        }
+
+        @Override
+        public double getX() {
+            return super.getX();
+        }
+
+        @Override
+        public double getY() {
+            return super.getY();
+        }
+
+        @Override
+        public void setLocation(double x, double y) {
+            super.setLocation(x, y);
+        }
+    }
+
 }

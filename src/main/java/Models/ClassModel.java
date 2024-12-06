@@ -3,29 +3,19 @@ package Models;
 import Models.CD.Method;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name="class")
 public class ClassModel extends Model{
 
     @JsonInclude()
-    @Column(name = "class_name" ,nullable = false)
     private String className;
 
     @JsonInclude()
-    @ElementCollection
-    @CollectionTable(name = "class_attributes", joinColumns = @JoinColumn(name = "class_id"))
-    @Column(name = "attribute")
     private List<String> attributes;
 
     @JsonInclude()
-    @ElementCollection
-    @CollectionTable(name = "class_methods", joinColumns = @JoinColumn(name = "class_id"))
-    @Column(name = "method")
     private List<Method> methods;
 
     @JsonInclude()
@@ -48,7 +38,6 @@ public class ClassModel extends Model{
         }
         this.isAbstract = other.isAbstract;
     }
-
     public String getClassName() {
         return className;
     }
@@ -74,12 +63,6 @@ public class ClassModel extends Model{
     }
     public void addMethod(Method method){
         methods.add(method);
-    }
-    public void removeAttribute(String attribute){
-        attributes.remove(attribute);
-    }
-    public void removeMethod(Method method){
-        methods.remove(method);
     }
     @Override
     public String toString() {

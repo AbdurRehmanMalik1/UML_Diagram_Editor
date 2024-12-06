@@ -98,7 +98,6 @@ public class ProjectService {
             return null;
         }
     }
-
     /**
      * Opens a diagram view based on the diagram type.
      *

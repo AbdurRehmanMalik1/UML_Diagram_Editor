@@ -1,22 +1,17 @@
 package Models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "interface")
+
 public class InterfaceModel extends Model {
 
     @JsonInclude()
-    @Column(name = "interface_name", nullable = false)
+
     private String interfaceName;
 
     @JsonInclude()
-    @ElementCollection
-    @CollectionTable(name = "interface_methods", joinColumns = @JoinColumn(name = "interface_id"))
-    @Column(name = "method")
     private List<String> methods;
 
     public InterfaceModel() {
@@ -48,11 +43,6 @@ public class InterfaceModel extends Model {
     public void addMethod(String method) {
         methods.add(method);
     }
-
-    public void removeMethod(String method) {
-        methods.remove(method);
-    }
-
 
     @Override
     public String toString() {

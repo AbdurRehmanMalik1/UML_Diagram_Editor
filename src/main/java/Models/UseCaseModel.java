@@ -6,11 +6,8 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 
 
-@Entity
-@Table(name="use_case")
 public class UseCaseModel extends Model{
     @JsonInclude()
-    @Column(name = "interface_name", nullable = false)
     private String useCaseName;
 
     public UseCaseModel(){

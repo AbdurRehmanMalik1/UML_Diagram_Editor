@@ -23,36 +23,24 @@ import java.util.List;
         @JsonSubTypes.Type(value = UseCaseModel.class, name = "Use Case"),
         @JsonSubTypes.Type(value = ActorModel.class, name = "Actor")
 })
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "models")
 public abstract class Model implements Serializable {
-
     @Serial
     private static final long serialVersionUID = 1L;
 
     private static int modelIdCounter = 1;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "model_id")
     public int id;
 
     @JsonInclude()
-    @Column(name = "coordinate_x")
     private double x = 0;
 
     @JsonInclude()
-    @Column(name = "coordinate_y")
     private double y = 0;
 
-    //@JsonInclude(JsonInclude.Include.ALWAYS)
-    @OneToMany(mappedBy = "startModel", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     transient private List<AssociationModel> incomingAssociations = new ArrayList<>();
 
-    //@JsonInclude(JsonInclude.Include.ALWAYS)
-    @OneToMany(mappedBy = "endModel", cascade = CascadeType.ALL, orphanRemoval = true)
+
     @JsonIgnore
     transient private List<AssociationModel> outgoingAssociations = new ArrayList<>();
 
