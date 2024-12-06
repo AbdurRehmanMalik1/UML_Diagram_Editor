@@ -1,5 +1,6 @@
 package Services;
 
+import DAO.ProjectDAO;
 import Main.ClassController;
 import Main.HelloApplication;
 import Main.UseCaseController;
@@ -16,10 +17,10 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class ProjectService {
-    private Project currentProject;
+    private final ProjectDAO projectDAO;
 
-    public ProjectService(Project project) {
-        this.currentProject = project;
+    public ProjectService(ProjectDAO projectDAO) {
+        this.projectDAO = projectDAO;
     }
 
     /**
@@ -28,7 +29,7 @@ public class ProjectService {
      * @param project the new project to initialize.
      */
     public void initialize(Project project) {
-        this.currentProject = project;
+        projectDAO.initialize(project);  // Delegate to the DAO
     }
 
     /**
@@ -37,15 +38,16 @@ public class ProjectService {
      * @return the current project.
      */
     public Project getCurrentProject() {
-        return currentProject;
+        return projectDAO.getCurrentProject();  // Retrieve project from the DAO
     }
 
     /**
      * Saves the current project.
      */
     public void saveProject() {
+        Project currentProject = getCurrentProject();  // Get current project using DAO
         if (currentProject != null) {
-            currentProject.saveProject();
+            projectDAO.saveProject(currentProject);  // Delegate saving to DAO
         } else {
             System.err.println("No project is loaded to save.");
         }
@@ -57,6 +59,7 @@ public class ProjectService {
      * @param diagram the diagram to add.
      */
     public void addDiagram(UMLDiagram diagram) {
+        Project currentProject = getCurrentProject();
         if (currentProject != null) {
             currentProject.addUmlDiagram(diagram);
             saveProject();
@@ -87,6 +90,7 @@ public class ProjectService {
      * @return the diagram, or null if not found.
      */
     public UMLDiagram getDiagramById(int id) {
+        Project currentProject = getCurrentProject();
         if (currentProject != null) {
             return currentProject.getUmlDiagramList()
                     .stream()
@@ -98,11 +102,35 @@ public class ProjectService {
             return null;
         }
     }
+
     /**
-     * Opens a diagram view based on the diagram type.
-     *
-     * @param diagram the diagram to open.
+     * Opens the first diagram view if any diagrams exist in the project.
      */
+    public void openFirstDiagramView() {
+        Project currentProject = getCurrentProject();
+        if (currentProject != null) {
+            if (currentProject.getUmlDiagramList().isEmpty()) {
+                UMLDiagram defaultDiagram = new ClassDiagram();
+                currentProject.addUmlDiagram(defaultDiagram);
+                openDiagramView(defaultDiagram);
+            } else {
+                Optional<UMLDiagram> firstDiagram = currentProject.getUmlDiagramList().stream().findFirst();
+                firstDiagram.ifPresent(this::openDiagramView);
+            }
+        } else {
+            System.err.println("No project available.");
+        }
+    }
+
+    public void openDiagramById(int diagramId) {
+        UMLDiagram selectedDiagram = getDiagramById(diagramId);
+        if (selectedDiagram != null) {
+            openDiagramView(selectedDiagram);  // Reusing the openDiagramView method
+        } else {
+            System.err.println("Diagram with ID " + diagramId + " not found.");
+        }
+    }
+
     public void openDiagramView(UMLDiagram diagram) {
         if (diagram == null) {
             System.err.println("No diagram provided to open.");
@@ -135,15 +163,15 @@ public class ProjectService {
                 classController.initialize(
                         diagram.getAssociationList(),
                         diagram.getModels(),
-                        currentProject,
+                        getCurrentProject(),
                         (ClassDiagram) diagram
                 );
-            } else if (diagram instanceof UseCaseDiagram) {
+            } else {
                 UseCaseController useCaseController = loader.getController();
                 useCaseController.initialize(
                         diagram.getAssociationList(),
                         diagram.getModels(),
-                        currentProject,
+                        getCurrentProject(),
                         (UseCaseDiagram) diagram
                 );
             }
@@ -160,34 +188,6 @@ public class ProjectService {
         } catch (IOException e) {
             System.err.println("Failed to load FXML: " + fxmlFile);
             e.printStackTrace();
-        }
-    }
-
-
-    /**
-     * Opens the first diagram view if any diagrams exist in the project.
-     */
-    public void openFirstDiagramView() {
-        if (currentProject != null) {
-            if (currentProject.getUmlDiagramList().isEmpty()) {
-                UMLDiagram defaultDiagram = new ClassDiagram();
-                currentProject.addUmlDiagram(defaultDiagram);
-                openDiagramView(defaultDiagram);
-            } else {
-                Optional<UMLDiagram> firstDiagram = currentProject.getUmlDiagramList().stream().findFirst();
-                firstDiagram.ifPresent(this::openDiagramView);
-            }
-        } else {
-            System.err.println("No project available.");
-        }
-    }
-
-    public void openDiagramById(int diagramId) {
-        UMLDiagram selectedDiagram = getDiagramById(diagramId);
-        if (selectedDiagram != null) {
-            openDiagramView(selectedDiagram);  // Reusing the openDiagramView method
-        } else {
-            System.err.println("Diagram with ID " + diagramId + " not found.");
         }
     }
 }
