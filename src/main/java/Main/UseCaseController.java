@@ -60,20 +60,25 @@ public class UseCaseController extends DiagramController {
         UMLObject actorObject = objectFactory.createActorObject();
         addToCanvas(actorObject, x, y);
     }
+    public void onDrawClick(String type) {
+        unselectToggleButton();
+        handleLineDrawing(type);
+    }
+
     @FXML
     public void onDrawUsesClick() {
-        unselectToggleButton();
-        handleLineDrawing("Uses");
+        onDrawClick("Uses");
     }
+
     @FXML
     public void onDrawIncludeClick() {
-        unselectToggleButton();
-        handleLineDrawing("Includes");
+        onDrawClick("Includes");
     }
+
     @FXML
     public void onDrawExtendsClick() {
-        unselectToggleButton();
-        handleLineDrawing("Extends");
+        onDrawClick("Extends");
     }
+
 
 }

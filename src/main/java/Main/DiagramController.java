@@ -81,7 +81,7 @@ public abstract class DiagramController {
 
         canvas.setOnKeyPressed(this::handleKeyEvents);
 
-        rootNode = new TreeItem<>("Project: " + project.getProjectName());
+        rootNode = new TreeItem<>(project.getProjectName());
         rootNode.setExpanded(true);
         modelTree.setRoot(rootNode);
 
@@ -105,7 +105,6 @@ public abstract class DiagramController {
         } else if (keyEvent.getCode() == KeyCode.C && keyEvent.isControlDown()) {
             onCopyClick();
         } else if (keyEvent.getCode() == KeyCode.V && keyEvent.isControlDown() && copyTemp != null) {
-            System.out.println("Pasted at x: " + mouseX + " y: " + mouseY);
             onPasteClick();
         } else if (keyEvent.getCode() == KeyCode.X && keyEvent.isControlDown()) {
             onCutClick();
@@ -140,7 +139,7 @@ public abstract class DiagramController {
             // Directly use ProjectService to open the diagram view
             projectService.openDiagramView(selectedDiagram);
         } else {
-            System.err.println("Invalid project service or diagram.");
+            ToastMessage.showNegativeToast(canvas,"Invalid project service or diagram.",3);
         }
     }
 
@@ -174,6 +173,7 @@ public abstract class DiagramController {
         String newName = modelNameField.getText().trim();
         if (!newName.isEmpty()) {
             rootNode.setValue(newName);
+            project.setProjectName(newName);
         }
     }
 
@@ -269,7 +269,11 @@ public abstract class DiagramController {
             Platform.runLater(umlObject::resetMousePressedHandlers);
         }
     }
-
+    @FXML
+    public void onDrawClick(String type) {
+        unselectToggleButton();
+        handleLineDrawing(type);
+    }
     private void drawLineBetweenObjects(UMLObject object1, UMLObject object2, String lineType) {
 
         double startX = object1.getLayoutX() + object1.getWidth() / 2;
@@ -419,7 +423,8 @@ public abstract class DiagramController {
             associations.remove(line);
             line.delete();
         } else {
-            System.out.println("No UMLObject is focused.");
+            ToastMessage.showNegativeToast(canvas,"No Item selected" , 3);
+            //System.out.println("No UMLObject is focused.");
         }
     }
 
@@ -441,7 +446,7 @@ public abstract class DiagramController {
             obj.reloadModel();
             copyTemp = obj.getModel();
         }else {
-            System.out.println("No UMLObject is focused.");
+            ToastMessage.showNegativeToast(canvas,"No Item selected" , 3);
         }
     }
     @FXML
@@ -462,7 +467,7 @@ public abstract class DiagramController {
             copyTemp = obj.getModel();
             deleteItem(focusedNode);
         }else {
-            System.out.println("No UMLObject is focused.");
+            ToastMessage.showNegativeToast(canvas,"No Item selected" , 3);
         }
     }
 

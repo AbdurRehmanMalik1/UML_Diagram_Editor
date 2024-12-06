@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name="class")
-public class ClassModel extends Model implements AttributeHolder{
+public class ClassModel extends Model{
 
     @JsonInclude()
     @Column(name = "class_name" ,nullable = false)

@@ -63,25 +63,19 @@ public class ClassController extends DiagramController {
     }
     @FXML
     public void onDrawAssociationClick() {
-        unselectToggleButton();
-        handleLineDrawing("Association");
+        onDrawClick("Association");
     }
     @FXML
     public void onDrawInheritanceClick() {
-        unselectToggleButton();
-        handleLineDrawing("Inheritance");
+        onDrawClick("Inheritance");
     }
+
     @FXML
     public void onDrawAggregationClick() {
-        unselectToggleButton();
-        handleLineDrawing("Aggregation");
+        onDrawClick("Aggregation");
     }
     @FXML
     public void onDrawCompositionClick() {
-        unselectToggleButton();
-        handleLineDrawing("Composition");
+        onDrawClick("Composition");
     }
-
-
-
 }
