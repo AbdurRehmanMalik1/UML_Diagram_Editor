@@ -47,7 +47,7 @@ public class ProjectService {
     public void saveProject() {
         Project currentProject = getCurrentProject();  // Get current project using DAO
         if (currentProject != null) {
-            projectDAO.saveProject(currentProject);  // Delegate saving to DAO
+            projectDAO.saveProject();  // Delegate saving to DAO
         } else {
             System.err.println("No project is loaded to save.");
         }

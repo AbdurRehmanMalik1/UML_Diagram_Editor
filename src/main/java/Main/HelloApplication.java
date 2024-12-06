@@ -1,6 +1,7 @@
 package Main;
 
 import DAO.ProjectDAO;
+import DAO.ProjectDAOJSON;
 import Services.ProjectService;
 import Util.Dialogs;
 import javafx.application.Application;
@@ -65,7 +66,7 @@ public class HelloApplication extends Application {
             stage.show();
 
             // Initialize the ProjectService
-            projectService = new ProjectService(new ProjectDAO(null));
+            projectService = new ProjectService(new ProjectDAOJSON(null));
 
         } catch (IOException e) {
             System.err.println("Failed to load OpeningWindow.fxml: " + e.getMessage());

@@ -1,6 +1,4 @@
 package DAO;
-
-import UML.Diagrams.UMLDiagram;
 import UML.Project;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -10,8 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-public class ProjectDAO {
-    private Project currentProject;
+public abstract class ProjectDAO {
+    protected  Project currentProject;
 
     // Constructor to initialize the DAO with a project
     public ProjectDAO(Project project) {
@@ -21,11 +19,11 @@ public class ProjectDAO {
     /**
      * Saves the current project.
      *
-     * @param project the project to save
+     *
      */
-    public void saveProject(Project project) {
-        if (project != null) {
-            project.saveProject();
+    public void saveProject() {
+        if (currentProject != null) {
+            currentProject.saveProject();
         } else {
             System.err.println("No project is available to save.");
         }
