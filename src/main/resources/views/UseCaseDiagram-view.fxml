@@ -45,7 +45,7 @@
                 </Menu>
                 <SeparatorMenuItem/>
                 <MenuItem onAction="#onCloseButtonClick" text="Close" accelerator="Ctrl+W" />
-                <MenuItem text="Exit" accelerator="Alt+F4" />
+                <MenuItem onAction="#onExitButtonClick" text="Exit" accelerator="Alt+F4" />
             </Menu>
 
             <Menu text="Edit">

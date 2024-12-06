@@ -16,6 +16,7 @@ import UML.Diagrams.ClassDiagram;
 import UML.ObjectFactories.ObjectFactory;
 import UML.Objects.UMLObject;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -516,5 +517,9 @@ public abstract class DiagramController {
         } catch (IOException e) {
             ToastMessage.showNegativeToast(canvas, "Failed to Close Project", 3);
         }
+    }
+    @FXML
+    public void onExitButtonClick() {
+        Platform.exit();
     }
 }
