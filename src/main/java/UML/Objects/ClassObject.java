@@ -1,6 +1,6 @@
 package UML.Objects;
 
-import Controllers.ClassDiagramControllers.ClassDiagramController;
+import Controllers.ClassDiagramController;
 import Models.CD.Method;
 import Models.ClassModel;
 import Models.Model;
