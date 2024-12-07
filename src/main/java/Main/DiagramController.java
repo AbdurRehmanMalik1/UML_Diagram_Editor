@@ -506,13 +506,8 @@ public abstract class DiagramController {
 
     @FXML
     public void onCodeGenerateClick() {
-        Node focusedNode = canvas.getScene().getFocusOwner();
-        System.out.println(focusedNode.getLayoutY());
-        if (focusedNode instanceof UMLObject obj) {
-            CodeGenerator codeGenerator = new CodeGenerator();
-            codeGenerator.generateCode(obj.getModel());
-            System.out.println("Code has been generated");
-        }
+        CodeGenerator codeGenerator =  new CodeGenerator();
+        codeGenerator.generateAllCode(getModels());
     }
 
     @FXML
