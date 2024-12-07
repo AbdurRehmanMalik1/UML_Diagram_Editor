@@ -2,6 +2,7 @@ package UML.Line;
 
 import Models.AssociationModel;
 import UML.Objects.UMLObject;
+import Util.DistanceCalc;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -67,23 +68,29 @@ public abstract class Line extends javafx.scene.shape.Line {
 
     public void updateLinePosition(UMLObject object, boolean isStart) {
         Platform.runLater(() -> {
-            double posX = object.localToParent(object.getBoundsInLocal()).getMinX();
-            double posY = object.localToParent(object.getBoundsInLocal()).getMinY();
+            // Calculate the shortest distance points between object1 and object2
+            DistanceCalc.ResultPoint resultPoint = DistanceCalc.getShortestDistance(startObject, endObject);
+            double startX = resultPoint.point1.x;
+            double startY = resultPoint.point1.y;
+            double endX = resultPoint.point2.x;
+            double endY = resultPoint.point2.y;
 
+            // Update line's start or end position based on isStart
             if (isStart) {
-                this.setStartX(posX);
-                this.setStartY(posY);
+                this.setStartX(startX);
+                this.setStartY(startY);
                 updateMultiplicityPosition(true);
             } else {
-                this.setEndX(posX);
-                this.setEndY(posY);
+                this.setEndX(endX);
+                this.setEndY(endY);
                 updateMultiplicityPosition(false);
             }
+
+            // Update the association name and redraw the line
             updateAssociationNamePosition();
             customDraw();
         });
     }
-
     private void updateMultiplicityPosition(boolean isStart) {
         if(startMultiplicityField != null) {
             double startX = this.getStartX();

@@ -68,13 +68,19 @@ public class ClassObject extends UMLObject {
 
     private void hideController() {
         // This will hide the controller when the ClassObject loses focus
-       // groupDiagram.getChildren().remove(controller);
+       groupDiagram.getChildren().remove(controller);
     }
     private void hideControllerIfNotFocused() {
-        boolean isAttributeFocused = attributes.stream().anyMatch(Node::isFocused);
-        boolean isMethodFocused = methods.stream().anyMatch(Node::isFocused);
-
-
+        boolean isAttributeFocused = false;
+        for(StackPane e : attributes){
+            if(((EditableField)e).isTextFieldFocused())
+                isAttributeFocused = true;
+        }
+        boolean isMethodFocused = false;
+        for(StackPane e : methods){
+            if(((EditableField)e).isTextFieldFocused())
+                isMethodFocused = true;
+        }
         if (!isAttributeFocused && !isMethodFocused && !this.isFocused()) {
             hideController();
         }

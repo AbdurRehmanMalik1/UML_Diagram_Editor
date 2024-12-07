@@ -59,10 +59,9 @@ public class InterfaceObject extends UMLObject {
         });
     }
     private void hideController() {
-        // This will hide the controller when the InterfaceObject loses focus
-       // groupDiagram.getChildren().remove(controller);
+        // This will hide the controller when the ClassObject loses focus
+        groupDiagram.getChildren().remove(controller);
     }
-
     private void showController() {
         // This will show the controller when the InterfaceObject gains focus
         if (!groupDiagram.getChildren().contains( controller)) {
@@ -71,11 +70,14 @@ public class InterfaceObject extends UMLObject {
 
     }
 
-    private void hideControllerIfNotFocused() {
-        boolean isAttributeFocused = methods.stream().anyMatch(Node::isFocused);
-        boolean isMethodFocused = methods.stream().anyMatch(Node::isFocused);
 
-        if (!isAttributeFocused && !isMethodFocused && !this.isFocused()) {
+    private void hideControllerIfNotFocused() {
+        boolean isMethodFocused = false;
+        for(StackPane e : methods){
+            if(((EditableField)e).isTextFieldFocused())
+                isMethodFocused = true;
+        }
+        if (!isMethodFocused && !this.isFocused()) {
             hideController();
         }
     }

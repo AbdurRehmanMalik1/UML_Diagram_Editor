@@ -83,14 +83,7 @@ public class CodeGenerator {
 
             // Add TypeScript code for the association based on its type
             switch (associationType.toLowerCase()) {
-                case "association":
-                    code.append("\tprivate ").append(referenceName).append(": ").append(relatedModelName).append(";\n");
-                    break;
-                case "composition":
-                    code.append("\tprivate ").append(referenceName).append(": ").append(relatedModelName)
-                            .append(" = new ").append(relatedModelName).append("();\n");
-                    break;
-                case "aggregation":
+                case "association", "aggregation","composition":
                     code.append("\tprivate ").append(referenceName).append(": ").append(relatedModelName).append(";\n");
                     break;
                 default:

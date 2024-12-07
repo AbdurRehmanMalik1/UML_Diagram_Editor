@@ -8,6 +8,7 @@ import UML.Diagrams.UMLDiagram;
 import UML.Diagrams.UseCaseDiagram;
 import UML.Project;
 import Util.Dialogs;
+import Util.DistanceCalc;
 import Util.ImageSaverUtil;
 import Util.ToastMessage;
 import Models.AssociationModel;
@@ -107,6 +108,8 @@ public abstract class DiagramController {
             onPasteClick();
         } else if (keyEvent.getCode() == KeyCode.X && keyEvent.isControlDown()) {
             onCutClick();
+        } else if (keyEvent.getCode() == KeyCode.S && keyEvent.isControlDown()){
+            onSaveProjectClick();
         }
     }
     private void populateModelTree() {
@@ -351,10 +354,11 @@ public abstract class DiagramController {
     }
     private void drawLineBetweenObjects(UMLObject object1, UMLObject object2, String lineType) {
 
-        double startX = object1.getLayoutX() + object1.getWidth() / 2;
-        double startY = object1.getLayoutY();
-        double endX = object2.getLayoutX() + object2.getWidth() / 2;
-        double endY = object2.getLayoutY();
+        DistanceCalc.ResultPoint resultPoint = DistanceCalc.getShortestDistance(object1,object2);
+        double startX =resultPoint.point1.x;
+        double startY = resultPoint.point1.y;
+        double endX =resultPoint.point2.x;
+        double endY = resultPoint.point2.y;
 
         AssociationModel associationModel = new AssociationModel();
         associationModel.setType(lineType);
@@ -467,9 +471,12 @@ public abstract class DiagramController {
                 // Add the line to the canvas
                 Platform.runLater(() -> {
                     canvas.getChildren().add(createdLine);
-                    createdLine.customDraw();
+                    createdLine.updateLinePosition(createdLine.getStartObject(),true);
+                    createdLine.updateLinePosition(createdLine.getEndObject(),false);
                 });
             }
+
+
         }
 
         // After processing associations, add the remaining models (if not already added)
@@ -563,9 +570,14 @@ public abstract class DiagramController {
     }
     @FXML
     public void onSaveProjectClick() {
-        diagram.setModelList(getModels());
-        diagram.setAssociationList(getAssociations());
-        project.saveProject();
+        try {
+            diagram.setModelList(getModels());
+            diagram.setAssociationList(getAssociations());
+            project.saveProject();
+            ToastMessage.showPositiveToast(canvas,"Save Project Successful",  3);
+        }catch (Exception e){
+            ToastMessage.showNegativeToast(canvas,"Failed to Save Project",  3);
+        }
     }
 
     @FXML
