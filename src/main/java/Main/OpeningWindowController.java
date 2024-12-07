@@ -4,6 +4,7 @@ import Main.HelloApplication;
 import Services.ProjectService;
 import UML.Project;
 import Util.Dialogs;
+import Util.FileChooserUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
@@ -20,6 +21,7 @@ public class OpeningWindowController {
     @FXML
     private void onStartNewProjectClick() {
         FileChooser fileChooser = new FileChooser();
+
         fileChooser.setTitle("Save New Project");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
         File selectedFile = fileChooser.showSaveDialog(HelloApplication.getPrimaryStage());

@@ -44,7 +44,7 @@ public class Attribute  implements Serializable {
             case "public" -> "+";
             case "private" -> "-";
             case "protected" -> "#";
-            default -> "~"; // Default for package-private
+            default -> "~";
         };
         return accessSymbol + " " + name + " : " + dataType;
     }

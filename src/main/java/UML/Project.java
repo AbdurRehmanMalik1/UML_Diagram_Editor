@@ -4,7 +4,6 @@ import UML.Diagrams.UMLDiagram;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import javax.sound.midi.SysexMessage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -72,11 +71,6 @@ public class Project implements Serializable {
         ObjectMapper mapper = new ObjectMapper();
         try {
             Project project = mapper.readValue(new File(filePath), Project.class);
-
-//            System.out.println("Deserialize Project size = " + project.getUmlDiagramList());
-//            System.out.println("Association list : " + project.getUmlDiagramList().getLast().getAssociationList());
-//            System.out.println("Association list : " + project.getUmlDiagramList().getLast().getAssociationList().getFirst().getStartX());
-
             return  project;
         } catch (IOException e) {
             System.out.println("Could not load project: " + e.getMessage());

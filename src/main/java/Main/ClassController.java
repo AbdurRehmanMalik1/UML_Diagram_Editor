@@ -13,16 +13,6 @@ public class ClassController extends DiagramController {
     protected ToggleButton classButton;
     @FXML
     protected ToggleButton interfaceButton;
-    @FXML
-    protected Button associationButton;
-    @FXML
-    protected Button aggregationButton;
-    @FXML
-    protected Button compositionButton;
-    @FXML
-    protected Button inheritanceButton;
-
-
     public void setButtonsToggle(){
         buttonToggleGroup = new ToggleGroup();
         classButton.setToggleGroup(buttonToggleGroup);
@@ -41,7 +31,6 @@ public class ClassController extends DiagramController {
                     drawObjectFunc = null;
                     button.setSelected(false);
                 }
-                //contextMenu.hideContextMenu();
             }
         });
     }

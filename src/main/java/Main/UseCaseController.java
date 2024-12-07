@@ -12,13 +12,6 @@ public class UseCaseController extends DiagramController {
     private ToggleButton useCaseButton;
     @FXML
     private ToggleButton actorButton;
-    @FXML
-    private Button usesButton;
-    @FXML
-    private Button includesButton;
-    @FXML
-    private Button extendsButton;
-
 
     @Override
     public void setButtonsToggle(){
@@ -39,7 +32,6 @@ public class UseCaseController extends DiagramController {
                     drawObjectFunc = null;
                     button.setSelected(false);
                 }
-                //contextMenu.hideContextMenu();
             }
         });
     }
