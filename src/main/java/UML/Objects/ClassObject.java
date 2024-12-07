@@ -1,6 +1,7 @@
 package UML.Objects;
 
 import Controllers.ClassDiagramController;
+import Models.CD.Attribute;
 import Models.CD.Method;
 import Models.ClassModel;
 import Models.Model;
@@ -28,6 +29,7 @@ public class ClassObject extends UMLObject {
     private VBox attributeBox;
     private VBox methodBox;
     private ClassDiagramController controller;
+
     public ClassObject() {
         super();
         model = new ClassModel();
@@ -49,11 +51,11 @@ public class ClassObject extends UMLObject {
             }
         });
 
-        this.layoutBoundsProperty().addListener((observable, oldValue, newValue)->
+        this.layoutBoundsProperty().addListener((observable, oldValue, newValue) ->
                 Platform.runLater(this::resizeOuterRect)
         );
 
-        this.focusedProperty().addListener((observable, oldValue, newValue) ->{
+        this.focusedProperty().addListener((observable, oldValue, newValue) -> {
             outerRect.setVisibility(newValue);
             if (!newValue) {
                 hideController();
@@ -63,6 +65,7 @@ public class ClassObject extends UMLObject {
         });
 
     }
+
     private void hideController() {
         // This will hide the controller when the ClassObject loses focus
         groupDiagram.getChildren().remove(controller);
@@ -70,13 +73,13 @@ public class ClassObject extends UMLObject {
 
     private void showController() {
         // This will show the controller when the ClassObject gains focus
-        if (!groupDiagram.getChildren().contains( controller)) {
-            groupDiagram.getChildren().add( controller);
+        if (!groupDiagram.getChildren().contains(controller)) {
+            groupDiagram.getChildren().add(controller);
         }
     }
 
     @Override
-    public Model getModel(){
+    public Model getModel() {
         return model;
     }
 
@@ -98,14 +101,14 @@ public class ClassObject extends UMLObject {
 
     public void setModel(ClassModel model) {
         this.model = model;
-        if(model.isAbstract()) {
+        if (model.isAbstract()) {
             className.toggleItalic();
         }
         if (model.getClassName() != null && !model.getClassName().isEmpty()) {
             className.setText(model.getClassName());
         }
 
-        for (String attribute : model.getAttributes()) {
+        for (Attribute attribute : model.getAttributes()) {
             addAttribute(attribute);
         }
 
@@ -115,11 +118,12 @@ public class ClassObject extends UMLObject {
         this.setLayoutX(model.getX());
         this.setLayoutY(model.getY());
     }
+
     public void resizeOuterRect() {
-        Bounds boundsInScene  = detailsBox.localToScene(detailsBox.getBoundsInLocal());
+        Bounds boundsInScene = detailsBox.localToScene(detailsBox.getBoundsInLocal());
         Bounds boundsInGroup = groupDiagram.sceneToLocal(boundsInScene);
-        outerRect.setLocation(boundsInGroup.getMinX()-2,boundsInGroup.getMinY()-2);
-        outerRect.setSize(boundsInGroup.getWidth() + 4,boundsInGroup.getHeight() + 4);
+        outerRect.setLocation(boundsInGroup.getMinX() - 2, boundsInGroup.getMinY() - 2);
+        outerRect.setSize(boundsInGroup.getWidth() + 4, boundsInGroup.getHeight() + 4);
     }
 
     private void initComponents() {
@@ -127,11 +131,11 @@ public class ClassObject extends UMLObject {
         detailsBox.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-        EditableField classNameField = new EditableField("Class Name",this::reloadModel);
+        EditableField classNameField = new EditableField("Class Name", this::reloadModel);
         classNameField.setOnKeyPressed(keyEvent -> {
             if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.I) {
                 classNameField.toggleItalic();
-                ClassModel classModel = (ClassModel)model;
+                ClassModel classModel = (ClassModel) model;
                 classModel.setAbstract(!classModel.isAbstract());
             }
         });
@@ -145,7 +149,7 @@ public class ClassObject extends UMLObject {
 
 
         attributeBox = new VBox();
-        attributeBox.setPadding(new Insets(5,0,5,0));
+        attributeBox.setPadding(new Insets(5, 0, 5, 0));
         attributes = new ArrayList<>();
 
         attributeBox.setBorder(new Border(new BorderStroke(Color.BLACK,
@@ -154,31 +158,32 @@ public class ClassObject extends UMLObject {
         detailsBox.getChildren().add(attributeBox);
 
         methodBox = new VBox();
-        methodBox.setPadding(new Insets(5,0,5,0));
+        methodBox.setPadding(new Insets(5, 0, 5, 0));
         methods = new ArrayList<>();
         detailsBox.getChildren().add(methodBox);
 
         groupDiagram.getChildren().add(detailsBox);
     }
 
-    public void addAttribute(String temp) {
-        StackPane attribute = new EditableField(temp , this::reloadModel);
+    public void addAttribute(Attribute temp) {
+        StackPane attribute = new EditableField(temp.toString(), this::reloadModel);
         attribute.setFocusTraversable(true);
         attributes.add(attribute);
         attributeBox.getChildren().add(attribute);
     }
 
     public void addMethod(Method temp) {
-        EditableField method = new EditableField(temp.getText(),this::reloadModel);
+        EditableField method = new EditableField(temp.toString(), this::reloadModel);
         method.setIsAbstract(temp.isAbstract());
         methods.add(method);
         methodBox.getChildren().add(method);
         method.setOnKeyPressed(keyEvent -> {
             if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.I) {
-               method.toggleItalic();
+                method.toggleItalic();
             }
         });
     }
+
     @Override
     public void reloadModel() {
         super.reloadModel();
@@ -187,25 +192,107 @@ public class ClassObject extends UMLObject {
 
         downcastModel.setClassName(className.getText());
 
+        // Handle Attributes
         if (downcastModel.getAttributes() != null) {
             downcastModel.getAttributes().clear();
         }
         for (StackPane attributeStackPane : attributes) {
             if (attributeStackPane instanceof EditableField editableField) {
-                downcastModel.addAttribute(editableField.getText());
+                String attributeText = editableField.getText();
+                Attribute attribute;
+                try {
+                    attribute = parseAttribute(attributeText);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Error occurred: " + e.getMessage());
+                    // Remove colons and assign sanitized text as the name
+                    String sanitizedText = attributeText.replace(":", "").trim();
+                    attribute = new Attribute(sanitizedText, "String", "private");
+                }
+                downcastModel.addAttribute(attribute);
             }
         }
 
+        // Handle Methods
         if (downcastModel.getMethods() != null) {
             downcastModel.getMethods().clear();
         }
         for (StackPane methodStackPane : methods) {
             if (methodStackPane instanceof EditableField editableField) {
-                Method method = new Method(editableField.getText());
+                String methodText = editableField.getText();
+                Method method = parseMethod(methodText);
                 method.setAbstract(editableField.getIsAbstract());
+
+                // If no access modifier is present or invalid, set to default (private)
+                if (method.getAccessModifier() == null || !(method.getAccessModifier().equals("private") || method.getAccessModifier().equals("public") || method.getAccessModifier().equals("protected"))) {
+                    method.setAccessModifier("private");
+                }
+
                 downcastModel.addMethod(method);
             }
         }
+    }
+    private Method parseMethod(String methodText) {
+        System.out.println("Method Text:[" + methodText + "]");
+
+        String accessModifier = "public"; // Default access modifier
+        String returnType = "void"; // Default return type
+        String methodName = "unknown"; // Default method name
+
+        // Check for access modifiers
+        if (methodText.startsWith("+ ")) {
+            accessModifier = "public";
+            methodText = methodText.substring(2).trim(); // Remove 'public ' prefix
+        } else if (methodText.startsWith("# ")) {
+            accessModifier = "protected";
+            methodText = methodText.substring(2).trim(); // Remove 'protected ' prefix
+        } else if (methodText.startsWith("- ")) {
+            accessModifier = "private";
+            methodText = methodText.substring(2).trim(); // Remove 'private ' prefix
+        }
+
+        // Use regular expressions to split the method text into return type, name, and parameters
+        String regex = "^\\s*(\\w+)\\s+([\\w]+)\\s*\\(([^)]*)\\)\\s*$";
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regex);
+        java.util.regex.Matcher matcher = pattern.matcher(methodText);
+
+        if (matcher.matches()) {
+            returnType = matcher.group(1).trim(); // Capture the return type
+            methodName = matcher.group(2).trim(); // Capture the method name
+        } else {
+            // If no match is found, fall back to treating the whole text as the method name
+            methodName = methodText.trim();
+        }
+
+        return new Method(returnType, methodName, accessModifier);
+    }
+
+
+
+
+
+
+    public Attribute parseAttribute(String attributeString) {
+        attributeString = attributeString.trim();
+        String accessModifier;
+        String name;
+        String type;
+
+        switch (attributeString.charAt(0)) {
+            case '-' -> accessModifier = "private";
+            case '+' -> accessModifier = "public";
+            case '#' -> accessModifier = "protected";
+            default -> throw new IllegalArgumentException("Invalid access modifier: " + attributeString.charAt(0));
+        }
+
+        String[] parts = attributeString.substring(1).trim().split(":");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Invalid attribute format. Expected '- name : type'.");
+        }
+
+        name = parts[0].trim();
+        type = parts[1].trim();
+
+        return new Attribute(name, type, accessModifier);
     }
 
 }

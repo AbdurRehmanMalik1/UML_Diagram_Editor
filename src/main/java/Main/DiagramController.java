@@ -1,6 +1,7 @@
 package Main;
 
 import CodeGeneration.CodeGenerator;
+import CodeGeneration.CodeGeneratorJava;
 import Controllers.DiagramTreeItem;
 import Controllers.MyContextMenu;
 import Services.ProjectService;
@@ -16,11 +17,9 @@ import UML.Diagrams.ClassDiagram;
 import UML.ObjectFactories.ObjectFactory;
 import UML.Objects.UMLObject;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -29,7 +28,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.*;
 import UML.Line.*;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.*;
@@ -47,7 +45,6 @@ public abstract class DiagramController {
     public Pane canvas;
     @FXML
     public ToggleGroup buttonToggleGroup;
-
     @FXML
     protected ComboBox<String> diagramTypeBox;
 
@@ -98,6 +95,9 @@ public abstract class DiagramController {
         loadSavedDiagram(models, associationList);
 
         setButtonsToggle();
+
+
+
     }
     private void handleKeyEvents(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.DELETE) {
@@ -508,6 +508,7 @@ public abstract class DiagramController {
     public void onCodeGenerateClick() {
         CodeGenerator codeGenerator =  new CodeGenerator();
         codeGenerator.generateAllCode(getModels());
+        //Button button = new Button();
     }
 
     @FXML

@@ -1,5 +1,6 @@
 package Models;
 
+import Models.CD.Attribute;
 import Models.CD.Method;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +14,7 @@ public class ClassModel extends Model{
     private String className;
 
     @JsonInclude()
-    private List<String> attributes;
+    private List<Attribute> attributes;
 
     @JsonInclude()
     private List<Method> methods;
@@ -41,14 +42,14 @@ public class ClassModel extends Model{
     public String getClassName() {
         return className;
     }
-    public List<String> getAttributes() {
+    public List<Attribute> getAttributes() {
         return attributes;
     }
 
     public List<Method> getMethods() {
         return methods;
     }
-    public void setAttributes(List<String> attributes) {
+    public void setAttributes(List<Attribute> attributes) {
         this.attributes = attributes;
     }
 
@@ -58,29 +59,29 @@ public class ClassModel extends Model{
     public void setClassName(String className) {
         this.className = className;
     }
-    public void addAttribute(String attribute){
+    public void addAttribute(Attribute attribute){
         attributes.add(attribute);
     }
     public void addMethod(Method method){
         methods.add(method);
     }
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Class Name: ").append(className).append("\n");
-
-        sb.append("Attributes: \n");
-        for (String attribute : attributes) {
-            sb.append("  ").append(attribute).append("\n");
-        }
-
-        sb.append("Methods: \n");
-        for (Method method : methods) {
-            sb.append("  ").append(method.getText()).append("\n");
-        }
-        return sb.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder();
+//
+//        sb.append("Class Name: ").append(className).append("\n");
+//
+//        sb.append("Attributes: \n");
+//        for (String attribute : attributes) {
+//            sb.append("  ").append(attribute).append("\n");
+//        }
+//
+//        sb.append("Methods: \n");
+//        for (Method method : methods) {
+//            sb.append("  ").append(method.getText()).append("\n");
+//        }
+//        return sb.toString();
+//    }
 
     public boolean isAbstract() {
         return isAbstract;

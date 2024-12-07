@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.CD.Attribute;
 import Models.CD.Method;
 import Models.ClassModel;
 import UML.Objects.ClassObject;
@@ -44,17 +45,24 @@ public class ClassDiagramController extends VBox {
 
     private void addButtonEvents() {
         addAttributeButton.setOnMouseClicked(event -> {
-            String attribute = "New Attribute";
-            parentClass.addAttribute(attribute);
+            Attribute defaultAttribute = new Attribute("defaultName", "String", "private");
+            parentClass.addAttribute(defaultAttribute);
             ClassModel classModel = (ClassModel) parentClass.getModel();
-            classModel.addAttribute(attribute);
+            classModel.addAttribute(defaultAttribute);
             //parentClass.resizeOuterRect();
         });
         addMethodButton.setOnMouseClicked(event -> {
-            String m = "New Method";
-            Method method = new Method(m);
+            // Define default values for a new method
+            String defaultReturnType = "void";
+            String defaultMethodName = "newMethod";
+            String defaultParameters = "()";
+
+            // Create a new Method instance with default values
+            Method method = new Method(defaultReturnType, defaultMethodName, defaultParameters);
+
+            // Add the method to the parent class
             parentClass.addMethod(method);
-            //parentClass.resizeOuterRect();
+            //parentClass.resizeOuterRect(); // Uncomment if needed to resize the outer rectangle
         });
     }
 

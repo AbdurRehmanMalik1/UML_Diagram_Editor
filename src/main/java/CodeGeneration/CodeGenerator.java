@@ -1,16 +1,17 @@
 package CodeGeneration;
 
-import Main.ClassController;
 import Models.*;
 import java.io.FileWriter;
-import java.lang.Exception;
 import java.util.List;
+
+import Models.CD.Attribute;
 import Models.CD.Method; // Assuming Method class exists based on your previous dump
 
 public class CodeGenerator {
 
     public CodeGenerator() {
     }
+
     public void generateAllCode(List<Model> models) {
         for (Model model : models) {
             generateCode(model);
@@ -31,22 +32,18 @@ public class CodeGenerator {
         StringBuilder code = new StringBuilder();
 
         // Handle inheritance
-        // String parentClass = classModel.getParentClass();
-        code.append(classModel.isAbstract() ? "public abstract class " : "public class ");
-        code.append(classModel.getClassName());
-        // if (parentClass != null && !parentClass.isEmpty()) {
-        //code.append(" extends ").append(parentClass);
-        //}
-        code.append(" {\n");
+        code.append(classModel.isAbstract() ? "abstract class " : "class ");
+        code.append(classModel.getClassName()).append(" {\n");
 
-        // Add attributes
-        for (String attribute : classModel.getAttributes()) {
-            String[] parts = attribute.split(":");
-            if (parts.length == 2) {
-                String attributeName = parts[0].trim();
-                String dataType = parts[1].trim();
-                code.append("\tprivate ").append(dataType).append(" ").append(attributeName).append(";\n");
-            }
+        // Add attributes using the refactored Attribute class
+        for (Attribute attribute : classModel.getAttributes()) {
+            String dataType = attribute.getDataType();
+            String accessModifier = attribute.getAccessModifier().toLowerCase();
+            String attributeName = attribute.getName();
+
+            // Maintain the original casing for the data type
+            code.append("\t").append(accessModifier).append(" ").append(attributeName).append(" : ")
+                    .append(dataType).append(";\n");
         }
 
         // Add associations
@@ -54,12 +51,12 @@ public class CodeGenerator {
 
         // Add methods
         for (Method method : classModel.getMethods()) {
-            code.append(methodToJava(method));
+            code.append(methodToTypeScript(method));
         }
 
         code.append("}\n");
 
-        writeToFile(classModel.getClassName() + ".java", code.toString());
+        writeToFile(classModel.getClassName() + ".ts", code.toString());
     }
 
     private void generateAssociationCode(ClassModel classModel, StringBuilder code) {
@@ -67,24 +64,21 @@ public class CodeGenerator {
 
         for (AssociationModel association : associations) {
             Model targetModel = association.getEndModel();
-            if(targetModel instanceof ClassModel) {
+            if (targetModel instanceof ClassModel) {
                 String type = association.getType();
-                System.out.println("Is a classModel");
                 switch (type.toLowerCase()) {
                     case "association":
-                        code.append("\tprivate ").append(((ClassModel) targetModel).getClassName())
-                                .append(" ").append(decapitalize(((ClassModel) targetModel).getClassName()))
-                                .append(";\n");
+                        code.append("\tprivate ").append(decapitalize(((ClassModel) targetModel).getClassName()))
+                                .append(": ").append(((ClassModel) targetModel).getClassName()).append(";\n");
                         break;
                     case "composition":
-                        code.append("\tprivate final ").append(targetModel.getClass().getSimpleName())
-                                .append(" ").append(decapitalize(targetModel.getClass().getSimpleName()))
-                                .append(" = new ").append(targetModel.getClass().getSimpleName()).append("();\n");
+                        code.append("\tprivate ").append(((ClassModel) targetModel).getClassName())
+                                .append(": ").append(((ClassModel) targetModel).getClassName()).append(" = new ")
+                                .append(((ClassModel) targetModel).getClassName()).append("();\n");
                         break;
                     case "aggregation":
-                        code.append("\tprivate ").append(targetModel.getClass().getSimpleName())
-                                .append(" ").append(decapitalize(targetModel.getClass().getSimpleName()))
-                                .append(";\n");
+                        code.append("\tprivate ").append(((ClassModel) targetModel).getClassName())
+                                .append(": ").append(((ClassModel) targetModel).getClassName()).append(";\n");
                         break;
                     default:
                         System.out.println("Unknown association type: " + type);
@@ -95,30 +89,47 @@ public class CodeGenerator {
 
     private void generateInterfaceCode(InterfaceModel interfaceModel) {
         StringBuilder code = new StringBuilder();
-        code.append("public interface ").append(interfaceModel.getInterfaceName()).append(" {\n");
+        code.append("interface ").append(interfaceModel.getInterfaceName()).append(" {\n");
 
         for (String method : interfaceModel.getMethods()) {
             code.append("\t").append(method).append(";\n");
         }
 
         code.append("}\n");
-        writeToFile(interfaceModel.getInterfaceName() + ".java", code.toString());
+        writeToFile(interfaceModel.getInterfaceName() + ".ts", code.toString());
     }
 
-    private String methodToJava(Method method) {
-        StringBuilder methodCode = new StringBuilder();
-        String[] parts = method.getText().split(":");
-        if (parts.length == 2) {
-            String methodName = parts[0].trim();
-            String dataType = parts[1].trim();
-            methodCode.append("\tpublic ").append(dataType).append(" ").append(methodName).append("() {\n");
-            methodCode.append("\t\t// TODO: Implement this method\n");
-            methodCode.append("\t}\n");
+    private String methodToTypeScript(Method method) {
+        String params = extractParameters(method.getText());
+        String returnType = method.getReturnType() != null ? ": " + method.getReturnType().toLowerCase() : "";
+        String accessModifier = method.getAccessModifier().toLowerCase();
+        String methodName = extractMethodName(method.getText()); // Extract the method name
+
+        String typeScriptMethod = "\t" + accessModifier + " " + methodName + "(" + params + ")" + returnType + ";\n";
+        if (method.isAbstract()) {
+            typeScriptMethod = "\tabstract " + typeScriptMethod;
         }
-        return methodCode.toString();
+
+        return typeScriptMethod;
+    }
+
+    private String extractParameters(String methodText) {
+        String params = methodText.substring(methodText.indexOf('(') + 1, methodText.lastIndexOf(')')).trim();
+        return params.isEmpty() ? "" : params.replaceAll(":", "");
+    }
+
+    private String extractMethodName(String methodText) {
+        int startIndex = methodText.indexOf('(');
+        if (startIndex == -1) {
+            return ""; // Invalid format or no parameters
+        }
+
+        String methodName = methodText.substring(0, startIndex).trim();
+        return methodName;
     }
 
     private void writeToFile(String fileName, String content) {
+        System.out.println(content);
         try (FileWriter fileWriter = new FileWriter(fileName)) {
             fileWriter.write(content);
         } catch (Exception e) {
