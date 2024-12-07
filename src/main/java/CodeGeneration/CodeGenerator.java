@@ -59,33 +59,48 @@ public class CodeGenerator {
         writeToFile(classModel.getClassName() + ".ts", code.toString());
     }
 
-    private void generateAssociationCode(ClassModel classModel, StringBuilder code) {
-        List<AssociationModel> associations = classModel.getOutgoingAssociations();
+    private void generateAssociationCode(Model model, StringBuilder code) {
+        // Get all outgoing associations
+        List<AssociationModel> outgoingAssociations = model.getOutgoingAssociations();
 
-        for (AssociationModel association : associations) {
-            Model targetModel = association.getEndModel();
-            if (targetModel instanceof ClassModel) {
-                String type = association.getType();
-                switch (type.toLowerCase()) {
-                    case "association":
-                        code.append("\tprivate ").append(decapitalize(((ClassModel) targetModel).getClassName()))
-                                .append(": ").append(((ClassModel) targetModel).getClassName()).append(";\n");
-                        break;
-                    case "composition":
-                        code.append("\tprivate ").append(((ClassModel) targetModel).getClassName())
-                                .append(": ").append(((ClassModel) targetModel).getClassName()).append(" = new ")
-                                .append(((ClassModel) targetModel).getClassName()).append("();\n");
-                        break;
-                    case "aggregation":
-                        code.append("\tprivate ").append(((ClassModel) targetModel).getClassName())
-                                .append(": ").append(((ClassModel) targetModel).getClassName()).append(";\n");
-                        break;
-                    default:
-                        System.out.println("Unknown association type: " + type);
-                }
-            }
+        // Process only outgoing associations
+        for (AssociationModel association : outgoingAssociations) {
+            addAssociationCode(association, code);
         }
     }
+
+    private void addAssociationCode(AssociationModel association, StringBuilder code) {
+        Model relatedModel = association.getEndModel();
+
+        if (relatedModel != null) {
+            String associationType = association.getType();
+            String relatedModelName = relatedModel instanceof ClassModel
+                    ? ((ClassModel) relatedModel).getClassName()
+                    : (relatedModel instanceof InterfaceModel
+                    ? ((InterfaceModel) relatedModel).getInterfaceName()
+                    : relatedModel.getClass().getSimpleName());
+            String referenceName = decapitalize(relatedModelName);
+
+            // Add TypeScript code for the association based on its type
+            switch (associationType.toLowerCase()) {
+                case "association":
+                    code.append("\tprivate ").append(referenceName).append(": ").append(relatedModelName).append(";\n");
+                    break;
+                case "composition":
+                    code.append("\tprivate ").append(referenceName).append(": ").append(relatedModelName)
+                            .append(" = new ").append(relatedModelName).append("();\n");
+                    break;
+                case "aggregation":
+                    code.append("\tprivate ").append(referenceName).append(": ").append(relatedModelName).append(";\n");
+                    break;
+                default:
+                    System.out.println("Unknown association type: " + associationType);
+            }
+        } else {
+            System.out.println("Skipping association with null related model.");
+        }
+    }
+
 
     private void generateInterfaceCode(InterfaceModel interfaceModel) {
         StringBuilder code = new StringBuilder();

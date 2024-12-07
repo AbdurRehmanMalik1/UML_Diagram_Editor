@@ -1,51 +1,35 @@
 package Models;
 
-import jakarta.persistence.*;
+
 
 import java.io.Serial;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "associations")
 public class AssociationModel implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "association_id")
+
     private int id;
 
-    @Column(name = "association_name")
     private String associationName;
 
-    @Column(name = "type", nullable = false)
     private String type;
 
-    @Column(name = "start_x")
     private double startX;
 
-    @Column(name = "start_y")
     private double startY;
 
-    @Column(name = "end_x")
     private double endX;
 
-    @Column(name = "end_y")
     private double endY;
 
-    @Column(name = "startMultiplicity")
     private String startMultiplicity;
 
-    @Column(name = "endMultiplicity")
     private String endMultiplicity;
 
-    @ManyToOne
-    @JoinColumn(name = "start_object_id", nullable = false)
-    private transient Model startModel; // Marked as transient to avoid full serialization
+    private transient Model startModel;
 
-    @ManyToOne
-    @JoinColumn(name = "end_object_id", nullable = false)
-    private transient Model endModel; // Marked as transient to avoid full serialization
+    private transient Model endModel;
 
     public AssociationModel() {}
 
