@@ -59,8 +59,12 @@ public class ClassDiagramController extends VBox {
         Button button = new Button();
         ImageView icon = new ImageView(getClass().getResource("/Images/" + iconFileName).toExternalForm());
         icon.setFitHeight(20);
-        icon.setFitWidth(20);
+            icon.setFitWidth(20);
         button.setGraphic(icon);
+
+        button.setStyle("-fx-padding: 0; -fx-background-insets: 0;");
+
+        button.setPrefSize(20,20);
 
         Tooltip tooltip = new Tooltip(tooltipText);
         Tooltip.install(button, tooltip);
@@ -119,7 +123,7 @@ public class ClassDiagramController extends VBox {
     private void adjustButtonPosition() {
         if (classNameWrapper != null && classNameWrapper.getLayoutBounds() != null) {
             double wrapperWidth = classNameWrapper.getLayoutBounds().getWidth();
-            setLayoutX(classNameWrapper.getLayoutX() + wrapperWidth);
+            setLayoutX(classNameWrapper.getLayoutX() + wrapperWidth + 6);
         }
     }
 }
