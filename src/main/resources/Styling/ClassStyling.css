@@ -1,8 +1,0 @@
-.button {
-    -fx-background-color: transparent;
-    -fx-cursor: hand;
-}
-
-.button:hover {
-    -fx-opacity: 0.8;
-}

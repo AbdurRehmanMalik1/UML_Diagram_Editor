@@ -181,10 +181,10 @@ public class ProjectService {
 
             // Set maximum size for the window
             Stage stage = HelloApplication.getPrimaryStage();
-            stage.setWidth(1200);  // Set a fixed width (adjust as needed)
-            stage.setHeight(800);  // Set a fixed height (adjust as needed)
-            stage.setMaxWidth(1200);  // Optionally limit the max width
-            stage.setMaxHeight(800);  // Optionally limit the max height
+//            stage.setWidth(1200);  // Set a fixed width (adjust as needed)
+//            stage.setHeight(800);  // Set a fixed height (adjust as needed)
+//            stage.setMaxWidth(1200);  // Optionally limit the max width
+//            stage.setMaxHeight(800);  // Optionally limit the max height
         } catch (IOException e) {
             System.err.println("Failed to load FXML: " + fxmlFile);
             e.printStackTrace();

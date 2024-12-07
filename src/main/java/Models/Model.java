@@ -1,7 +1,6 @@
 package Models;
 
 import com.fasterxml.jackson.annotation.*;
-import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;

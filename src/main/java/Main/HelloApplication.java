@@ -11,22 +11,10 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.logging.LogManager;
 
 public class HelloApplication extends Application {
     private static Stage primaryStage;
     private static ProjectService projectService;
-
-    /**
-     * Sets up logging configuration.
-     */
-    private static void setupLogging() {
-        try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("logging.properties"));
-        } catch (IOException e) {
-            System.err.println("Failed to load logging properties: " + e.getMessage());
-        }
-    }
 
     /**
      * Returns the primary stage of the application.
@@ -53,7 +41,6 @@ public class HelloApplication extends Application {
      */
     @Override
     public void start(Stage stage) {
-        setupLogging();
         primaryStage = stage;
 
         try {
