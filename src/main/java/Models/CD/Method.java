@@ -72,7 +72,7 @@ public class Method implements Serializable {
             case "private" -> "-"; // For private methods
             default -> "+"; // Default to public if no valid modifier is set
         };
-        return prefix + " " + text;
+        return prefix + " " + text + " : "+ returnType;
     }
 
 }

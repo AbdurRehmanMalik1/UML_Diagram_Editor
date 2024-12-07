@@ -1,5 +1,6 @@
 package Models;
 
+import Models.CD.Method;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class InterfaceModel extends Model {
     private String interfaceName;
 
     @JsonInclude()
-    private List<String> methods;
+    private List<Method> methods;
 
     public InterfaceModel() {
         super();
@@ -32,29 +33,29 @@ public class InterfaceModel extends Model {
         this.interfaceName = interfaceName;
     }
 
-    public List<String> getMethods() {
+    public List<Method> getMethods() {
         return methods;
     }
 
-    public void setMethods(List<String> methods) {
+    public void setMethods(List<Method> methods) {
         this.methods = methods;
     }
 
-    public void addMethod(String method) {
+    public void addMethod(Method method) {
         methods.add(method);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Interface Name: ").append(interfaceName).append("\n");
-
-        sb.append("Methods: \n");
-        for (String method : methods) {
-            sb.append("  ").append(method).append("\n");
-        }
-
-        return sb.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder();
+//
+//        sb.append("Interface Name: ").append(interfaceName).append("\n");
+//
+//        sb.append("Methods: \n");
+//        for (String method : methods) {
+//            sb.append("  ").append(method).append("\n");
+//        }
+//
+//        return sb.toString();
+//    }
 }

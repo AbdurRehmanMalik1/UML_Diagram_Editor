@@ -91,31 +91,39 @@ public class CodeGenerator {
         StringBuilder code = new StringBuilder();
         code.append("interface ").append(interfaceModel.getInterfaceName()).append(" {\n");
 
-        for (String method : interfaceModel.getMethods()) {
-            code.append("\t").append(method).append(";\n");
+        // Iterate through the list of methods and append them to the code
+        for (Method method : interfaceModel.getMethods()) {
+            code.append(methodToTypeScript(method));
         }
 
         code.append("}\n");
         writeToFile(interfaceModel.getInterfaceName() + ".ts", code.toString());
     }
 
+
     private String methodToTypeScript(Method method) {
-        String params = extractParameters(method.getText());
-        String returnType = method.getReturnType() != null ? ": " + method.getReturnType().toLowerCase() : "";
-        String accessModifier = method.getAccessModifier().toLowerCase();
-        String methodName = extractMethodName(method.getText()); // Extract the method name
-
-        String typeScriptMethod = "\t" + accessModifier + " " + methodName + "(" + params + ")" + returnType + ";\n";
-        if (method.isAbstract()) {
-            typeScriptMethod = "\tabstract " + typeScriptMethod;
+        try {
+            String params = extractParameters(method.getText());
+            String returnType = method.getReturnType() != null ? ": " + method.getReturnType().toLowerCase() : "";
+            String accessModifier = method.getAccessModifier().toLowerCase();
+            String methodName = extractMethodName(method.getText()); // Extract the method name
+            String typeScriptMethod = "";
+            if (method.isAbstract()) {
+                typeScriptMethod = accessModifier + " " + methodName + "(" + params + ") " + returnType + ";\n";
+                typeScriptMethod = "\tabstract " + typeScriptMethod;
+            } else {
+                typeScriptMethod = "\t" + accessModifier + " " + methodName + "(" + params + ") " + returnType + ";\n";
+            }
+            return typeScriptMethod;
+        }catch (Exception e){
+            System.out.println("Invalid Method");
+            return "\tpublic defaultMethod() : void;\n";
         }
-
-        return typeScriptMethod;
     }
 
     private String extractParameters(String methodText) {
         String params = methodText.substring(methodText.indexOf('(') + 1, methodText.lastIndexOf(')')).trim();
-        return params.isEmpty() ? "" : params.replaceAll(":", "");
+        return params.isEmpty() ? "" : params;
     }
 
     private String extractMethodName(String methodText) {
@@ -124,8 +132,7 @@ public class CodeGenerator {
             return ""; // Invalid format or no parameters
         }
 
-        String methodName = methodText.substring(0, startIndex).trim();
-        return methodName;
+        return methodText.substring(0, startIndex).trim();
     }
 
     private void writeToFile(String fileName, String content) {

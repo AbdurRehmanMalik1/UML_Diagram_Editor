@@ -231,6 +231,40 @@ public class ClassObject extends UMLObject {
             }
         }
     }
+//    private Method parseMethod(String methodText) {
+//        System.out.println("Method Text:[" + methodText + "]");
+//
+//        String accessModifier = "public"; // Default access modifier
+//        String returnType = "void"; // Default return type
+//        String methodName = "unknown"; // Default method name
+//
+//        // Check for access modifiers
+//        if (methodText.startsWith("+ ")) {
+//            accessModifier = "public";
+//            methodText = methodText.substring(2).trim(); // Remove 'public ' prefix
+//        } else if (methodText.startsWith("# ")) {
+//            accessModifier = "protected";
+//            methodText = methodText.substring(2).trim(); // Remove 'protected ' prefix
+//        } else if (methodText.startsWith("- ")) {
+//            accessModifier = "private";
+//            methodText = methodText.substring(2).trim(); // Remove 'private ' prefix
+//        }
+//
+//        // Use regular expressions to split the method text into return type, name, and parameters
+//        String regex = "^\\s*(\\w+)\\s+([\\w]+)\\s*\\(([^)]*)\\)\\s*$";
+//        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regex);
+//        java.util.regex.Matcher matcher = pattern.matcher(methodText);
+//
+//        if (matcher.matches()) {
+//            returnType = matcher.group(1).trim(); // Capture the return type
+//            methodName = matcher.group(2).trim(); // Capture the method name
+//        } else {
+//            // If no match is found, fall back to treating the whole text as the method name
+//            methodName = methodText.trim();
+//        }
+//
+//        return new Method(returnType, methodName, accessModifier);
+//    }
     private Method parseMethod(String methodText) {
         System.out.println("Method Text:[" + methodText + "]");
 
@@ -249,19 +283,17 @@ public class ClassObject extends UMLObject {
             accessModifier = "private";
             methodText = methodText.substring(2).trim(); // Remove 'private ' prefix
         }
-
-        // Use regular expressions to split the method text into return type, name, and parameters
-        String regex = "^\\s*(\\w+)\\s+([\\w]+)\\s*\\(([^)]*)\\)\\s*$";
-        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regex);
-        java.util.regex.Matcher matcher = pattern.matcher(methodText);
-
-        if (matcher.matches()) {
-            returnType = matcher.group(1).trim(); // Capture the return type
-            methodName = matcher.group(2).trim(); // Capture the method name
-        } else {
-            // If no match is found, fall back to treating the whole text as the method name
-            methodName = methodText.trim();
+        int colonIndex = methodText.lastIndexOf(":");
+        if (colonIndex != -1) {
+            returnType = methodText.substring(colonIndex + 1).trim(); // Extract the return type
+            methodText = methodText.substring(0, colonIndex).trim(); // Remove the return type part from the method text
+            if(returnType.isEmpty()) {
+                returnType = "void";
+                methodText = methodText + returnType;
+            }
         }
+
+        methodName = methodText.trim(); // The rest is the method name
 
         return new Method(returnType, methodName, accessModifier);
     }

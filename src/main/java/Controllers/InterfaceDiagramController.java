@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.CD.Method;
 import UML.Objects.InterfaceObject;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -33,8 +34,17 @@ public class InterfaceDiagramController extends VBox {
 
     private void addButtonEvents() {
         addMethodButton.setOnMouseClicked(event -> {
-            parentClass.addMethod("New Method");
-            //parentClass.resizeOuterRect();
+            // Define default values for a new method
+            String defaultReturnType = "void";
+            String defaultMethodName = "newMethod";
+            String defaultParameters = "()";
+
+            // Create a new Method instance with default values
+            Method method = new Method(defaultReturnType, defaultMethodName, defaultParameters);
+
+            // Add the method to the parent class
+            parentClass.addMethod(method);
+            //parentClass.resizeOuterRect(); // Uncomment if needed to resize the outer rectangle
         });
     }
 
