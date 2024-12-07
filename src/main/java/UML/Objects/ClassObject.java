@@ -58,7 +58,7 @@ public class ClassObject extends UMLObject {
         this.focusedProperty().addListener((observable, oldValue, newValue) -> {
             outerRect.setVisibility(newValue);
             if (!newValue) {
-                hideController();
+                hideControllerIfNotFocused();
             } else {
                 showController();
             }
@@ -68,9 +68,26 @@ public class ClassObject extends UMLObject {
 
     private void hideController() {
         // This will hide the controller when the ClassObject loses focus
-        groupDiagram.getChildren().remove(controller);
+       // groupDiagram.getChildren().remove(controller);
     }
+    private void hideControllerIfNotFocused() {
+        boolean isAttributeFocused = attributes.stream().anyMatch(Node::isFocused);
+        boolean isMethodFocused = methods.stream().anyMatch(Node::isFocused);
 
+
+        if (!isAttributeFocused && !isMethodFocused && !this.isFocused()) {
+            hideController();
+        }
+    }
+    private void addFocusListeners(VBox box, List<StackPane> elements) {
+        for (StackPane element : elements) {
+            element.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    hideControllerIfNotFocused();
+                }
+            });
+        }
+    }
     private void showController() {
         // This will show the controller when the ClassObject gains focus
         if (!groupDiagram.getChildren().contains(controller)) {
@@ -163,6 +180,8 @@ public class ClassObject extends UMLObject {
         detailsBox.getChildren().add(methodBox);
 
         groupDiagram.getChildren().add(detailsBox);
+        addFocusListeners(attributeBox,attributes);
+        addFocusListeners(methodBox, methods);
     }
 
     public void addAttribute(Attribute temp) {
@@ -327,4 +346,30 @@ public class ClassObject extends UMLObject {
         return new Attribute(name, type, accessModifier);
     }
 
+    public StackPane getSelectedAttribute() {
+        for (StackPane s : attributes) {
+            if (s instanceof EditableField && ((EditableField) s).isTextFieldFocused()) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public void removeAttribute(StackPane selectedAttribute) {
+        attributeBox.getChildren().remove(selectedAttribute);
+        attributes.remove(selectedAttribute);
+    }
+    public StackPane getSelectedMethod() {
+        for (StackPane s : methods) {
+            if (s instanceof EditableField && ((EditableField) s).isTextFieldFocused()) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public void removeMethod(StackPane selectedMethod) {
+        methodBox.getChildren().remove(selectedMethod);
+        methods.remove(selectedMethod);
+    }
 }
