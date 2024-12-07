@@ -9,6 +9,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -58,13 +59,32 @@ public class InterfaceObject extends UMLObject {
     }
     private void hideController() {
         // This will hide the controller when the InterfaceObject loses focus
-        groupDiagram.getChildren().remove(controller);
+       // groupDiagram.getChildren().remove(controller);
     }
 
     private void showController() {
         // This will show the controller when the InterfaceObject gains focus
         if (!groupDiagram.getChildren().contains( controller)) {
             groupDiagram.getChildren().add( controller);
+        }
+
+    }
+
+    private void hideControllerIfNotFocused() {
+        boolean isAttributeFocused = methods.stream().anyMatch(Node::isFocused);
+        boolean isMethodFocused = methods.stream().anyMatch(Node::isFocused);
+
+        if (!isAttributeFocused && !isMethodFocused && !this.isFocused()) {
+            hideController();
+        }
+    }
+    private void addFocusListeners(VBox box, List<StackPane> elements) {
+        for (StackPane element : elements) {
+            element.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    hideControllerIfNotFocused();
+                }
+            });
         }
     }
     @Override
@@ -116,6 +136,7 @@ public class InterfaceObject extends UMLObject {
         detailsBox.getChildren().add(methodBox);
 
         groupDiagram.getChildren().add(detailsBox);
+        addFocusListeners(methodBox, methods);
     }
 
 
@@ -163,4 +184,17 @@ public class InterfaceObject extends UMLObject {
         }
     }
 
+    public StackPane getSelectedMethod() {
+        for (StackPane s : methods) {
+            if (s instanceof EditableField && ((EditableField) s).isTextFieldFocused()) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public void removeMethod(StackPane selectedMethod) {
+        methodBox.getChildren().remove(selectedMethod);
+        methods.remove(selectedMethod);
+    }
 }

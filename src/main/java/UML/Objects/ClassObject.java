@@ -28,6 +28,7 @@ public class ClassObject extends UMLObject {
     private VBox attributeBox;
     private VBox methodBox;
     private ClassDiagramController controller;
+
     public ClassObject() {
         super();
         model = new ClassModel();
@@ -49,34 +50,51 @@ public class ClassObject extends UMLObject {
             }
         });
 
-        this.layoutBoundsProperty().addListener((observable, oldValue, newValue)->
+        this.layoutBoundsProperty().addListener((observable, oldValue, newValue) ->
                 Platform.runLater(this::resizeOuterRect)
         );
 
-        this.focusedProperty().addListener((observable, oldValue, newValue) ->{
+        this.focusedProperty().addListener((observable, oldValue, newValue) -> {
             outerRect.setVisibility(newValue);
             if (!newValue) {
-                hideController();
+                hideControllerIfNotFocused();
             } else {
                 showController();
             }
         });
 
     }
+
     private void hideController() {
         // This will hide the controller when the ClassObject loses focus
-        groupDiagram.getChildren().remove(controller);
+       // groupDiagram.getChildren().remove(controller);
     }
+    private void hideControllerIfNotFocused() {
+        boolean isAttributeFocused = attributes.stream().anyMatch(Node::isFocused);
+        boolean isMethodFocused = methods.stream().anyMatch(Node::isFocused);
 
+        if (!isAttributeFocused && !isMethodFocused && !this.isFocused()) {
+            hideController();
+        }
+    }
+    private void addFocusListeners(VBox box, List<StackPane> elements) {
+        for (StackPane element : elements) {
+            element.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    hideControllerIfNotFocused();
+                }
+            });
+        }
+    }
     private void showController() {
         // This will show the controller when the ClassObject gains focus
-        if (!groupDiagram.getChildren().contains( controller)) {
-            groupDiagram.getChildren().add( controller);
+        if (!groupDiagram.getChildren().contains(controller)) {
+            groupDiagram.getChildren().add(controller);
         }
     }
 
     @Override
-    public Model getModel(){
+    public Model getModel() {
         return model;
     }
 
@@ -98,7 +116,7 @@ public class ClassObject extends UMLObject {
 
     public void setModel(ClassModel model) {
         this.model = model;
-        if(model.isAbstract()) {
+        if (model.isAbstract()) {
             className.toggleItalic();
         }
         if (model.getClassName() != null && !model.getClassName().isEmpty()) {
@@ -115,11 +133,12 @@ public class ClassObject extends UMLObject {
         this.setLayoutX(model.getX());
         this.setLayoutY(model.getY());
     }
+
     public void resizeOuterRect() {
-        Bounds boundsInScene  = detailsBox.localToScene(detailsBox.getBoundsInLocal());
+        Bounds boundsInScene = detailsBox.localToScene(detailsBox.getBoundsInLocal());
         Bounds boundsInGroup = groupDiagram.sceneToLocal(boundsInScene);
-        outerRect.setLocation(boundsInGroup.getMinX()-2,boundsInGroup.getMinY()-2);
-        outerRect.setSize(boundsInGroup.getWidth() + 4,boundsInGroup.getHeight() + 4);
+        outerRect.setLocation(boundsInGroup.getMinX() - 2, boundsInGroup.getMinY() - 2);
+        outerRect.setSize(boundsInGroup.getWidth() + 4, boundsInGroup.getHeight() + 4);
     }
 
     private void initComponents() {
@@ -127,11 +146,11 @@ public class ClassObject extends UMLObject {
         detailsBox.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-        EditableField classNameField = new EditableField("Class Name",this::reloadModel);
+        EditableField classNameField = new EditableField("Class Name", this::reloadModel);
         classNameField.setOnKeyPressed(keyEvent -> {
             if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.I) {
                 classNameField.toggleItalic();
-                ClassModel classModel = (ClassModel)model;
+                ClassModel classModel = (ClassModel) model;
                 classModel.setAbstract(!classModel.isAbstract());
             }
         });
@@ -145,7 +164,7 @@ public class ClassObject extends UMLObject {
 
 
         attributeBox = new VBox();
-        attributeBox.setPadding(new Insets(5,0,5,0));
+        attributeBox.setPadding(new Insets(5, 0, 5, 0));
         attributes = new ArrayList<>();
 
         attributeBox.setBorder(new Border(new BorderStroke(Color.BLACK,
@@ -154,31 +173,34 @@ public class ClassObject extends UMLObject {
         detailsBox.getChildren().add(attributeBox);
 
         methodBox = new VBox();
-        methodBox.setPadding(new Insets(5,0,5,0));
+        methodBox.setPadding(new Insets(5, 0, 5, 0));
         methods = new ArrayList<>();
         detailsBox.getChildren().add(methodBox);
 
         groupDiagram.getChildren().add(detailsBox);
+        addFocusListeners(attributeBox,attributes);
+        addFocusListeners(methodBox, methods);
     }
 
     public void addAttribute(String temp) {
-        StackPane attribute = new EditableField(temp , this::reloadModel);
+        StackPane attribute = new EditableField(temp, this::reloadModel);
         attribute.setFocusTraversable(true);
         attributes.add(attribute);
         attributeBox.getChildren().add(attribute);
     }
 
     public void addMethod(Method temp) {
-        EditableField method = new EditableField(temp.getText(),this::reloadModel);
+        EditableField method = new EditableField(temp.getText(), this::reloadModel);
         method.setIsAbstract(temp.isAbstract());
         methods.add(method);
         methodBox.getChildren().add(method);
         method.setOnKeyPressed(keyEvent -> {
             if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.I) {
-               method.toggleItalic();
+                method.toggleItalic();
             }
         });
     }
+
     @Override
     public void reloadModel() {
         super.reloadModel();
@@ -208,4 +230,30 @@ public class ClassObject extends UMLObject {
         }
     }
 
+    public StackPane getSelectedAttribute() {
+        for (StackPane s : attributes) {
+            if (s instanceof EditableField && ((EditableField) s).isTextFieldFocused()) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public void removeAttribute(StackPane selectedAttribute) {
+        attributeBox.getChildren().remove(selectedAttribute);
+        attributes.remove(selectedAttribute);
+    }
+    public StackPane getSelectedMethod() {
+        for (StackPane s : methods) {
+            if (s instanceof EditableField && ((EditableField) s).isTextFieldFocused()) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public void removeMethod(StackPane selectedMethod) {
+        methodBox.getChildren().remove(selectedMethod);
+        methods.remove(selectedMethod);
+    }
 }

@@ -17,6 +17,7 @@ public class EditableField extends StackPane {
     }
     public EditableField(String s, Runnable onCommitCallback) {
         this.onCommitCallback = onCommitCallback;  // Set the callback
+        setFocusTraversable(false);
 
         setAlignment(Pos.BASELINE_LEFT);
         setPadding(new Insets(0, 5, 0, 5));
@@ -89,4 +90,8 @@ public class EditableField extends StackPane {
         textField.setEditable(editable);
         textField.setStyle("-fx-background-color: transparent;");
     }
+    public boolean isTextFieldFocused() {
+        return textField.isFocused();
+    }
+
 }
