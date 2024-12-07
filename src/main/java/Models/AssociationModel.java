@@ -15,6 +15,9 @@ public class AssociationModel implements Serializable {
     @Column(name = "association_id")
     private int id;
 
+    @Column(name = "association_name")
+    private String associationName;
+
     @Column(name = "type", nullable = false)
     private String type;
 
@@ -49,9 +52,6 @@ public class AssociationModel implements Serializable {
     public AssociationModel(String type) {
         this.type = type;
     }
-
-    // Getters and setters for all fields
-
     public String getType() {
         return type;
     }
@@ -130,5 +130,13 @@ public class AssociationModel implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getAssociationName() {
+        return associationName;
+    }
+
+    public void setAssociationName(String associationName) {
+        this.associationName = associationName;
     }
 }

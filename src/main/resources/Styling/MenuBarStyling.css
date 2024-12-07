@@ -1,0 +1,69 @@
+.menu-bar
+{
+    -fx-background-color: #f8f8f8;
+    -fx-background-radius: 6px;
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 2, 2);
+}
+
+.menu-bar .menu
+{
+    -fx-text-fill: #333333;
+    -fx-font-size: 13px;
+    -fx-font-family: 'Helvetica', sans-serif;
+    -fx-alignment: center-left;
+    -fx-font-weight: bold;
+}
+
+.menu-bar .menu:hover
+{
+    -fx-background-color: #1e90ff;
+}
+
+.menu-bar .menu-item
+{
+    -fx-background-color: transparent;
+    -fx-text-fill: #333333;
+    -fx-font-size: 12px;
+    -fx-padding: 6px 20px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 4px;
+    -fx-font-weight: normal;
+    -fx-alignment: center-left;
+    -fx-hgap: 10px;
+    -fx-min-width: 120px;
+}
+
+
+.menu-bar .menu-item:hover
+{
+    -fx-background-color: #1e90ff;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+}
+
+
+.menu-bar .menu-item:focused
+{
+    -fx-background-color: #d4d4d4;
+    -fx-text-fill: #333333;
+}
+
+
+.menu-bar .menu-item .accelerator-text
+{
+    -fx-font-size: 11px;
+    -fx-font-style: italic;
+    -fx-text-fill: #555555;
+    -fx-opacity: 0.8;
+    -fx-alignment: center-right;
+    -fx-padding-left: 20px;
+}
+
+
+.menu-bar .separator-menu-item
+{
+    -fx-background-color: #d0d0d0;
+    -fx-padding: 1px 0;
+}

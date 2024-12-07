@@ -47,10 +47,26 @@ public class InterfaceObject extends UMLObject {
                 Platform.runLater(this::resizeOuterRect));
 
 
-        this.focusedProperty().addListener((observable, oldValue, newValue) ->
-            outerRect.setVisibility(newValue));
+        this.focusedProperty().addListener((observable, oldValue, newValue) ->{
+            outerRect.setVisibility(newValue);
+            if (!newValue) {
+                hideController();
+            } else {
+                showController();
+            }
+        });
+    }
+    private void hideController() {
+        // This will hide the controller when the InterfaceObject loses focus
+        groupDiagram.getChildren().remove(controller);
     }
 
+    private void showController() {
+        // This will show the controller when the InterfaceObject gains focus
+        if (!groupDiagram.getChildren().contains( controller)) {
+            groupDiagram.getChildren().add( controller);
+        }
+    }
     @Override
     public Model getModel(){
         return model;

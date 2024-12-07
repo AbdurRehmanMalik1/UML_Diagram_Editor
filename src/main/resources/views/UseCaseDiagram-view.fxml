@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Region?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Main.UseCaseController"
+            stylesheets="@../Styling/MenuBarStyling.css,@../Styling/LeftPanelStyling.css">
+    <top>
+        <MenuBar>
+            <!--Top Section-->
+            <Menu text="File">
+                <MenuItem text="New"  accelerator="Ctrl+N"/>
+                <MenuItem text="Open" accelerator="Ctrl+O"/>
+                <MenuItem onAction="#onSaveProjectClick" text="Save"  accelerator="Ctrl+S"/>
+                <MenuItem text="Save As" />
+                <SeparatorMenuItem/>
+                <Menu text="Import">
+                    <MenuItem text="XML"/>
+                    <MenuItem onAction="#onLoadDiagram" text="JSON"/>
+                    <MenuItem text="Raw Form"/>
+                </Menu>
+                <Menu text="Export">
+                    <MenuItem onAction="#onPNGClick" text="PNG"/>
+                    <MenuItem onAction="#onJPEGClick" text="JPEG"/>
+                    <MenuItem text="XML"/>
+                    <MenuItem onAction="#onSaveDiagram" text="JSON"/>
+                    <MenuItem text="Raw Form"/>
+                </Menu>
+                <SeparatorMenuItem/>
+                <MenuItem onAction="#onCloseButtonClick" text="Close" accelerator="Ctrl+W" />
+                <MenuItem onAction="#onExitButtonClick" text="Exit" accelerator="Alt+F4" />
+            </Menu>
+
+            <Menu text="Edit">
+                <SeparatorMenuItem/>
+                <MenuItem text="Undo" accelerator="Ctrl+Z" />
+                <MenuItem text="Redo" accelerator="Ctrl+Y" />
+                <SeparatorMenuItem/>
+                <MenuItem onAction="#onCutClick" text="Cut" accelerator="Ctrl+X" />
+                <MenuItem onAction="#onCopyClick" text="Copy" accelerator="Ctrl+C" />
+                <MenuItem onAction="#onPasteClick" text="Paste" accelerator="Ctrl+V" />
+                <MenuItem onAction="#onDeleteClick" text="Delete" accelerator="Delete" />
+            </Menu>
+
+            <Menu text="Debug">
+                <MenuItem text="Toggle Checker" accelerator="Ctrl+D" />
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <center><!-- Using SplitPane for left, center, and right sections -->
+        <!-- Left Section -->
+        <SplitPane dividerPositions="0.2, 0.8">
+            <VBox
+                    fx:id="toolbox"
+                    spacing="10.0"
+                    prefWidth="200"
+                    styleClass="toolbox"
+                    minWidth="200"
+                    maxWidth="300">
+                <Label text="TOOLBOX"
+                       styleClass="toolbox-label" />
+                <VBox spacing="5.0"
+                      styleClass="toolbox-vbox">
+                    <Label text="Usecase Components" styleClass="toolbox-label" />
+
+                    <HBox>
+                        <ToggleButton fx:id="useCaseButton" focusTraversable="false" text="Use Case" styleClass="toolbox-toggle-button" onAction="#onAddUseCaseClick" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="25" fitWidth="40">
+                                    <Image url="@../Images/usecase_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </ToggleButton>
+                    </HBox>
+                    <HBox>
+                        <ToggleButton fx:id="actorButton" focusTraversable="false" onAction="#onAddActorClick" text="Actor" styleClass="toolbox-toggle-button" HBox.hgrow="ALWAYS" >
+                        <graphic>
+                            <ImageView fitHeight="25" fitWidth="20">
+                                <Image url="@../Images/actor_icon.png"/>
+                            </ImageView>
+                        </graphic>
+                    </ToggleButton>
+                    </HBox>
+                    <HBox>
+                        <Button fx:id="usesButton" focusTraversable="false" onAction="#onDrawUsesClick"  text="Use" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="25" fitWidth="40">
+                                    <Image url="@../Images/use_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </HBox>
+                    <HBox>
+                        <Button fx:id="includesButton" focusTraversable="false" onAction="#onDrawIncludeClick" text="Includes" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                        <graphic>
+                            <ImageView fitHeight="25" fitWidth="60">
+                                <Image url="@../Images/include_icon.png"/>
+                            </ImageView>
+                        </graphic>
+                        </Button>
+                    </HBox>
+                    <HBox>
+                        <Button fx:id="extendsButton" focusTraversable="false"  onAction="#onDrawExtendsClick" text="Extends" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                        <graphic>
+                            <ImageView fitHeight="25" fitWidth="60">
+                                <Image url="@../Images/extend_icon.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    </HBox>
+                </VBox>
+                <VBox spacing="5.0"
+                      styleClass="toolbox-vbox">
+                    <Label text="Annotations" styleClass="toolbox-label" />
+                    <HBox >
+                        <Button focusTraversable="false" text="Text" styleClass="annotations-hbox" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/text_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </HBox>
+                    <HBox>
+                        <Button focusTraversable="false" text="Text Box" styleClass="annotations-hbox" HBox.hgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <Image url="@../Images/textbox_icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </HBox>
+                    <HBox>
+                        <Button focusTraversable="false" onAction="#onCodeGenerateClick" text="Generate Code" styleClass="annotations-hbox" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Center Section -->
+            <Pane fx:id="canvas"
+                  style="-fx-background-color: white;
+                  -fx-border-color: #C4C4C4;
+                  -fx-border-width: 1;"/>
+
+            <!-- Right Panel -->
+            <VBox style="-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10; -fx-min-width: 280px; -fx-max-width: 300px;">
+                <Label text="MODEL EXPLORER" style ="-fx-font-weight: bold; -fx-font-size: 14px; "/>
+                <Region style="-fx-min-height: 10px;" />
+                <HBox spacing="5">
+                    <TextField focusTraversable="false" fx:id="modelNameField" promptText="Model Name" />
+                    <Button focusTraversable="false" text="Set Name" onAction="#setModelName" />
+                </HBox>
+                <Region style="-fx-min-height: 8px;" />
+                <TreeView focusTraversable="false"  fx:id="modelTree" style="-fx-pref-height: 400;" />
+
+                <!-- Add space between TreeView and ComboBox -->
+                <Region style="-fx-min-height: 20px;" />
+
+                <VBox spacing="5" styleClass="toolbox-vbox" >
+                    <Label text="Add Diagram to Project" styleClass="toolbox-label"/>
+                    <!-- ComboBox -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <ComboBox fx:id="diagramTypeBox" promptText="Select Diagram Type" styleClass="custom-combo-box" HBox.hgrow="ALWAYS">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Class Diagram" />
+                                    <String fx:value="Use Case Diagram" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        <Button text="Add" onAction="#addDiagram" styleClass="custom-button" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </SplitPane>
+    </center>
+</BorderPane>

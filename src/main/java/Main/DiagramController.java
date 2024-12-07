@@ -1,134 +1,228 @@
 package Main;
 
 import CodeGeneration.CodeGenerator;
+import Controllers.DiagramTreeItem;
 import Controllers.MyContextMenu;
+import Services.ProjectService;
+import UML.Diagrams.UMLDiagram;
+import UML.Diagrams.UseCaseDiagram;
+import UML.Project;
+import Util.Dialogs;
+import Util.ImageSaverUtil;
+import Util.ToastMessage;
 import Models.AssociationModel;
 import Models.Model;
-import Serializers.JSONSerializer;
-import Serializers.Serializer;
 import UML.Diagrams.ClassDiagram;
 import UML.ObjectFactories.ObjectFactory;
 import UML.Objects.UMLObject;
-import UML.Objects.UseCaseObject;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.*;
 import UML.Line.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-public class HelloController {
+public abstract class DiagramController {
     @FXML
-    private TextField modelNameField;
+    protected TextField modelNameField;
     @FXML
-    private TreeView<String> modelTree;
+    protected TreeView<String> modelTree;
     @FXML
-    private TreeItem<String> rootNode;
-    private TreeItem<String> diagramNode;
+    protected TreeItem<String> rootNode;
+    protected TreeItem<String> diagramNode;
     @FXML
     public Pane canvas;
     @FXML
     public ToggleGroup buttonToggleGroup;
+
     @FXML
-    private ToggleButton classButton;
-    @FXML
-    private ToggleButton interfaceButton;
-    @FXML
-    private Button associationButton;
-    @FXML
-    private Button aggregationButton;
-    @FXML
-    private Button compositionButton;
-    @FXML
-    private Button inheritanceButton;
-    @FXML
-    private ComboBox<String> diagramTypeBox;
+    protected ComboBox<String> diagramTypeBox;
 
     List<UMLObject> umlObjects = new ArrayList<>();
     List<UML.Line.Line> associations = new ArrayList<>();
     LineFactory lineFactory = new LineFactory();
     UML.ObjectFactories.ObjectFactory objectFactory = new ObjectFactory();
-
-    private BiConsumer<Double, Double> drawObjectFunc;
+    protected BiConsumer<Double, Double> drawObjectFunc;
     Model copyTemp = null;
     private double mouseX;
     private double mouseY;
-    MyContextMenu contextMenu;
-
-
+    private Project project;
+    UMLDiagram diagram;
     @FXML
-    public void initialize() {
+    public void initialize(List<AssociationModel> associationList, List<Model> models, Project project, UMLDiagram diagram) {
+        this.project = project;
+        this.diagram = diagram;
+
+        this.diagramNode = new TreeItem<>();
+        // Initialize context menu for canvas
         MyContextMenu.createContextMenu(canvas,
                 this::onCopyClick,
                 this::onPasteClick,
                 this::onDeleteClick,
                 this::onCutClick);
 
-        canvas.focusedProperty().removeListener((observable, oldValue, newValue) -> {
-        });
-
         canvas.setOnMouseMoved(mouseEvent -> {
             mouseX = mouseEvent.getSceneX();
             mouseY = mouseEvent.getSceneY();
         });
 
-        canvas.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.DELETE) {
-                onDeleteClick();
-            } else if (keyEvent.getCode() == KeyCode.C && keyEvent.isControlDown()) {
-                onCopyClick();
-            } else if (keyEvent.getCode() == KeyCode.V && keyEvent.isControlDown()) {
-                if (copyTemp != null) {
-                    System.out.println("Pasted at x : " + mouseX + " y : " + mouseY);
-                    onPasteClick();
-                }
-            } else if(keyEvent.getCode()==KeyCode.X && keyEvent.isControlDown()){
-                onCutClick();
-            }
-        });
+        canvas.setOnKeyPressed(this::handleKeyEvents);
 
-
-        rootNode = new TreeItem<>("Untitled"); // Default model name
+        rootNode = new TreeItem<>(project.getProjectName());
         rootNode.setExpanded(true);
-
-        diagramNode = new TreeItem<>("Model: Class Diagram"); // Default diagram type
-        diagramNode.setExpanded(true);
-
-        rootNode.getChildren().add(diagramNode);
         modelTree.setRoot(rootNode);
 
-        setButtonsToggle();
+        populateModelTree();
 
-    }
-    public void setButtonsToggle(){
-        buttonToggleGroup = new ToggleGroup();
-        classButton.setToggleGroup(buttonToggleGroup);
-        interfaceButton.setToggleGroup(buttonToggleGroup);
-        canvas.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.PRIMARY) {
-                ToggleButton button =(ToggleButton) buttonToggleGroup.getSelectedToggle();
-                if (button!=null && drawObjectFunc!=null) {
-                    double x = event.getX();
-                    double y = event.getY();
-                    if (x >= 0 && x <= canvas.getWidth() && y >= 0 && y <= canvas.getHeight()) {
-                        drawObjectFunc.accept(x,y);
-                    } else {
-                        System.out.println("Can't add an object here");
-                    }
-                    drawObjectFunc = null;
-                    button.setSelected(false);
-                }
-                //contextMenu.hideContextMenu();
+        modelTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue instanceof DiagramTreeItem) {
+                UMLDiagram selectedDiagram = ((DiagramTreeItem) newValue).getDiagram();
+                switchToDiagram(selectedDiagram);
             }
         });
+
+        // Load the current diagram
+        loadSavedDiagram(models, associationList);
+
+        setButtonsToggle();
     }
-    private void unselectToggleButton(){
+    private void handleKeyEvents(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.DELETE) {
+            onDeleteClick();
+        } else if (keyEvent.getCode() == KeyCode.C && keyEvent.isControlDown()) {
+            onCopyClick();
+        } else if (keyEvent.getCode() == KeyCode.V && keyEvent.isControlDown() && copyTemp != null) {
+            onPasteClick();
+        } else if (keyEvent.getCode() == KeyCode.X && keyEvent.isControlDown()) {
+            onCutClick();
+        }
+    }
+    private void populateModelTree() {
+        rootNode.getChildren().clear();
+
+        for (UMLDiagram diagram : project.getUmlDiagramList()) {
+            DiagramTreeItem diagramItem = new DiagramTreeItem(diagram);
+            rootNode.getChildren().add(diagramItem);
+        }
+    }
+//    private void switchToDiagram(UMLDiagram selectedDiagram) {
+//        ProjectService projectService = HelloApplication.getProjectService(); // Get the ProjectService
+//        if (projectService == null || selectedDiagram == null) {
+//            ToastMessage.showNegativeToast(canvas, "Invalid project service or diagram.", 3);
+//            return;
+//        }
+//
+//        // Delegate the logic to the ProjectService
+//        UMLDiagram switchedDiagram = projectService.(
+//                diagram,
+//                selectedDiagram,
+//                getModels(),
+//                getAssociations()
+//        );
+//        if (switchedDiagram != null) {
+//            openDiagramView(switchedDiagram);
+//        } else {
+//            ToastMessage.showNegativeToast(canvas, "Failed to switch diagrams.", 3);
+//        }
+//    }
+//
+//    private void openDiagramView(UMLDiagram diagram) {
+//        if (diagram == null) {
+//            System.err.println("No diagram provided to open.");
+//            return;
+//        }
+//
+//        String fxmlFile = null;
+//        FXMLLoader loader = null;
+//
+//        // Determine the correct FXML and controller based on diagram type
+//        if (diagram instanceof ClassDiagram) {
+//            fxmlFile = "/views/ClassDiagram-view.fxml";
+//            loader = new FXMLLoader(getClass().getResource(fxmlFile));
+//        } else if (diagram instanceof UseCaseDiagram) {
+//            fxmlFile = "/views/UseCaseDiagram-view.fxml";
+//            loader = new FXMLLoader(getClass().getResource(fxmlFile));
+//        }
+//
+//        if (fxmlFile == null || loader == null) {
+//            System.err.println("Unsupported diagram type for opening a view.");
+//            return;
+//        }
+//
+//        try {
+//            BorderPane pane = loader.load();
+//            if (diagram instanceof ClassDiagram) {
+//                ClassController classController = loader.getController();
+//                classController.initialize(
+//                        diagram.getAssociationList(),
+//                        diagram.getModels(),
+//                        HelloApplication.getProjectService().getCurrentProject(),
+//                        diagram
+//                );
+//            } else if (diagram instanceof UseCaseDiagram) {
+//                UseCaseController useCaseController = loader.getController();
+//                useCaseController.initialize(
+//                        diagram.getAssociationList(),
+//                        diagram.getModels(),
+//                        HelloApplication.getProjectService().getCurrentProject(),
+//                        diagram
+//                );
+//            }
+//            Scene scene = new Scene(pane);
+//            HelloApplication.getPrimaryStage().setScene(scene);
+//            Stage stage = HelloApplication.getPrimaryStage();
+//            stage.setWidth(1200);
+//            stage.setHeight(800);
+//            stage.setMaxWidth(1200);
+//            stage.setMaxHeight(800);
+//        } catch (IOException e) {
+//            System.err.println("Failed to load FXML: " + fxmlFile);
+//            e.printStackTrace();
+//        }
+//    }
+
+    private void switchToDiagram(UMLDiagram selectedDiagram) {
+        // Ensure the diagram belongs to the current project
+        ProjectService projectService = HelloApplication.getProjectService();  // Get the current ProjectService
+        if (projectService != null && selectedDiagram != null) {
+            Project currentProject = projectService.getCurrentProject();
+
+            // Check if the diagram is already part of the project
+            if (!currentProject.getUmlDiagramList().contains(selectedDiagram)) {
+                // If not, add it to the project
+                currentProject.addUmlDiagram(selectedDiagram);
+                projectService.saveProject();  // Save the updated project with the new diagram
+            }
+
+            // Save the current diagram's state before switching
+            this.diagram.setModelList(getModels());
+            this.diagram.setAssociationList(getAssociations());
+            projectService.saveProject();  // Save the project using the ProjectService
+
+            // Directly use ProjectService to open the diagram view
+            projectService.openDiagramView(selectedDiagram);
+        } else {
+            ToastMessage.showNegativeToast(canvas,"Invalid project service or diagram.",3);
+        }
+    }
+
+
+    public abstract void setButtonsToggle();
+
+    protected void unselectToggleButton(){
         drawObjectFunc = null;
         ToggleButton button =(ToggleButton) buttonToggleGroup.getSelectedToggle();
         if(button!=null){
@@ -155,6 +249,7 @@ public class HelloController {
         String newName = modelNameField.getText().trim();
         if (!newName.isEmpty()) {
             rootNode.setValue(newName);
+            project.setProjectName(newName);
         }
     }
 
@@ -169,23 +264,50 @@ public class HelloController {
         TreeItem<String> classNode = new TreeItem<>(className);
         diagramNode.getChildren().add(classNode);
     }
+    @FXML
+    public void addDiagram() {
+        String selectedDiagram = diagramTypeBox.getValue();
 
-    @FXML
-    public void onAddClassDiagramClick() {
-        drawObjectFunc = this::drawClass;
+        switch (selectedDiagram) {
+            case "Class Diagram":
+                addClassDiagram();
+                break;
+            case "Use Case Diagram":
+                addUseCaseDiagram();
+                break;
+        }
     }
-    public void drawClass(double x , double y){
-        UMLObject classDiagram = objectFactory.createClassObject();
-        addToCanvas(classDiagram, x, y);
+
+    private void addClassDiagram() {
+        // Create a new Class Diagram
+        ClassDiagram newClassDiagram = new ClassDiagram();
+
+        // Create a new DiagramTreeItem and add it to the model tree
+        DiagramTreeItem diagramItem = new DiagramTreeItem(newClassDiagram);
+        rootNode.getChildren().add(diagramItem);
+
+        // Optionally, select the newly added diagram
+        modelTree.getSelectionModel().select(diagramItem);
     }
-    @FXML
-    public void onAddInterfaceDiagramClick() {
-        drawObjectFunc = this::drawInterface;
+
+    private void addUseCaseDiagram() {
+        // Create a new Use Case Diagram
+        UseCaseDiagram newUseCaseDiagram = new UseCaseDiagram();
+
+        // Create a new DiagramTreeItem and add it to the model tree
+        DiagramTreeItem diagramItem = new DiagramTreeItem(newUseCaseDiagram);
+        rootNode.getChildren().add(diagramItem);
+
+        // Optionally, select the newly added diagram
+        modelTree.getSelectionModel().select(diagramItem);
     }
-    public void drawInterface(double x , double y){
-        UMLObject interfaceDiagram = objectFactory.createInterfaceObject();
-        addToCanvas(interfaceDiagram, x, y);
-    }
+
+
+
+
+
+
+
     void addToCanvas(UMLObject umlObject, double x, double y) {
         addClassNode("Object " + umlObjects.size() + 1);
         umlObject.reloadModel();
@@ -195,45 +317,8 @@ public class HelloController {
         umlObject.setLayoutX(x);
         umlObject.setLayoutY(y);
     }
-/*
-    @FXML
-    public void onAddUseCaseClick() {
-        UseCaseObject newUseCase = new UseCaseObject();
-        newUseCase.setFocusTraversable(true);
-        umlObjects.add(newUseCase);
-        canvas.getChildren().add(newUseCase);
-    }
-    @FXML
-    public void onSaveFirstUmlObject() {
-        Serializer jsonSerializer = new JSONSerializer();
-        UMLObject umlObject = umlObjects.getFirst();
-        umlObject.reloadModel();
-        Model model = umlObject.getModel();
-        jsonSerializer.serialize(model);
-    }
-*/
-    @FXML
-    public void onDrawAssociationClick() {
-        unselectToggleButton();
-        handleLineDrawing("Association");
-    }
-    @FXML
-    public void onDrawInheritanceClick() {
-        unselectToggleButton();
-        handleLineDrawing("Inheritance");
-    }
-    @FXML
-    public void onDrawAggregationClick() {
-        unselectToggleButton();
-        handleLineDrawing("Aggregation");
-    }
-    @FXML
-    public void onDrawCompositionClick() {
-        unselectToggleButton();
-        handleLineDrawing("Composition");
-    }
 
-    private void handleLineDrawing(String lineType) {
+    protected void handleLineDrawing(String lineType) {
         final UMLObject[] firstObject = {null};
         final UMLObject[] secondObject = {null};
 
@@ -260,7 +345,11 @@ public class HelloController {
             Platform.runLater(umlObject::resetMousePressedHandlers);
         }
     }
-
+    @FXML
+    public void onDrawClick(String type) {
+        unselectToggleButton();
+        handleLineDrawing(type);
+    }
     private void drawLineBetweenObjects(UMLObject object1, UMLObject object2, String lineType) {
 
         double startX = object1.getLayoutX() + object1.getWidth() / 2;
@@ -295,11 +384,11 @@ public class HelloController {
     }
 
     @FXML
-    public void onSaveClassDiagram() {
+    public void onSaveDiagram() {
         List<AssociationModel> associationModels = getAssociations();
         List<Model> models = getModels();
-        ClassDiagram classDiagram = new ClassDiagram(models, associationModels);
-        classDiagram.saveClassDiagram();
+        UMLDiagram classDiagram = new ClassDiagram(models, associationModels);
+        classDiagram.saveDiagram();
     }
 
     @FXML
@@ -307,7 +396,7 @@ public class HelloController {
         List<AssociationModel> associationModels = getAssociations();
         List<Model> models = getModels();
         ClassDiagram classDiagram = new ClassDiagram(models, associationModels);
-        classDiagram.loadClassDiagram();
+        classDiagram.loadDiagram();
 
         List<AssociationModel> loadedAssociationModels = null;
         List<Model> loadedModels = null;
@@ -410,7 +499,8 @@ public class HelloController {
             associations.remove(line);
             line.delete();
         } else {
-            System.out.println("No UMLObject is focused.");
+            ToastMessage.showNegativeToast(canvas,"No Item selected" , 3);
+            //System.out.println("No UMLObject is focused.");
         }
     }
 
@@ -432,7 +522,7 @@ public class HelloController {
             obj.reloadModel();
             copyTemp = obj.getModel();
         }else {
-            System.out.println("No UMLObject is focused.");
+            ToastMessage.showNegativeToast(canvas,"No Item selected" , 3);
         }
     }
     @FXML
@@ -453,7 +543,64 @@ public class HelloController {
             copyTemp = obj.getModel();
             deleteItem(focusedNode);
         }else {
-            System.out.println("No UMLObject is focused.");
+            ToastMessage.showNegativeToast(canvas,"No Item selected" , 3);
         }
+    }
+
+    @FXML
+    public void onPNGClick() {
+        try {
+            ImageSaverUtil.savePNG(canvas);
+            ToastMessage.showPositiveToast(canvas, "PNG Screenshot Taken Successfully", 3);
+        } catch (ImageSaverUtil.ImageSaveException e) {
+            ToastMessage.showNegativeToast(canvas, e.getMessage(), 3);
+        }
+    }
+
+    @FXML
+    public void onJPEGClick() {
+        try {
+            ImageSaverUtil.saveJPEG(canvas);
+            ToastMessage.showPositiveToast(canvas, "JPEG Screenshot Taken Successfully", 3);
+        } catch (ImageSaverUtil.ImageSaveException e) {
+            ToastMessage.showNegativeToast(canvas, e.getMessage(), 3);
+        }
+    }
+    @FXML
+    public void onSaveProjectClick() {
+        diagram.setModelList(getModels());
+        diagram.setAssociationList(getAssociations());
+        project.saveProject();
+    }
+
+    @FXML
+    private void onCloseButtonClick() {
+        // Ask the user if they want to save the project before closing
+        boolean saveChanges = Dialogs.showConfirmDialog(
+                "Save Project",
+                "Do you want to save changes to your project before closing?",
+                "Save",
+                "Don't Save"
+        );
+
+        if (saveChanges) {
+            project.saveProject(); // Save the project
+        }
+
+        try {
+            // Load the opening Window.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/OpeningWindow.fxml")); // Adjust path as needed
+            BorderPane pane = loader.load();
+
+            // Set the loaded scene to the primary stage
+            Scene scene = new Scene(pane);
+            HelloApplication.getPrimaryStage().setScene(scene);
+        } catch (IOException e) {
+            ToastMessage.showNegativeToast(canvas, "Failed to Close Project", 3);
+        }
+    }
+    @FXML
+    public void onExitButtonClick() {
+        Platform.exit();
     }
 }

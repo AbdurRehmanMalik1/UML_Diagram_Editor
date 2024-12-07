@@ -1,7 +1,6 @@
 package UML.Objects;
 
-import Controllers.ClassDiagramControllers.ClassDController;
-import Controllers.ClassDiagramControllers.ClassDiagramController;
+import Controllers.ClassDiagramController;
 import Models.CD.Method;
 import Models.ClassModel;
 import Models.Model;
@@ -28,7 +27,7 @@ public class ClassObject extends UMLObject {
     private List<StackPane> methods;
     private VBox attributeBox;
     private VBox methodBox;
-    private ClassDController controller;
+    private ClassDiagramController controller;
     public ClassObject() {
         super();
         model = new ClassModel();
@@ -44,16 +43,36 @@ public class ClassObject extends UMLObject {
         getChildren().add(groupDiagram);
 
         this.setOnMouseClicked(event -> {
-            if (event.getClickCount() >= 1)
+            if (event.getClickCount() >= 1) {
                 requestFocus();
+//                controller.setParentClass(this);
+            }
         });
 
         this.layoutBoundsProperty().addListener((observable, oldValue, newValue)->
                 Platform.runLater(this::resizeOuterRect)
         );
 
-        this.focusedProperty().addListener((observable, oldValue, newValue) ->
-            outerRect.setVisibility(newValue));
+        this.focusedProperty().addListener((observable, oldValue, newValue) ->{
+            outerRect.setVisibility(newValue);
+            if (!newValue) {
+                hideController();
+            } else {
+                showController();
+            }
+        });
+
+    }
+    private void hideController() {
+        // This will hide the controller when the ClassObject loses focus
+        groupDiagram.getChildren().remove(controller);
+    }
+
+    private void showController() {
+        // This will show the controller when the ClassObject gains focus
+        if (!groupDiagram.getChildren().contains( controller)) {
+            groupDiagram.getChildren().add( controller);
+        }
     }
 
     @Override
@@ -123,6 +142,7 @@ public class ClassObject extends UMLObject {
         detailsBox.getChildren().add(classNameWrapper);
 
         controller = new ClassDiagramController(this, classNameWrapper);
+
 
         attributeBox = new VBox();
         attributeBox.setPadding(new Insets(5,0,5,0));

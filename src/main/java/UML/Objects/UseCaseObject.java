@@ -1,6 +1,7 @@
 package UML.Objects;
 
 import Models.Model;
+import Models.UseCaseModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -16,20 +17,29 @@ public class UseCaseObject extends UMLObject {
     private final Ellipse ellipse;
     private double radiusX = 70;
     private double radiusY = 50;
+    EditableField field;
 
     public UseCaseObject(String initialText) {
         super();
+
+        if(model==null)
+            model = new UseCaseModel();
         StackPane box = new StackPane();
         ellipse = new Ellipse();
-        EditableField field = new EditableField(initialText);
 
-        // Configure Ellipse
+
+
+        String useCaseName = (downcastModel().getUseCaseName() == null || downcastModel().getUseCaseName().trim().isEmpty() || downcastModel().getUseCaseName().equals("Use Case"))
+                ? "Use Case"
+                : initialText;
+
+
+        field = new EditableField(useCaseName, this::reloadModel);
         ellipse.setFill(Color.TRANSPARENT);
         ellipse.setStroke(Color.BLACK);
         ellipse.setStrokeWidth(1);
         setRadii(radiusX, radiusY);
 
-        // Add elements to StackPane
         box.getChildren().addAll(ellipse, field);
         box.setAlignment(Pos.CENTER);
 
@@ -37,6 +47,16 @@ public class UseCaseObject extends UMLObject {
 
         outerRect.setSize(ellipse.getRadiusX()*2+4,ellipse.getRadiusY()*2+4);
         outerRect.setLocation(box.getLayoutX()-1, box.getLayoutY()-1);
+        outerRect.setVisibility(false);
+        this.focusedProperty().addListener((observable, oldValue, newValue) ->{
+            outerRect.setVisibility(newValue);
+        });
+        this.layoutBoundsProperty().addListener((observable,oldValue,newValue)->{
+            outerRect.setSize(ellipse.getRadiusX()*2+4,ellipse.getRadiusY()*2+4);
+        });
+        box.setOnMouseClicked(event -> {
+            this.requestFocus();  // Request focus when the object is clicked
+        });
     }
 
     public UseCaseObject() {
@@ -56,20 +76,36 @@ public class UseCaseObject extends UMLObject {
 
     @Override
     public Model getModel() {
-        return null;
+        return model;
     }
 
     @Override
     public void setModel(Model model) {
+        if (model!=null ){
+            this.model = model;
+            setModel(downcastModel());
+            reloadModel();
+        }
+    }
 
+    private void setModel(UseCaseModel model) {
+        field.setText(model.getUseCaseName());
+        this.setLayoutX(model.getX());
+        this.setLayoutY(model.getY());
     }
 
     @Override
     public void reloadModel() {
         super.reloadModel();
-        //rest here
+        UseCaseModel useCaseModel = downcastModel();
+        useCaseModel.setUseCaseName(field.getText());
+        model.setCoordinate(this.getLayoutX(),this.getLayoutY());
+        System.out.println(useCaseModel.getUseCaseName());
     }
 
+    public UseCaseModel downcastModel(){
+        return (UseCaseModel) model;
+    }
     public void setRadii(double newRadiusX, double newRadiusY) {
         this.radiusX = newRadiusX;
         this.radiusY = newRadiusY;
@@ -96,8 +132,9 @@ public class UseCaseObject extends UMLObject {
         private final TextField textField;
         private ChangeListener<String> labelListener;
         private ChangeListener<String> textFieldListener;
-
-        public EditableField(String text) {
+        Runnable reloadModel;
+        public EditableField(String text , Runnable runnable) {
+            reloadModel = runnable;
             setAlignment(Pos.CENTER); // Center the label and text field
             setPadding(new Insets(5));
             label = new Label(text);
@@ -109,8 +146,10 @@ public class UseCaseObject extends UMLObject {
             label.textProperty().addListener(labelListener);
 
             setOnMouseClicked(event -> {
+                requestFocus();
                 if (event.getClickCount() == 2 && getChildren().contains(label)) {
                     switchToTextField();
+                    event.consume();  // Stop event propagation to parent
                 }
             });
 
@@ -127,12 +166,12 @@ public class UseCaseObject extends UMLObject {
 
         private void initializeListeners() {
             labelListener = (ObservableValue<? extends String> obs, String oldText, String newText) -> {
-                double newWidth = label.getFont().getSize() * newText.length();
+                double newWidth = label.getFont().getSize() * newText.length() * 0.3;
                 setRadii(Math.max(30, newWidth + 10), radiusY);
             };
 
             textFieldListener = (ObservableValue<? extends String> obs, String oldText, String newText) -> {
-                double newWidth = textField.getFont().getSize() * newText.length();
+                double newWidth = textField.getFont().getSize() * newText.length() * 0.3;
                 setRadii(Math.max(30, newWidth + 10), radiusY);
             };
         }
@@ -160,7 +199,20 @@ public class UseCaseObject extends UMLObject {
                 label.setText(textField.getText());
                 getChildren().add(label);
                 switchToLabel();
+                reloadModel.run();
             }
         }
+        public String getText(){
+            if(getChildren().contains(textField))
+                return textField.getText();
+            else
+                return label.getText();
+        }
+
+        public void setText(String text) {
+            label.setText(text);
+            textField.setText(text);
+        }
+
     }
 }

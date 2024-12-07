@@ -16,6 +16,7 @@ public abstract class Line extends javafx.scene.shape.Line {
 
     protected EditableField startMultiplicityField;
     protected EditableField endMultiplicityField;
+    protected EditableField associationNameField;  // New field for the association name
 
     public Line(double startX, double startY, double endX, double endY, Pane parentPane,
                 AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
@@ -25,15 +26,13 @@ public abstract class Line extends javafx.scene.shape.Line {
         this.startObject = startObject;
         this.endObject = endObject;
 
-        // Initialize the EditableFields
-
+        // Initialize the EditableFields for multiplicity
         startMultiplicityField = new EditableField(
                 associationModel.getStartMultiplicity() != null && !associationModel.getStartMultiplicity().isEmpty()
                         ? associationModel.getStartMultiplicity()
                         : "1",
                 this::reloadModel
         );
-
         endMultiplicityField = new EditableField(
                 associationModel.getEndMultiplicity() != null && !associationModel.getEndMultiplicity().isEmpty()
                         ? associationModel.getEndMultiplicity()
@@ -41,8 +40,14 @@ public abstract class Line extends javafx.scene.shape.Line {
                 this::reloadModel
         );
 
+        // Initialize the EditableField for the association name
+        associationNameField = new EditableField(
+                associationModel.getAssociationName() != null ? associationModel.getAssociationName() : "Association Name",
+                this::reloadModel
+        );
+
         // Add the EditableFields to the parent pane
-        parentPane.getChildren().addAll(startMultiplicityField, endMultiplicityField);
+        parentPane.getChildren().addAll(startMultiplicityField, endMultiplicityField, associationNameField);
 
         // Set focus behavior on the line
         this.setFocusTraversable(true);
@@ -55,7 +60,8 @@ public abstract class Line extends javafx.scene.shape.Line {
             }
         });
         updateMultiplicityPosition(true);
-        updateMultiplicityPosition(true);
+        updateMultiplicityPosition(false);  // Update end multiplicity field position too
+        updateAssociationNamePosition();  // Position the association name field
         reloadModel();
     }
 
@@ -73,11 +79,13 @@ public abstract class Line extends javafx.scene.shape.Line {
                 this.setEndY(posY);
                 updateMultiplicityPosition(false);
             }
+            updateAssociationNamePosition();
             customDraw();
         });
     }
+
     private void updateMultiplicityPosition(boolean isStart) {
-        if(startMultiplicityField!=null) {
+        if(startMultiplicityField != null) {
             double startX = this.getStartX();
             double startY = this.getStartY();
             double endX = this.getEndX();
@@ -100,6 +108,23 @@ public abstract class Line extends javafx.scene.shape.Line {
         }
     }
 
+    private void updateAssociationNamePosition() {
+        if (associationNameField != null) {
+            double startX = this.getStartX();
+            double startY = this.getStartY();
+            double endX = this.getEndX();
+            double endY = this.getEndY();
+
+            // Calculate the midpoint for the association name
+            double midX = (startX + endX) / 2;
+            double midY = (startY + endY) / 2;
+
+            // Position the association name text field at the midpoint
+            associationNameField.setLayoutX(midX);
+            associationNameField.setLayoutY(midY);
+        }
+    }
+
     public abstract void customDraw();
 
     public AssociationModel getAssociationModel() {
@@ -107,21 +132,23 @@ public abstract class Line extends javafx.scene.shape.Line {
     }
 
     public void reloadModel() {
-        if(startMultiplicityField!=null) {
+        if (startMultiplicityField != null && endMultiplicityField != null && associationNameField != null) {
             String start = startMultiplicityField.getText().isEmpty() ? "1" : startMultiplicityField.getText();
             String end = endMultiplicityField.getText().isEmpty() ? "1" : endMultiplicityField.getText();
+            String associationName = associationNameField.getText().isEmpty() ? "" : associationNameField.getText();
 
             associationModel.setStartMultiplicity(start);
             associationModel.setEndMultiplicity(end);
+            associationModel.setAssociationName(associationName);
         }
     }
 
-
     public void setAssociationModel(AssociationModel associationModel) {
         this.associationModel = associationModel;
-        if(associationModel!=null && associationModel.getStartMultiplicity()!=null && associationModel.getEndMultiplicity()!=null){
-            startMultiplicityField.setText(String.valueOf(associationModel.getStartMultiplicity()));
-            startMultiplicityField.setText(String.valueOf(associationModel.getEndMultiplicity()));
+        if (associationModel != null) {
+            startMultiplicityField.setText(associationModel.getStartMultiplicity() != null ? associationModel.getStartMultiplicity() : "1");
+            endMultiplicityField.setText(associationModel.getEndMultiplicity() != null ? associationModel.getEndMultiplicity() : "1");
+            associationNameField.setText(associationModel.getAssociationName() != null ? associationModel.getAssociationName() : "");
         }
     }
 
@@ -158,6 +185,7 @@ public abstract class Line extends javafx.scene.shape.Line {
             parentPane.getChildren().remove(this);
             parentPane.getChildren().remove(startMultiplicityField);
             parentPane.getChildren().remove(endMultiplicityField);
+            parentPane.getChildren().remove(associationNameField);  // Remove the association name field
         }
     }
 

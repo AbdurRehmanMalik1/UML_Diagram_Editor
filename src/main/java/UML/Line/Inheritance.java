@@ -10,15 +10,15 @@ public class Inheritance extends Line {
 
     private Polygon arrowhead =null;
 
-    // Constructor for Inheritance line that initializes the line and the parent pane
     public Inheritance(double startX, double startY, double endX, double endY,
                        Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
         super(startX, startY, endX, endY, parentPane, associationModel, startObject, endObject);
         this.setStroke(Color.BLACK);
         this.setStrokeWidth(2);
-        parentPane.getChildren().removeAll(startMultiplicityField,endMultiplicityField);
+        parentPane.getChildren().removeAll(startMultiplicityField,endMultiplicityField,associationNameField);
         startMultiplicityField = null;
         endMultiplicityField = null;
+        associationNameField = null;
         customDraw();
     }
 

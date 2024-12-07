@@ -1,25 +1,30 @@
 {
-  "associationList" : [ ],
-  "models" : [ {
-    "type" : "Interface",
-    "id" : 2,
-    "x" : 162.0,
-    "y" : 145.0,
-    "interfaceName" : "Interface Name",
-    "methods" : [ "Method():string", "Method():int" ],
-    "modelId" : 2
-  }, {
-    "type" : "Class",
-    "id" : 3,
-    "x" : 420.0,
-    "y" : 211.0,
-    "className" : "Person",
-    "attributes" : [ ],
-    "methods" : [ {
-      "text" : "New Method",
-      "abstract" : false
-    } ],
-    "abstract" : true,
-    "modelId" : 3
-  } ]
+  "associationList" : [ {
+    "id" : 0,
+    "associationName" : "Association Name",
+    "type" : "Uses",
+    "startX" : 352.66666666666663,
+    "startY" : 102.0,
+    "endX" : 324.99999999999994,
+    "endY" : 364.6666666666667,
+    "startMultiplicity" : "1",
+    "endMultiplicity" : "1",
+    "startModel" : {
+      "type" : "Use Case",
+      "id" : 1,
+      "x" : 282.66666666666663,
+      "y" : 102.0,
+      "useCaseName" : "Use Case",
+      "modelId" : 1
+    },
+    "endModel" : {
+      "type" : "Actor",
+      "id" : 2,
+      "x" : 162.0,
+      "y" : 318.6666666666667,
+      "actorName" : "Actor",
+      "modelId" : 2
+    }
+  } ],
+  "models" : [ 1, 2 ]
 }

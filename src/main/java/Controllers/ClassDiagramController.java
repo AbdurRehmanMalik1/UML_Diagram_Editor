@@ -1,16 +1,15 @@
-package Controllers.ClassDiagramControllers;
+package Controllers;
 
 import Models.CD.Method;
 import Models.ClassModel;
 import UML.Objects.ClassObject;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class ClassDiagramController extends VBox implements ClassDController {
-    private final ClassObject parentClass;
+public class ClassDiagramController extends VBox {
+    private ClassObject parentClass;
     private final HBox classNameWrapper;
 
     private Button addAttributeButton;
@@ -30,6 +29,9 @@ public class ClassDiagramController extends VBox implements ClassDController {
                 Platform.runLater(this::adjustButtonPosition));
 
         addButtonEvents();
+    }
+    public void setParentClass(ClassObject parentClass){
+        this.parentClass = parentClass;
     }
 
     private void initComponents() {

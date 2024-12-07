@@ -85,4 +85,8 @@ public class EditableField extends StackPane {
             label.setStyle("-fx-font-style: normal;");
         }
     }
+    public void setEditable(boolean editable) {
+        textField.setEditable(editable);
+        textField.setStyle("-fx-background-color: transparent;");
+    }
 }

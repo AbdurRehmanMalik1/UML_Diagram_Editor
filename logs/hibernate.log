@@ -50,3 +50,57 @@ Dec 01, 2024 2:38:22 PM javafx.css.CssParser parse
 WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/CanvasContextMenuStyling.css: Expected LBRACE at [55,25]
 Dec 01, 2024 2:39:56 PM javafx.css.CssParser parse
 WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/CanvasContextMenuStyling.css: Expected LBRACE at [55,25]
+Dec 01, 2024 4:37:39 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+INFO: Could not find stylesheet: file:/C:/Users/HP/Desktop/SCD_Project/target/classes/views/Styling/MenuBarStyling.css
+Dec 01, 2024 5:56:46 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+WARNING: Resource "@/Styling/MenuBarStyling.css" not found.
+Dec 01, 2024 6:03:38 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+WARNING: Resource "/Styling/MenuBarStyling.css" not found.
+Dec 01, 2024 6:04:33 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+WARNING: Resource "/Styling/MenuBar.css" not found.
+Dec 01, 2024 6:08:50 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+WARNING: Resource "@Styling/MenuBarStyling.css" not found.
+Dec 01, 2024 6:09:32 PM com.sun.javafx.css.StyleManager loadStylesheetUnPrivileged
+WARNING: Resource "@/Styling/MenuBarStyling.css" not found.
+Dec 02, 2024 2:02:59 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Invalid color specification while parsing '-fx-background-color' at [4,26]
+Dec 02, 2024 2:50:30 AM javafx.css.CssParser term
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Unexpected token '13x' at [51,19]
+Dec 02, 2024 2:51:02 AM javafx.css.CssParser term
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Unexpected token '13x' at [51,19]
+Dec 02, 2024 2:54:55 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing '*{-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10; minWidth=170;             maxWidth=300; }: Expected COLON at [1,85]
+Dec 02, 2024 2:54:55 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing '*{-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10; minWidth=170;             maxWidth=300; }: Expected COLON at [1,111]
+Dec 02, 2024 2:55:24 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing '*{-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10; -fx-minWidth=170;             -fx-maxWidth=300; }: Expected COLON at [1,89]
+Dec 02, 2024 2:55:24 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing '*{-fx-background-color: #EAEAEA; -fx-border-color: #C4C4C4; -fx-padding: 10; -fx-minWidth=170;             -fx-maxWidth=300; }: Expected COLON at [1,119]
+Dec 05, 2024 2:05:25 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:06:48 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:08:32 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:09:52 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:09:56 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing '*{-fx-font-weight: bold; -fx-font-size: 14px; -fx-alignment: CENTER; -fx-padding = 10}: Expected COLON at [1,81]
+Dec 05, 2024 2:09:56 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing '*{-fx-font-weight: bold; -fx-font-size: 14px; -fx-alignment: CENTER; -fx-padding = 10}: Expected COLON at [1,81]
+Dec 05, 2024 2:09:57 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing '*{-fx-font-weight: bold; -fx-font-size: 14px; -fx-alignment: CENTER; -fx-padding = 10}: Expected COLON at [1,81]
+Dec 05, 2024 2:09:57 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing '*{-fx-font-weight: bold; -fx-font-size: 14px; -fx-alignment: CENTER; -fx-padding = 10}: Expected COLON at [1,81]
+Dec 05, 2024 2:09:57 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing '*{-fx-font-weight: bold; -fx-font-size: 14px; -fx-alignment: CENTER; -fx-padding = 10}: Expected COLON at [1,81]
+Dec 05, 2024 2:10:49 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:18:14 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:33:00 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:33:37 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]
+Dec 05, 2024 2:35:11 AM javafx.css.CssParser declaration
+WARNING: CSS Error parsing file:/C:/Users/HP/Desktop/SCD_Project/target/classes/Styling/LeftPanelStyling.css: Expected COLON at [94,19]

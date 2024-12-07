@@ -3,6 +3,8 @@ module Main {
     requires javafx.fxml;
     requires javafx.graphics;
     requires java.desktop;
+    //requires javafx.swing;  // Add this line
+    requires javafx.base;
     //2.13.x allow the modules so do not change these
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.core;

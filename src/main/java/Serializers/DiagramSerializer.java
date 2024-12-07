@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class ClassDiagramSerializer  {
+public class DiagramSerializer {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -21,15 +21,18 @@ public class ClassDiagramSerializer  {
         }
     }
 
-        public UMLDiagram deserialize(String s, Class<? extends UMLDiagram> clazz) {
+    public UMLDiagram deserialize(String s, Class<? extends UMLDiagram> clazz) {
         try {
-            return objectMapper.readValue(s, clazz);
+            UMLDiagram diagram = objectMapper.readValue(s, clazz);
+            // Debugging: Check if deserialization is successful
+            System.out.println("Deserialized diagram: " + diagram.getClass().getSimpleName());
+            return diagram;
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error deserializing ClassDiagram: " + e.getMessage(), e);
+            throw new RuntimeException("Error deserializing UMLDiagram: " + e.getMessage(), e);
         }
     }
     private void writeToFile(String object) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter("./src/Main/resources/storage/classDiagram.json", true))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter("./src/Main/resources/storage/diagram.json"))) {
             pw.println(object);
         } catch (IOException e) {
             throw new RuntimeException("Error writing to file: " + e.getMessage(), e);
