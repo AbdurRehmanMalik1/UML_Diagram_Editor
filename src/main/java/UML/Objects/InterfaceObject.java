@@ -196,13 +196,6 @@ public class InterfaceObject extends UMLObject {
         java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regex);
         java.util.regex.Matcher matcher = pattern.matcher(methodText);
 
-//        if (matcher.matches()) {
-//            returnType = matcher.group(4).trim(); // Capture the return type from the end
-//            methodName = matcher.group(2).trim(); // Capture the method name
-//        } else {
-//            // If no match is found, fall back to treating the whole text as the method name
-//            methodName = methodText.trim();
-//        }
         int colonIndex = methodText.lastIndexOf(":");
         if (colonIndex != -1) {
             returnType = methodText.substring(colonIndex + 1).trim(); // Extract the return type
