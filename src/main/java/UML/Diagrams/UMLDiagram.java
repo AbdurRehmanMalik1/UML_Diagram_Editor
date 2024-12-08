@@ -11,6 +11,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Abstract class representing a UML Diagram.
+ * This class serves as a blueprint for different types of UML Diagrams such as Class Diagrams and Use Case Diagrams.
+ * It holds the basic structure including models, associations, and an ID for identification.
+ */
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,  // Use type name for identification
         property = "type"  // The property name that holds the type info
@@ -34,10 +39,21 @@ public abstract class UMLDiagram implements Serializable {
     @JsonInclude()
     protected List<Model> models = new ArrayList<>();
 
+    /**
+     * Default constructor that initializes the UML Diagram with a unique ID.
+     * The ID is automatically assigned a value, incremented sequentially.
+     */
     public UMLDiagram() {
         this.id = ++idCounter; // Automatically assign a unique ID
     }
 
+    /**
+     * Constructor to initialize a UML Diagram with a name, models, and associations.
+     *
+     * @param name             the name of the diagram
+     * @param models           the list of models (such as classes or use cases) in the diagram
+     * @param associationList  the list of associations (relationships) between the models
+     */
     public UMLDiagram(String name, List<Model> models, List<AssociationModel> associationList) {
         this.id = ++idCounter;
         this.name = name;
@@ -46,41 +62,83 @@ public abstract class UMLDiagram implements Serializable {
     }
 
     // Getters and setters
+    /**
+     * Gets the unique ID of the diagram.
+     *
+     * @return the unique ID
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Gets the name of the diagram.
+     *
+     * @return the name of the diagram
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the diagram.
+     *
+     * @param name the name to set
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the list of models in the diagram.
+     *
+     * @return the list of models
+     */
     public List<Model> getModels() {
         return models;
     }
 
+    /**
+     * Sets the list of models in the diagram.
+     *
+     * @param modelList the list of models to set
+     */
     public void setModelList(List<Model> modelList) {
         this.models = modelList;
     }
 
+    /**
+     * Gets the list of associations in the diagram.
+     *
+     * @return the list of associations
+     */
     public List<AssociationModel> getAssociationList() {
         return associationList;
     }
 
+    /**
+     * Sets the list of associations in the diagram.
+     *
+     * @param associationModelList the list of associations to set
+     */
     public void setAssociationList(List<AssociationModel> associationModelList) {
         this.associationList = associationModelList;
     }
 
-    // Save diagram
+    /**
+     * Saves the diagram to a JSON file.
+     * Utilizes the `DiagramSerializer` class to handle serialization.
+     */
     public void saveDiagram() {
         DiagramSerializer diagramSerializer = new DiagramSerializer();
         diagramSerializer.serialize(this);
     }
 
-    // Load diagram
+    /**
+     * Loads the diagram from a JSON file.
+     * Clears the existing models and associations and loads them from the JSON file.
+     * Utilizes the `DiagramSerializer` class to handle deserialization.
+     */
     public void loadDiagram() {
         associationList.clear();
         models.clear();
@@ -97,7 +155,12 @@ public abstract class UMLDiagram implements Serializable {
         }
     }
 
-    // Read diagram file
+    /**
+     * Reads the content of the diagram file.
+     * The file is expected to be in the path `./src/Main/resources/storage/diagram.json`.
+     *
+     * @return the content of the file as a String
+     */
     public static String readDiagramFile() {
         String filePath = "./src/Main/resources/storage/diagram.json";
         StringBuilder content = new StringBuilder();
