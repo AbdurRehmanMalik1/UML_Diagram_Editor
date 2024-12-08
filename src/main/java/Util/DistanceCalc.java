@@ -3,6 +3,15 @@ package Util;
 import UML.Objects.UMLObject;
 
 public class DistanceCalc {
+
+    /**
+     * Calculates the shortest distance between two UMLObject instances on a JavaFX Pane.
+     * It determines the closest points on the objects and returns the Euclidean distance along with those points.
+     *
+     * @param object1 The first UMLObject whose coordinates and dimensions are used in the calculation.
+     * @param object2 The second UMLObject whose coordinates and dimensions are used in the calculation.
+     * @return A `ResultPoint` containing the shortest distance and the closest points on the objects.
+     */
     public static ResultPoint getShortestDistance(UMLObject object1, UMLObject object2) {
         // Get the coordinates and dimensions of object1
         double object1X = object1.getLayoutX();
@@ -21,15 +30,17 @@ public class DistanceCalc {
         double closestX2 = object2X;
 
         if (object1X + object1Width < object2X) {
-            closestX1 = object1X + object1Width; // object1 is left
-            closestX2 = object2X; // object2 is right
+            // object1 is to the left of object2
+            closestX1 = object1X + object1Width; // furthest right of object1
+            closestX2 = object2X; // closest point on object2 to the left
         } else if (object2X + object2Width < object1X) {
-            closestX1 = object1X; // object1 is right
-            closestX2 = object2X + object2Width; // object2 is left
+            // object2 is to the left of object1
+            closestX1 = object1X; // closest point on object1 to the right
+            closestX2 = object2X + object2Width; // furthest left of object2
         } else {
             // Overlapping horizontally
-            closestX1 = object1X + object1Width / 2;
-            closestX2 = object2X + object2Width / 2;
+            closestX1 = object1X + object1Width / 2; // center point of object1
+            closestX2 = object2X + object2Width / 2; // center point of object2
         }
 
         // Closest Y calculation
@@ -37,15 +48,17 @@ public class DistanceCalc {
         double closestY2 = object2Y;
 
         if (object1Y + object1Height < object2Y) {
-            closestY1 = object1Y + object1Height; // object1 is above
-            closestY2 = object2Y; // object2 is below
+            // object1 is above object2
+            closestY1 = object1Y + object1Height; // furthest bottom of object1
+            closestY2 = object2Y; // closest point on object2 above
         } else if (object2Y + object2Height < object1Y) {
-            closestY1 = object1Y; // object1 is below
-            closestY2 = object2Y + object2Height; // object2 is above
+            // object2 is above object1
+            closestY1 = object1Y; // closest point on object1 below
+            closestY2 = object2Y + object2Height; // furthest top of object2
         } else {
             // Overlapping vertically
-            closestY1 = object1Y + object1Height / 2;
-            closestY2 = object2Y + object2Height / 2;
+            closestY1 = object1Y + object1Height / 2; // center point of object1
+            closestY2 = object2Y + object2Height / 2; // center point of object2
         }
 
         // Return the shortest distance and the calculated points
