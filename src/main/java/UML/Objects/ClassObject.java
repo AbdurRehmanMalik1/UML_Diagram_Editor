@@ -1,6 +1,6 @@
 package UML.Objects;
 
-import Controllers.ClassDiagramController;
+import Controllers.ClassButtonController;
 import Models.CD.Attribute;
 import Models.CD.Method;
 import Models.ClassModel;
@@ -28,7 +28,7 @@ public class ClassObject extends UMLObject {
     private List<StackPane> methods;
     private VBox attributeBox;
     private VBox methodBox;
-    private ClassDiagramController controller;
+    private ClassButtonController controller;
 
     public ClassObject() {
         super();
@@ -168,7 +168,7 @@ public class ClassObject extends UMLObject {
         classNameWrapper.setAlignment(Pos.BASELINE_CENTER);
         detailsBox.getChildren().add(classNameWrapper);
 
-        controller = new ClassDiagramController(this, classNameWrapper);
+        controller = new ClassButtonController(this, classNameWrapper);
 
 
         attributeBox = new VBox();
@@ -256,40 +256,6 @@ public class ClassObject extends UMLObject {
             }
         }
     }
-//    private Method parseMethod(String methodText) {
-//        System.out.println("Method Text:[" + methodText + "]");
-//
-//        String accessModifier = "public"; // Default access modifier
-//        String returnType = "void"; // Default return type
-//        String methodName = "unknown"; // Default method name
-//
-//        // Check for access modifiers
-//        if (methodText.startsWith("+ ")) {
-//            accessModifier = "public";
-//            methodText = methodText.substring(2).trim(); // Remove 'public ' prefix
-//        } else if (methodText.startsWith("# ")) {
-//            accessModifier = "protected";
-//            methodText = methodText.substring(2).trim(); // Remove 'protected ' prefix
-//        } else if (methodText.startsWith("- ")) {
-//            accessModifier = "private";
-//            methodText = methodText.substring(2).trim(); // Remove 'private ' prefix
-//        }
-//
-//        // Use regular expressions to split the method text into return type, name, and parameters
-//        String regex = "^\\s*(\\w+)\\s+([\\w]+)\\s*\\(([^)]*)\\)\\s*$";
-//        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regex);
-//        java.util.regex.Matcher matcher = pattern.matcher(methodText);
-//
-//        if (matcher.matches()) {
-//            returnType = matcher.group(1).trim(); // Capture the return type
-//            methodName = matcher.group(2).trim(); // Capture the method name
-//        } else {
-//            // If no match is found, fall back to treating the whole text as the method name
-//            methodName = methodText.trim();
-//        }
-//
-//        return new Method(returnType, methodName, accessModifier);
-//    }
     private Method parseMethod(String methodText) {
         System.out.println("Method Text:[" + methodText + "]");
 
@@ -322,10 +288,6 @@ public class ClassObject extends UMLObject {
 
         return new Method(returnType, methodName, accessModifier);
     }
-
-
-
-
 
 
     public Attribute parseAttribute(String attributeString) {
@@ -364,6 +326,7 @@ public class ClassObject extends UMLObject {
     public void removeAttribute(StackPane selectedAttribute) {
         attributeBox.getChildren().remove(selectedAttribute);
         attributes.remove(selectedAttribute);
+        reloadModel();
     }
     public StackPane getSelectedMethod() {
         for (StackPane s : methods) {
@@ -377,5 +340,15 @@ public class ClassObject extends UMLObject {
     public void removeMethod(StackPane selectedMethod) {
         methodBox.getChildren().remove(selectedMethod);
         methods.remove(selectedMethod);
+        reloadModel();
+    }
+    public ClassModel downcastModel(){
+        return  (ClassModel) model;
+    }
+    public List<StackPane> getAttributes(){
+        return attributes;
+    }
+    public List<StackPane> getMethods(){
+        return methods;
     }
 }

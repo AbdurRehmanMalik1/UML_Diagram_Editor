@@ -1,6 +1,6 @@
 package UML.Objects;
 
-import Controllers.InterfaceDiagramController;
+import Controllers.InterfaceButtonController;
 import Models.CD.Method;
 import Models.InterfaceModel;
 import Models.Model;
@@ -10,7 +10,6 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -24,7 +23,7 @@ public class InterfaceObject extends UMLObject {
     private EditableField className;
     private List<StackPane> methods;
     private VBox methodBox;
-    private InterfaceDiagramController controller;
+    private InterfaceButtonController controller;
 
     public InterfaceObject() {
         super();
@@ -128,7 +127,7 @@ public class InterfaceObject extends UMLObject {
         topBox.getChildren().addAll(interfaceLabelWrapper,classNameWrapper);
         detailsBox.getChildren().add(topBox);
 
-        controller = new InterfaceDiagramController(this, interfaceLabelWrapper);
+        controller = new InterfaceButtonController(this, interfaceLabelWrapper);
 
         methodBox = new VBox();
         methodBox.setPadding(new Insets(5,0,5,0));
@@ -255,5 +254,9 @@ public class InterfaceObject extends UMLObject {
     public void removeMethod(StackPane selectedMethod) {
         methodBox.getChildren().remove(selectedMethod);
         methods.remove(selectedMethod);
+        reloadModel();
+    }
+    public List<StackPane> getMethods(){
+        return methods;
     }
 }

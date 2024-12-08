@@ -17,7 +17,7 @@ public class UseCaseObject extends UMLObject {
     private final Ellipse ellipse;
     private double radiusX = 70;
     private double radiusY = 50;
-    EditableField field;
+    private EditableField field;
 
     public UseCaseObject(String initialText) {
         super();
@@ -61,7 +61,9 @@ public class UseCaseObject extends UMLObject {
         this("Use Case");
     }
 
-
+    public String getUseCaseName(){
+        return field.getText();
+    }
     @Override
     public double getWidth() {
         return ellipse.getRadiusX()*2;

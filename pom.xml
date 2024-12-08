@@ -188,18 +188,16 @@
           </execution>
         </executions>
       </plugin>
-<!--      <plugin>-->
-<!--        <groupId>org.junit.platform</groupId>-->
-<!--        <artifactId>junit-platform-surefire-provider</artifactId>-->
-<!--        <version>1.8.2</version> &lt;!&ndash; Make sure to use the latest version &ndash;&gt;-->
-<!--        <executions>-->
-<!--          <execution>-->
-<!--            <goals>-->
-<!--              <goal>test</goal>-->
-<!--            </goals>-->
-<!--          </execution>-->
-<!--        </executions>-->
-<!--      </plugin>-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M7</version> <!-- Ensure you use the latest version -->
+        <configuration>
+          <includes>
+            <include>**/*Test.class</include>
+          </includes>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>

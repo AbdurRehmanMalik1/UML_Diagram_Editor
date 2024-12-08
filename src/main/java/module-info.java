@@ -18,6 +18,8 @@ module Main {
     exports UML.UI_Components;
     exports UML.Diagrams;
 
+
+
     opens Models to com.fasterxml.jackson.databind;
     opens UML to com.fasterxml.jackson.databind;  // Open UML package to Jackson for serialization/deserialization
     opens UML.Objects to com.fasterxml.jackson.databind;
@@ -25,7 +27,6 @@ module Main {
     opens UML.ObjectFactories to com.fasterxml.jackson.databind;
     opens UML.Line to com.fasterxml.jackson.databind;
     opens Models.CD to com.fasterxml.jackson.databind;
-
 
     // Explicitly open UML package for mocking with Mockito
     opens Main to javafx.fxml;

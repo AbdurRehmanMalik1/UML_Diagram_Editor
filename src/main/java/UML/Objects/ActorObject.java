@@ -12,7 +12,6 @@ import javafx.scene.shape.SVGPath;
 public class ActorObject extends UMLObject {
     private final SVGPath actorSVG;
     private final EditableField field;
-    private final VBox container;
 
     public ActorObject(String initialText) {
         super();
@@ -38,7 +37,7 @@ public class ActorObject extends UMLObject {
         field = new EditableField(initialText, this::reloadModel);
 
 
-        container = new VBox(5);
+        VBox container = new VBox(5);
         container.setAlignment(Pos.CENTER);
         container.getChildren().addAll(actorSVG, field);
 
@@ -49,6 +48,8 @@ public class ActorObject extends UMLObject {
         this.focusedProperty().addListener((observable, oldValue, newValue) ->{
             outerRect.setVisibility(newValue);
         });
+
+        setActorColor(Color.rgb(231,227,227));
     }
 
     public ActorModel downcastModel(){
@@ -102,5 +103,13 @@ public class ActorObject extends UMLObject {
 
     public String getActorName() {
         return field.getText();
+    }
+
+    public Color getColor() {
+        return (Color) actorSVG.getFill();
+    }
+
+    public SVGPath getActorSvg() {
+        return actorSVG;
     }
 }
