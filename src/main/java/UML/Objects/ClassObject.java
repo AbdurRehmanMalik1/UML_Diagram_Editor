@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Represents a Class Object in the UML diagram.
+ * Extends `UMLObject` and provides specific behavior and rendering for class diagrams.
+ */
 public class ClassObject extends UMLObject {
     private final Group groupDiagram;
     private VBox detailsBox;
@@ -30,6 +34,10 @@ public class ClassObject extends UMLObject {
     private VBox methodBox;
     private ClassButtonController controller;
 
+    /**
+     * Constructor that initializes the ClassObject.
+     * Sets up the class model and UI components.
+     */
     public ClassObject() {
         super();
         model = new ClassModel();
@@ -39,6 +47,7 @@ public class ClassObject extends UMLObject {
 
         groupDiagram.getChildren().add((Node) controller);
 
+        // Add outer rectangle visibility management
         groupDiagram.getChildren().addFirst(outerRect);
         outerRect.setVisibility(false);
 
@@ -51,10 +60,12 @@ public class ClassObject extends UMLObject {
             }
         });
 
+        // Update outer rectangle on layout changes
         this.layoutBoundsProperty().addListener((observable, oldValue, newValue) ->
                 Platform.runLater(this::resizeOuterRect)
         );
 
+        // Show/hide controller based on focus state
         this.focusedProperty().addListener((observable, oldValue, newValue) -> {
             outerRect.setVisibility(newValue);
             if (!newValue) {
@@ -63,28 +74,44 @@ public class ClassObject extends UMLObject {
                 showController();
             }
         });
-
     }
 
+    /**
+     * Hides the controller from the UI.
+     * Called when the ClassObject loses focus.
+     */
     private void hideController() {
-        // This will hide the controller when the ClassObject loses focus
-       groupDiagram.getChildren().remove(controller);
+        groupDiagram.getChildren().remove(controller);
     }
+
+    /**
+     * Determines whether the controller should be hidden based on focus state.
+     * This method checks if the ClassObject itself or any of its attributes or methods are focused.
+     * If none of them are focused and the ClassObject loses focus, the controller is hidden.
+     */
     private void hideControllerIfNotFocused() {
         boolean isAttributeFocused = false;
-        for(StackPane e : attributes){
-            if(((EditableField)e).isTextFieldFocused())
+        for (StackPane e : attributes) {
+            if (((EditableField) e).isTextFieldFocused())
                 isAttributeFocused = true;
         }
         boolean isMethodFocused = false;
-        for(StackPane e : methods){
-            if(((EditableField)e).isTextFieldFocused())
+        for (StackPane e : methods) {
+            if (((EditableField) e).isTextFieldFocused())
                 isMethodFocused = true;
         }
         if (!isAttributeFocused && !isMethodFocused && !this.isFocused()) {
             hideController();
         }
     }
+
+    /**
+     * Adds focus listeners to the elements in a given VBox.
+     * Hides the controller if any element loses focus.
+     *
+     * @param box      the VBox containing elements to add listeners to.
+     * @param elements the list of elements to monitor for focus changes.
+     */
     private void addFocusListeners(VBox box, List<StackPane> elements) {
         for (StackPane element : elements) {
             element.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -94,8 +121,12 @@ public class ClassObject extends UMLObject {
             });
         }
     }
+
+    /**
+     * Shows the controller in the UI.
+     * Called when the ClassObject gains focus.
+     */
     private void showController() {
-        // This will show the controller when the ClassObject gains focus
         if (!groupDiagram.getChildren().contains(controller)) {
             groupDiagram.getChildren().add(controller);
         }
@@ -121,7 +152,11 @@ public class ClassObject extends UMLObject {
     public double getHeight() {
         return detailsBox.getHeight();
     }
-
+    /**
+     * Sets the model for the ClassObject and updates its properties based on the provided ClassModel.
+     *
+     * @param model the ClassModel to set as the model for this ClassObject.
+     */
     public void setModel(ClassModel model) {
         this.model = model;
         if (model.isAbstract()) {
@@ -142,6 +177,9 @@ public class ClassObject extends UMLObject {
         this.setLayoutY(model.getY());
     }
 
+    /**
+     * Resizes the outer rectangle surrounding the ClassObject to match the size and position of the detailsBox.
+     */
     public void resizeOuterRect() {
         Bounds boundsInScene = detailsBox.localToScene(detailsBox.getBoundsInLocal());
         Bounds boundsInGroup = groupDiagram.sceneToLocal(boundsInScene);
@@ -149,6 +187,9 @@ public class ClassObject extends UMLObject {
         outerRect.setSize(boundsInGroup.getWidth() + 4, boundsInGroup.getHeight() + 4);
     }
 
+    /**
+     * Initializes the UI components for the ClassObject, such as the detailsBox, className field, attributes, and methods.
+     */
     private void initComponents() {
         detailsBox = new VBox();
         detailsBox.setBorder(new Border(new BorderStroke(Color.BLACK,
@@ -171,7 +212,6 @@ public class ClassObject extends UMLObject {
 
         controller = new ClassButtonController(this, classNameWrapper);
 
-
         attributeBox = new VBox();
         attributeBox.setPadding(new Insets(5, 0, 5, 0));
         attributes = new ArrayList<>();
@@ -187,10 +227,15 @@ public class ClassObject extends UMLObject {
         detailsBox.getChildren().add(methodBox);
 
         groupDiagram.getChildren().add(detailsBox);
-        addFocusListeners(attributeBox,attributes);
+        addFocusListeners(attributeBox, attributes);
         addFocusListeners(methodBox, methods);
     }
 
+    /**
+     * Adds an attribute to the ClassObject.
+     *
+     * @param temp the Attribute to add.
+     */
     public void addAttribute(Attribute temp) {
         StackPane attribute = new EditableField(temp.toString(), this::reloadModel);
         attribute.setFocusTraversable(true);
@@ -198,6 +243,11 @@ public class ClassObject extends UMLObject {
         attributeBox.getChildren().add(attribute);
     }
 
+    /**
+     * Adds a method to the ClassObject.
+     *
+     * @param temp the Method to add.
+     */
     public void addMethod(Method temp) {
         EditableField method = new EditableField(temp.toString(), this::reloadModel);
         method.setIsAbstract(temp.isAbstract());
@@ -209,7 +259,14 @@ public class ClassObject extends UMLObject {
             }
         });
     }
-
+    /**
+     * Updates the model with the latest data from the ClassObject.
+     * This includes updating the class name, attributes, and methods for the ClassModel.
+     *
+     * The method clears existing attributes and methods, then re-adds them based on the current state of the ClassObject.
+     *
+     * @throws IllegalArgumentException if an attribute or method string cannot be parsed correctly.
+     */
     @Override
     public void reloadModel() {
         super.reloadModel();
@@ -257,6 +314,16 @@ public class ClassObject extends UMLObject {
             }
         }
     }
+
+    /**
+     * Parses a method string to create a Method object.
+     * The method string format can include access modifiers ('+ ', '# ', '- ') and return types.
+     * If no access modifier or return type is present, defaults are set.
+     *
+     * @param methodText the string representation of the method.
+     * @return a Method object representing the parsed method.
+     * @throws IllegalArgumentException if the method text is incorrectly formatted.
+     */
     private Method parseMethod(String methodText) {
         System.out.println("Method Text:[" + methodText + "]");
 
@@ -279,7 +346,7 @@ public class ClassObject extends UMLObject {
         if (colonIndex != -1) {
             returnType = methodText.substring(colonIndex + 1).trim(); // Extract the return type
             methodText = methodText.substring(0, colonIndex).trim(); // Remove the return type part from the method text
-            if(returnType.isEmpty()) {
+            if (returnType.isEmpty()) {
                 returnType = "void";
                 methodText = methodText + returnType;
             }
@@ -290,7 +357,15 @@ public class ClassObject extends UMLObject {
         return new Method(returnType, methodName, accessModifier);
     }
 
-
+    /**
+     * Parses an attribute string to create an Attribute object.
+     * The attribute string format should be '- name : type', '+ name : type', or '# name : type'.
+     * The access modifier should be the first character ('-', '+', or '#').
+     *
+     * @param attributeString the string representation of the attribute.
+     * @return an Attribute object representing the parsed attribute.
+     * @throws IllegalArgumentException if the attribute string is incorrectly formatted.
+     */
     public Attribute parseAttribute(String attributeString) {
         attributeString = attributeString.trim();
         String accessModifier;
@@ -315,6 +390,11 @@ public class ClassObject extends UMLObject {
         return new Attribute(name, type, accessModifier);
     }
 
+    /**
+     * Gets the currently selected attribute StackPane (the one with focus) from the ClassObject.
+     *
+     * @return the selected attribute StackPane, or null if no attribute is focused.
+     */
     public StackPane getSelectedAttribute() {
         for (StackPane s : attributes) {
             if (s instanceof EditableField && ((EditableField) s).isTextFieldFocused()) {
@@ -324,11 +404,22 @@ public class ClassObject extends UMLObject {
         return null;
     }
 
+    /**
+     * Removes the specified attribute from the ClassObject and reloads the model.
+     *
+     * @param selectedAttribute the StackPane representing the attribute to remove.
+     */
     public void removeAttribute(StackPane selectedAttribute) {
         attributeBox.getChildren().remove(selectedAttribute);
         attributes.remove(selectedAttribute);
         reloadModel();
     }
+
+    /**
+     * Gets the currently selected method StackPane (the one with focus) from the ClassObject.
+     *
+     * @return the selected method StackPane, or null if no method is focused.
+     */
     public StackPane getSelectedMethod() {
         for (StackPane s : methods) {
             if (s instanceof EditableField && ((EditableField) s).isTextFieldFocused()) {
@@ -338,18 +429,42 @@ public class ClassObject extends UMLObject {
         return null;
     }
 
+    /**
+     * Removes the specified method from the ClassObject and reloads the model.
+     *
+     * @param selectedMethod the StackPane representing the method to remove.
+     */
     public void removeMethod(StackPane selectedMethod) {
         methodBox.getChildren().remove(selectedMethod);
         methods.remove(selectedMethod);
         reloadModel();
     }
-    public ClassModel downcastModel(){
-        return  (ClassModel) model;
+
+    /**
+     * Downcasts the model to a ClassModel type.
+     *
+     * @return the ClassModel object.
+     */
+    public ClassModel downcastModel() {
+        return (ClassModel) model;
     }
-    public List<StackPane> getAttributes(){
+
+    /**
+     * Gets the list of attributes in the ClassObject.
+     *
+     * @return a List of StackPane representing the attributes.
+     */
+    public List<StackPane> getAttributes() {
         return attributes;
     }
-    public List<StackPane> getMethods(){
+
+    /**
+     * Gets the list of methods in the ClassObject.
+     *
+     * @return a List of StackPane representing the methods.
+     */
+    public List<StackPane> getMethods() {
         return methods;
     }
+
 }
