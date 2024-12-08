@@ -19,6 +19,18 @@ public abstract class Line extends javafx.scene.shape.Line {
     protected EditableField endMultiplicityField;
     protected EditableField associationNameField;  // New field for the association name
 
+    /**
+     * Constructor for the Line class.
+     *
+     * @param startX           the starting x-coordinate of the line
+     * @param startY           the starting y-coordinate of the line
+     * @param endX             the ending x-coordinate of the line
+     * @param endY             the ending y-coordinate of the line
+     * @param parentPane       the parent pane where the line and its associated fields are added
+     * @param associationModel the association model associated with this line
+     * @param startObject      the starting UML object connected by this line
+     * @param endObject        the ending UML object connected by this line
+     */
     public Line(double startX, double startY, double endX, double endY, Pane parentPane,
                 AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
         super(startX, startY, endX, endY);
@@ -66,6 +78,12 @@ public abstract class Line extends javafx.scene.shape.Line {
         reloadModel();
     }
 
+    /**
+     * Updates the position of the line based on the associated UML object.
+     *
+     * @param object  the UML object associated with the line
+     * @param isStart true if the object is the start of the line, false if it's the end
+     */
     public void updateLinePosition(UMLObject object, boolean isStart) {
         Platform.runLater(() -> {
             // Calculate the shortest distance points between object1 and object2
@@ -91,8 +109,14 @@ public abstract class Line extends javafx.scene.shape.Line {
             customDraw();
         });
     }
+
+    /**
+     * Updates the position of the multiplicity field.
+     *
+     * @param isStart true if updating the start multiplicity, false if updating the end multiplicity
+     */
     private void updateMultiplicityPosition(boolean isStart) {
-        if(startMultiplicityField != null) {
+        if (startMultiplicityField != null) {
             double startX = this.getStartX();
             double startY = this.getStartY();
             double endX = this.getEndX();
@@ -115,6 +139,9 @@ public abstract class Line extends javafx.scene.shape.Line {
         }
     }
 
+    /**
+     * Updates the position of the association name field.
+     */
     private void updateAssociationNamePosition() {
         if (associationNameField != null) {
             double startX = this.getStartX();
@@ -132,12 +159,23 @@ public abstract class Line extends javafx.scene.shape.Line {
         }
     }
 
+    /**
+     * Abstract method to be implemented by subclasses for custom drawing of the line.
+     */
     public abstract void customDraw();
 
+    /**
+     * Gets the association model associated with this line.
+     *
+     * @return the association model
+     */
     public AssociationModel getAssociationModel() {
         return associationModel;
     }
 
+    /**
+     * Reloads the model based on the current multiplicity fields and association name field.
+     */
     public void reloadModel() {
         if (startMultiplicityField != null && endMultiplicityField != null && associationNameField != null) {
             String start = startMultiplicityField.getText().isEmpty() ? "1" : startMultiplicityField.getText();
@@ -150,6 +188,11 @@ public abstract class Line extends javafx.scene.shape.Line {
         }
     }
 
+    /**
+     * Sets the association model for this line.
+     *
+     * @param associationModel the association model to set
+     */
     public void setAssociationModel(AssociationModel associationModel) {
         this.associationModel = associationModel;
         if (associationModel != null) {
@@ -159,24 +202,50 @@ public abstract class Line extends javafx.scene.shape.Line {
         }
     }
 
+    /**
+     * Gets the starting UML object associated with this line.
+     *
+     * @return the start object
+     */
     public UMLObject getStartObject() {
         return startObject;
     }
 
+    /**
+     * Sets the starting UML object associated with this line.
+     *
+     * @param startObject the start object to set
+     */
     public void setStartObject(UMLObject startObject) {
         this.startObject = startObject;
     }
 
+    /**
+     * Gets the ending UML object associated with this line.
+     *
+     * @return the end object
+     */
     public UMLObject getEndObject() {
         return endObject;
     }
 
+    /**
+     * Sets the ending UML object associated with this line.
+     *
+     * @param endObject the end object to set
+     */
     public void setEndObject(UMLObject endObject) {
         this.endObject = endObject;
     }
 
+    /**
+     * Deletes the old references and removes this line and its associated fields from the parent pane.
+     */
     protected abstract void deleteOld();
 
+    /**
+     * Deletes this line and its associated fields from the parent pane.
+     */
     public void delete() {
         if (startObject != null && startObject.getModel() != null && startObject.getAssociatedLines() != null) {
             startObject.getModel().removeStartAssociation(this.associationModel);
@@ -187,13 +256,12 @@ public abstract class Line extends javafx.scene.shape.Line {
             endObject.getModel().removeEndAssociation(this.associationModel);
             endObject.getAssociatedLines().remove(this);
         }
-        if (parentPane != null) {
-            this.deleteOld();
-            parentPane.getChildren().remove(this);
-            parentPane.getChildren().remove(startMultiplicityField);
-            parentPane.getChildren().remove(endMultiplicityField);
-            parentPane.getChildren().remove(associationNameField);  // Remove the association name field
-        }
+
+        deleteOld();
+        parentPane.getChildren().remove(this);
+        parentPane.getChildren().remove(startMultiplicityField);
+        parentPane.getChildren().remove(endMultiplicityField);
+        parentPane.getChildren().remove(associationNameField);
     }
 
     // Set multiplicity values (optional)

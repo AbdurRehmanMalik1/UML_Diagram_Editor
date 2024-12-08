@@ -6,30 +6,62 @@ import javafx.scene.shape.Polygon;
 import Models.AssociationModel;
 import UML.Objects.UMLObject;
 
+/**
+ * Class representing an Inheritance line in a UML diagram.
+ * This class extends the `Line` class to provide specific behavior for inheritance relationships.
+ * It includes methods for drawing the inheritance line and its arrowhead.
+ */
 public class Inheritance extends Line {
 
-    private Polygon arrowhead =null;
+    private Polygon arrowhead = null;
 
+    /**
+     * Constructor for the Inheritance class.
+     *
+     * @param startX           the starting x-coordinate of the line
+     * @param startY           the starting y-coordinate of the line
+     * @param endX             the ending x-coordinate of the line
+     * @param endY             the ending y-coordinate of the line
+     * @param parentPane       the parent pane where the line and its components are added
+     * @param associationModel the association model associated with this line
+     * @param startObject      the starting UML object connected by this line
+     * @param endObject        the ending UML object connected by this line
+     */
     public Inheritance(double startX, double startY, double endX, double endY,
                        Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
         super(startX, startY, endX, endY, parentPane, associationModel, startObject, endObject);
         this.setStroke(Color.BLACK);
         this.setStrokeWidth(2);
-        parentPane.getChildren().removeAll(startMultiplicityField,endMultiplicityField,associationNameField);
+
+        // Clear any existing multiplicity fields and association name fields
+        parentPane.getChildren().removeAll(startMultiplicityField, endMultiplicityField, associationNameField);
         startMultiplicityField = null;
         endMultiplicityField = null;
         associationNameField = null;
+
+        // Draw the custom inheritance line
         customDraw();
     }
 
+    /**
+     * Custom drawing method for the inheritance line and its arrowhead.
+     */
     @Override
     public void customDraw() {
-        if(arrowhead!=null)
+        if (arrowhead != null) {
             deleteOld();
+        }
         drawArrowhead(getEndX(), getEndY(), getStartX(), getStartY());
     }
 
-    // Helper method to draw the triangle (arrowhead) using JavaFX Polygon
+    /**
+     * Helper method to draw the arrowhead for the inheritance line.
+     *
+     * @param x       the x-coordinate of the arrowhead tip
+     * @param y       the y-coordinate of the arrowhead tip
+     * @param startX  the x-coordinate of the line start
+     * @param startY  the y-coordinate of the line start
+     */
     public void drawArrowhead(double x, double y, double startX, double startY) {
         double angle = Math.atan2(y - startY, x - startX);  // Angle of the line
         double offset = 10; // Offset to place the arrowhead at a distance from the line's end
@@ -65,8 +97,9 @@ public class Inheritance extends Line {
         parentPane.getChildren().add(arrowhead);
     }
 
-
-
+    /**
+     * Deletes the old arrowhead from the parent pane.
+     */
     protected void deleteOld() {
         if (getParent() instanceof Pane parent) {
             parent.getChildren().remove(arrowhead);

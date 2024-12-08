@@ -6,9 +6,27 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
+/**
+ * Class representing a 'Composition' relationship line in a UML diagram.
+ * The Composition line is depicted using a solid line and a diamond at the end to indicate a strong ownership relationship.
+ * This class extends the `Line` class and provides specific behavior for drawing a Composition line.
+ */
 public class Composition extends Line {
 
-    Polygon diamond=null;
+    private Polygon diamond = null;
+
+    /**
+     * Constructor for the Composition class.
+     *
+     * @param startX           the starting x-coordinate of the line
+     * @param startY           the starting y-coordinate of the line
+     * @param endX             the ending x-coordinate of the line
+     * @param endY             the ending y-coordinate of the line
+     * @param parentPane       the parent pane where the line and its components are added
+     * @param associationModel the association model associated with this line
+     * @param startObject      the starting UML object connected by this line
+     * @param endObject        the ending UML object connected by this line
+     */
     public Composition(double startX, double startY, double endX, double endY,
                        Pane parentPane, AssociationModel associationModel, UMLObject startObject, UMLObject endObject) {
         super(startX, startY, endX, endY, parentPane, associationModel, startObject, endObject);
@@ -17,16 +35,29 @@ public class Composition extends Line {
         customDraw();
     }
 
+    /**
+     * Custom drawing method for the Composition line.
+     * Draws a solid line and a diamond shape at the end to represent the Composition relationship.
+     */
     @Override
     public void customDraw() {
-        if(diamond!=null)
+        if (diamond != null) {
             deleteOld();
+        }
         drawDiamond(getEndX(), getEndY(), getStartX(), getStartY(), true);  // 'true' for filled diamond
     }
 
-    // Helper method to draw the diamond shape using JavaFX Polygon
+    /**
+     * Helper method to draw a diamond shape at the end of the Composition line.
+     *
+     * @param x          the x-coordinate of the diamond's tip
+     * @param y          the y-coordinate of the diamond's tip
+     * @param startX     the x-coordinate of the line start
+     * @param startY     the y-coordinate of the line start
+     * @param filled     if true, the diamond will be filled with color; otherwise, it will be a transparent outline
+     */
     public void drawDiamond(double x, double y, double startX, double startY, boolean filled) {
-        double angle = Math.atan2(y - startY, x - startX);
+        double angle = Math.atan2(y - startY, x - startX); // Angle of the line
         double offset = 15;  // Offset to place the diamond after the line's end
         double diamondSize = 10;
 
@@ -34,6 +65,7 @@ public class Composition extends Line {
         double baseX = x + offset * Math.cos(angle);
         double baseY = y + offset * Math.sin(angle);
 
+        // Points for the diamond polygon
         double[] xPoints = {
                 baseX,
                 baseX - diamondSize * Math.cos(angle - Math.PI / 4),
@@ -53,6 +85,7 @@ public class Composition extends Line {
             diamond.getPoints().addAll(xPoints[i], yPoints[i]);
         }
 
+        // Fill or stroke the diamond based on the 'filled' flag
         if (filled) {
             diamond.setFill(Color.BLACK);  // Fill the diamond with black
         } else {
@@ -62,6 +95,9 @@ public class Composition extends Line {
         parentPane.getChildren().add(diamond);
     }
 
+    /**
+     * Deletes the old diamond shape from the parent pane.
+     */
     protected void deleteOld() {
         if (getParent() instanceof Pane parent) {
             parent.getChildren().remove(diamond);

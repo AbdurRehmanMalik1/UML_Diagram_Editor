@@ -561,9 +561,11 @@ public abstract class DiagramController {
             diagram.setModelList(getModels());
             diagram.setAssociationList(getAssociations());
             project.saveProject();
-            ToastMessage.showPositiveToast(canvas,"Save Project Successful",  3);
+            if(canvas!=null)
+                ToastMessage.showPositiveToast(canvas,"Save Project Successful",  3);
         }catch (Exception e){
-            ToastMessage.showNegativeToast(canvas,"Failed to Save Project",  3);
+            if(canvas!=null)
+                ToastMessage.showNegativeToast(canvas,"Failed to Save Project",  3);
         }
     }
 
@@ -578,7 +580,7 @@ public abstract class DiagramController {
         );
 
         if (saveChanges) {
-            project.saveProject(); // Save the project
+            onSaveProjectClick();
         }
 
         try {
