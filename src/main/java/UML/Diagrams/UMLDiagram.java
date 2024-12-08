@@ -146,11 +146,10 @@ public abstract class UMLDiagram implements Serializable {
         String content = readDiagramFile();
         if (!content.isEmpty()) {
             UMLDiagram deserializedDiagram = diagramSerializer.deserialize(content, this.getClass());
-            if (deserializedDiagram instanceof UMLDiagram) {
-                UMLDiagram diagram = deserializedDiagram;
-                this.setAssociationList(diagram.getAssociationList());
-                this.setModelList(diagram.getModels());
-                this.setName(diagram.getName());
+            if (deserializedDiagram != null) {
+                this.setAssociationList(deserializedDiagram.getAssociationList());
+                this.setModelList(deserializedDiagram.getModels());
+                this.setName(deserializedDiagram.getName());
             }
         }
     }
