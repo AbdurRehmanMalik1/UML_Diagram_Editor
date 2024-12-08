@@ -48,7 +48,7 @@ public class HelloApplication extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/OpeningWindow.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
 
-            stage.setTitle("UML Project Manager");
+            stage.setTitle("UML Editor");
             stage.setScene(scene);
             stage.show();
 

@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
@@ -34,6 +35,7 @@ public class UseCaseObject extends UMLObject {
 
         field = new EditableField(useCaseName, this::reloadModel);
         ellipse.setFill(Color.TRANSPARENT);
+        ellipse.setFill(Color.rgb(231, 227, 227));
         ellipse.setStroke(Color.BLACK);
         ellipse.setStrokeWidth(1);
         setRadii(radiusX, radiusY);

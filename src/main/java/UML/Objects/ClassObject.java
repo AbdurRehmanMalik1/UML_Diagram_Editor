@@ -153,6 +153,7 @@ public class ClassObject extends UMLObject {
         detailsBox = new VBox();
         detailsBox.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        detailsBox.setBackground(Background.fill(Color.rgb(231, 227, 227)));
 
         EditableField classNameField = new EditableField("Class Name", this::reloadModel);
         classNameField.setOnKeyPressed(keyEvent -> {
