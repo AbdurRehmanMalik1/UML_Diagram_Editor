@@ -115,6 +115,7 @@ public class InterfaceObject extends UMLObject {
         detailsBox = new VBox();
         detailsBox.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        detailsBox.setBackground(Background.fill(Color.rgb(231, 227, 227)));
 
         VBox topBox = new VBox();
         Label interfaceLabel =  new Label("<<interface>>");

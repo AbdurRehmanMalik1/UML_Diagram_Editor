@@ -1,25 +1,25 @@
 .label
 {
-    -fx-font-size: 30px;
+    -fx-font-size: 36px;
     -fx-font-weight: bold;
     -fx-text-fill: #000000;
-    -fx-effect: dropshadow(gaussian, #aed6f1, 10, 0, 1, 1);
+    -fx-effect: dropshadow(gaussian, #1F51FF, 20, 0.1, 0, 0);
     -fx-padding: 20 0;
 }
 
-.button
+/*.button
 {
     -fx-font-size: 16px;
-    -fx-background-color: #666666;
+    -fx-background-color: rgb(58, 79, 222);
     -fx-text-fill: white;
     -fx-background-radius: 15;
     -fx-padding: 10 20;
     -fx-cursor: hand;
-}
+}*/
 
 .button:hover
 {
-    -fx-background-color: #999999;
+    -fx-background-color: rgb(18, 36, 161);
     -fx-text-fill: #ffffff;
 }
 
@@ -29,4 +29,23 @@
     -fx-text-fill: #4d4d4d;
     -fx-alignment: center;
     -fx-padding: 10 0;
+}
+/*
+.root {
+    -fx-background-color: linear-gradient(to bottom, #e6f7ff, #ccf2ff);
+}*/
+.main-background {
+    -fx-background-image: url("/Images/backgroundImage_icon.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+/* Button Style */
+.button {
+    -fx-background-color: #5a67d8;
+    -fx-text-fill: white;
+    -fx-font-size: 28px;
+    -fx-pref-width: 400px;
+    -fx-pref-height: 80px;
+    -fx-background-radius: 15;
 }
