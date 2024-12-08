@@ -56,7 +56,7 @@ public class InterfaceObject extends UMLObject {
         this.focusedProperty().addListener((observable, oldValue, newValue) -> {
             outerRect.setVisibility(newValue);
             if (!newValue) {
-                hideController();
+                hideControllerIfNotFocused();
             } else {
                 showController();
             }

@@ -240,11 +240,6 @@ public abstract class DiagramController {
     }
 
 
-
-
-
-
-
     public void addToCanvas(UMLObject umlObject, double x, double y) {
         addClassNode("Object " + umlObjects.size() + 1);
         umlObject.reloadModel();
