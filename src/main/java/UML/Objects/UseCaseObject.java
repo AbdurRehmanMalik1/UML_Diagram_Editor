@@ -27,8 +27,6 @@ public class UseCaseObject extends UMLObject {
         StackPane box = new StackPane();
         ellipse = new Ellipse();
 
-
-
         String useCaseName = (downcastModel().getUseCaseName() == null || downcastModel().getUseCaseName().trim().isEmpty() || downcastModel().getUseCaseName().equals("Use Case"))
                 ? "Use Case"
                 : initialText;

@@ -1,9 +1,0 @@
-{
-  "id" : 0,
-  "type" : "Interface",
-  "x" : 214.66666666666669,
-  "y" : 218.0,
-  "interfaceName" : "Interface Name",
-  "methods" : [ "Method():string", "Method():int" ],
-  "modelId" : 1
-}

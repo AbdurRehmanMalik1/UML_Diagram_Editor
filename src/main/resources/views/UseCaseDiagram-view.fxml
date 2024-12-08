@@ -33,14 +33,13 @@
                 <SeparatorMenuItem/>
                 <Menu text="Import">
                     <MenuItem text="XML"/>
-                    <MenuItem onAction="#onLoadDiagram" text="JSON"/>
                     <MenuItem text="Raw Form"/>
                 </Menu>
                 <Menu text="Export">
                     <MenuItem onAction="#onPNGClick" text="PNG"/>
                     <MenuItem onAction="#onJPEGClick" text="JPEG"/>
                     <MenuItem text="XML"/>
-                    <MenuItem onAction="#onSaveDiagram" text="JSON"/>
+                    <MenuItem onAction="#onExportAsJSON" text="JSON"/>
                     <MenuItem text="Raw Form"/>
                 </Menu>
                 <SeparatorMenuItem/>
@@ -58,7 +57,6 @@
                 <MenuItem onAction="#onPasteClick" text="Paste" accelerator="Ctrl+V" />
                 <MenuItem onAction="#onDeleteClick" text="Delete" accelerator="Delete" />
             </Menu>
-
             <Menu text="Debug">
                 <MenuItem text="Toggle Checker" accelerator="Ctrl+D" />
             </Menu>
@@ -147,9 +145,6 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                    </HBox>
-                    <HBox>
-                        <Button focusTraversable="false" onAction="#onCodeGenerateClick" text="Generate Code" styleClass="annotations-hbox" HBox.hgrow="ALWAYS"/>
                     </HBox>
                 </VBox>
             </VBox>

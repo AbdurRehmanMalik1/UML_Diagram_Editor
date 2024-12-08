@@ -17,7 +17,7 @@ public class ToastMessage {
       toastLabel.setTextFill(Color.LIGHTGREEN);
       toastLabel.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 10px; -fx-background-radius: 3px;");
 
-      double xPos = (parentPane.getWidth() - toastLabel.getWidth()) / 2.5;
+      double xPos = 0;
       toastLabel.setLayoutX(xPos);
       toastLabel.setLayoutY(10);
 

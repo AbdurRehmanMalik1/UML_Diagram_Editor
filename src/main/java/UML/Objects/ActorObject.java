@@ -24,7 +24,7 @@ public class ActorObject extends UMLObject {
             requestFocus();
         });
         String actorName = downcastModel().getActorName();
-        System.out.println("Downcasted Actor name = " + actorName);
+//        System.out.println("Downcast Actor name = " + actorName);
         if (actorName == null || actorName.isEmpty() || actorName.equals("Actor")) {
 
             downcastModel().setActorName("Actor");

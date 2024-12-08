@@ -10,8 +10,6 @@ module Main {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.dataformat.xml;
-    requires jakarta.persistence;
-    requires org.hibernate.orm.core;
     exports UML.Line;
     exports UML.Objects;
     exports Models;

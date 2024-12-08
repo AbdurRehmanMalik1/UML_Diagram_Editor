@@ -41,7 +41,7 @@
                     <MenuItem onAction="#onPNGClick" text="PNG"/>
                     <MenuItem onAction="#onJPEGClick" text="JPEG"/>
                     <MenuItem text="XML"/>
-                    <MenuItem onAction="#onSaveDiagram" text="JSON"/>
+                    <MenuItem onAction="#onExportAsJSON" text="JSON"/>
                     <MenuItem text="Raw Form"/>
                 </Menu>
                 <SeparatorMenuItem/>
@@ -69,7 +69,6 @@
     <center><!-- Using SplitPane for left, center, and right sections -->
         <SplitPane dividerPositions="0.2, 0.8">
             <VBox
-                    fx:id="toolbox"
                     spacing="10.0"
                     prefWidth="200"
                     styleClass="toolbox"
@@ -100,7 +99,7 @@
                         </ToggleButton>
                     </HBox>
                     <HBox>
-                        <Button fx:id="associationButton" focusTraversable="false" onAction="#onDrawAssociationClick" text="Association" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                        <Button focusTraversable="false" onAction="#onDrawAssociationClick" text="Association" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
                             <graphic>
                                 <ImageView fitHeight="20" fitWidth="20">
                                     <Image url="@../Images/association_icon.png"/>
@@ -109,7 +108,7 @@
                         </Button>
                     </HBox>
                     <HBox>
-                        <Button fx:id="aggregationButton" focusTraversable="false" onAction="#onDrawAggregationClick"  text="Aggregation" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                        <Button focusTraversable="false" onAction="#onDrawAggregationClick"  text="Aggregation" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
                             <graphic>
                                 <ImageView fitHeight="20" fitWidth="20">
                                     <Image url="@../Images/aggregation_icon.png"/>
@@ -118,7 +117,7 @@
                         </Button>
                     </HBox>
                     <HBox>
-                        <Button fx:id="compositionButton" focusTraversable="false" onAction="#onDrawCompositionClick" text="Composition" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                        <Button focusTraversable="false" onAction="#onDrawCompositionClick" text="Composition" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
                             <graphic>
                                 <ImageView fitHeight="20" fitWidth="20">
                                     <Image url="@../Images/composition_icon.png"/>
@@ -127,7 +126,7 @@
                         </Button>
                     </HBox>
                     <HBox>
-                        <Button fx:id="inheritanceButton" focusTraversable="false"  onAction="#onDrawInheritanceClick" text="Inheritance" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
+                        <Button  focusTraversable="false"  onAction="#onDrawInheritanceClick" text="Inheritance" styleClass="toolbox-button" HBox.hgrow="ALWAYS">
                             <graphic>
                                 <ImageView fitHeight="20" fitWidth="20">
                                     <Image url="@../Images/inheritance_icon.png"/>

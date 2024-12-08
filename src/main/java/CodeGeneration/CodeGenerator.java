@@ -8,11 +8,12 @@ import Models.CD.Attribute;
 import Models.CD.Method; // Assuming Method class exists based on your previous dump
 
 public class CodeGenerator {
-
+    private String selectedPath;
     public CodeGenerator() {
     }
 
-    public void generateAllCode(List<Model> models) {
+    public void generateAllCode(List<Model> models, String selectedPath) {
+        this.selectedPath = selectedPath;
         for (Model model : models) {
             generateCode(model);
         }
@@ -144,11 +145,18 @@ public class CodeGenerator {
     }
 
     private void writeToFile(String fileName, String content) {
-        System.out.println(content);
-        try (FileWriter fileWriter = new FileWriter(fileName)) {
-            fileWriter.write(content);
+        try {
+            // Construct the full file path using the selected directory
+            String filePath = selectedPath + "/" + fileName;
+
+            // Write the content to the file
+            try (FileWriter fileWriter = new FileWriter(filePath)) {
+                fileWriter.write(content);
+            }
+
+            System.out.println("File written successfully: " + filePath);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

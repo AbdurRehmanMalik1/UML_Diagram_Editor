@@ -7,10 +7,7 @@ import Services.ProjectService;
 import UML.Diagrams.UMLDiagram;
 import UML.Diagrams.UseCaseDiagram;
 import UML.Project;
-import Util.Dialogs;
-import Util.DistanceCalc;
-import Util.ImageSaverUtil;
-import Util.ToastMessage;
+import Util.*;
 import Models.AssociationModel;
 import Models.Model;
 import UML.Diagrams.ClassDiagram;
@@ -29,6 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.control.*;
 import UML.Line.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -387,12 +385,40 @@ public abstract class DiagramController {
     }
 
     @FXML
-    public void onSaveDiagram() {
-        List<AssociationModel> associationModels = getAssociations();
-        List<Model> models = getModels();
-        UMLDiagram classDiagram = new ClassDiagram(models, associationModels);
-        classDiagram.saveDiagram();
+    public void onExportAsJSON() {
+        try {
+            // Save the current project file path
+            String tempFilePath = project.getProjectFilePath();
+
+            // Open file chooser with description and extension filter
+            File file = FileChooserUtil.openFileChooser("JSON Files", "*.json");
+
+            // Check if the user canceled the file chooser
+            if (file == null) {
+                return; // Exit if no file was selected
+            }
+
+            // Ensure the selected file has a .json extension
+            String exportPath = file.getAbsolutePath();
+            if (!exportPath.toLowerCase().endsWith(".json")) {
+                exportPath += ".json";
+            }
+
+            // Set the new file path and save the project
+            project.setProjectFilePath(exportPath);
+            project.saveProject();
+
+            // Restore the original file path
+            project.setProjectFilePath(tempFilePath);
+
+            // Show success toast
+            ToastMessage.showPositiveToast(canvas, "Export Successful", 3);
+        } catch (Exception e) {
+            // Show failure toast
+            ToastMessage.showNegativeToast(canvas, "Failed to Export", 3);
+        }
     }
+
 
     @FXML
     public void onLoadDiagram() {
@@ -512,9 +538,33 @@ public abstract class DiagramController {
 
     @FXML
     public void onCodeGenerateClick() {
-        CodeGenerator codeGenerator =  new CodeGenerator();
-        codeGenerator.generateAllCode(getModels());
-        //Button button = new Button();
+        try {
+            // Open a directory chooser to let the user select a folder
+            File directory = FileChooserUtil.openDirectoryChooser();
+
+            // Check if the user canceled the directory selection
+            if (directory == null) {
+                ToastMessage.showNegativeToast(canvas, "Code generation canceled.", 3);
+                return;
+            }
+
+            // Validate the selected path
+            String selectedPath = directory.getAbsolutePath();
+            if (!directory.isDirectory() || !directory.canWrite()) {
+                ToastMessage.showNegativeToast(canvas, "Invalid or unwritable directory.", 3);
+                return;
+            }
+
+            // Generate the code
+            CodeGenerator codeGenerator = new CodeGenerator();
+            codeGenerator.generateAllCode(getModels(), selectedPath);
+
+            // Show success toast
+            ToastMessage.showPositiveToast(canvas, "Code generated successfully at " + selectedPath, 3);
+        } catch (Exception e) {
+            // Show failure toast with exception details
+            ToastMessage.showNegativeToast(canvas, "Failed to generate code: " + e.getMessage(), 3);
+        }
     }
 
     @FXML

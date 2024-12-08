@@ -65,23 +65,6 @@ public class ClassModel extends Model{
     public void addMethod(Method method){
         methods.add(method);
     }
-//    @Override
-//    public String toString() {
-//        StringBuilder sb = new StringBuilder();
-//
-//        sb.append("Class Name: ").append(className).append("\n");
-//
-//        sb.append("Attributes: \n");
-//        for (String attribute : attributes) {
-//            sb.append("  ").append(attribute).append("\n");
-//        }
-//
-//        sb.append("Methods: \n");
-//        for (Method method : methods) {
-//            sb.append("  ").append(method.getText()).append("\n");
-//        }
-//        return sb.toString();
-//    }
 
     public boolean isAbstract() {
         return isAbstract;
