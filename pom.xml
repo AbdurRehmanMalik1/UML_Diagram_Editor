@@ -18,12 +18,40 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-core</artifactId>
+      <version>2.0.9</version> <!-- Check for the latest version -->
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>2.0.9</version> <!-- Check for the latest version -->
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId> powermock-api-mockito2</artifactId>
+      <version>2.0.9</version> <!-- Check for the latest version -->
+    </dependency>
+    <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
       <version>2.13.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>4.0.0</version> <!-- Make sure to use the latest version -->
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>4.0.0</version> <!-- Make sure to use the latest version -->
+      <scope>test</scope>
+    </dependency>
 
-      <dependency>
+
+    <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
         <version>2.13.4.2</version>
@@ -82,6 +110,12 @@
       <artifactId>mssql-jdbc</artifactId>
       <version>${mssql.version}</version>
     </dependency>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.13.1</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
 
   <build>
@@ -154,6 +188,18 @@
           </execution>
         </executions>
       </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.junit.platform</groupId>-->
+<!--        <artifactId>junit-platform-surefire-provider</artifactId>-->
+<!--        <version>1.8.2</version> &lt;!&ndash; Make sure to use the latest version &ndash;&gt;-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <goals>-->
+<!--              <goal>test</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
     </plugins>
   </build>
 </project>

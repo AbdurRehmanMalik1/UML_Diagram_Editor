@@ -50,7 +50,7 @@ public abstract class DiagramController {
     List<UML.Line.Line> associations = new ArrayList<>();
     LineFactory lineFactory = new LineFactory();
     UML.ObjectFactories.ObjectFactory objectFactory = new ObjectFactory();
-    protected BiConsumer<Double, Double> drawObjectFunc;
+    public BiConsumer<Double, Double> drawObjectFunc;
     Model copyTemp = null;
     private double mouseX;
     private double mouseY;
@@ -118,82 +118,6 @@ public abstract class DiagramController {
             rootNode.getChildren().add(diagramItem);
         }
     }
-//    private void switchToDiagram(UMLDiagram selectedDiagram) {
-//        ProjectService projectService = HelloApplication.getProjectService(); // Get the ProjectService
-//        if (projectService == null || selectedDiagram == null) {
-//            ToastMessage.showNegativeToast(canvas, "Invalid project service or diagram.", 3);
-//            return;
-//        }
-//
-//        // Delegate the logic to the ProjectService
-//        UMLDiagram switchedDiagram = projectService.(
-//                diagram,
-//                selectedDiagram,
-//                getModels(),
-//                getAssociations()
-//        );
-//        if (switchedDiagram != null) {
-//            openDiagramView(switchedDiagram);
-//        } else {
-//            ToastMessage.showNegativeToast(canvas, "Failed to switch diagrams.", 3);
-//        }
-//    }
-//
-//    private void openDiagramView(UMLDiagram diagram) {
-//        if (diagram == null) {
-//            System.err.println("No diagram provided to open.");
-//            return;
-//        }
-//
-//        String fxmlFile = null;
-//        FXMLLoader loader = null;
-//
-//        // Determine the correct FXML and controller based on diagram type
-//        if (diagram instanceof ClassDiagram) {
-//            fxmlFile = "/views/ClassDiagram-view.fxml";
-//            loader = new FXMLLoader(getClass().getResource(fxmlFile));
-//        } else if (diagram instanceof UseCaseDiagram) {
-//            fxmlFile = "/views/UseCaseDiagram-view.fxml";
-//            loader = new FXMLLoader(getClass().getResource(fxmlFile));
-//        }
-//
-//        if (fxmlFile == null || loader == null) {
-//            System.err.println("Unsupported diagram type for opening a view.");
-//            return;
-//        }
-//
-//        try {
-//            BorderPane pane = loader.load();
-//            if (diagram instanceof ClassDiagram) {
-//                ClassController classController = loader.getController();
-//                classController.initialize(
-//                        diagram.getAssociationList(),
-//                        diagram.getModels(),
-//                        HelloApplication.getProjectService().getCurrentProject(),
-//                        diagram
-//                );
-//            } else if (diagram instanceof UseCaseDiagram) {
-//                UseCaseController useCaseController = loader.getController();
-//                useCaseController.initialize(
-//                        diagram.getAssociationList(),
-//                        diagram.getModels(),
-//                        HelloApplication.getProjectService().getCurrentProject(),
-//                        diagram
-//                );
-//            }
-//            Scene scene = new Scene(pane);
-//            HelloApplication.getPrimaryStage().setScene(scene);
-//            Stage stage = HelloApplication.getPrimaryStage();
-//            stage.setWidth(1200);
-//            stage.setHeight(800);
-//            stage.setMaxWidth(1200);
-//            stage.setMaxHeight(800);
-//        } catch (IOException e) {
-//            System.err.println("Failed to load FXML: " + fxmlFile);
-//            e.printStackTrace();
-//        }
-//    }
-
     private void switchToDiagram(UMLDiagram selectedDiagram) {
         // Ensure the diagram belongs to the current project
         ProjectService projectService = HelloApplication.getProjectService();  // Get the current ProjectService
@@ -252,14 +176,6 @@ public abstract class DiagramController {
             project.setProjectName(newName);
         }
     }
-
-    @FXML
-    public void changeDiagramType() {
-        String selectedType = diagramTypeBox.getValue();
-        if (selectedType != null) {
-            diagramNode.setValue("Model: " + selectedType);
-        }
-    }
     public void addClassNode(String className) {
         TreeItem<String> classNode = new TreeItem<>(className);
         diagramNode.getChildren().add(classNode);
@@ -308,7 +224,7 @@ public abstract class DiagramController {
 
 
 
-    void addToCanvas(UMLObject umlObject, double x, double y) {
+    public void addToCanvas(UMLObject umlObject, double x, double y) {
         addClassNode("Object " + umlObjects.size() + 1);
         umlObject.reloadModel();
         umlObject.setFocusTraversable(true);
