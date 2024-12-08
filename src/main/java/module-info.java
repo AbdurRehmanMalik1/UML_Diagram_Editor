@@ -1,4 +1,7 @@
 module Main {
+    requires org.hamcrest;
+//    requires org.junit.jupiter.api;
+    requires junit; // For older JUnit 4.x
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;

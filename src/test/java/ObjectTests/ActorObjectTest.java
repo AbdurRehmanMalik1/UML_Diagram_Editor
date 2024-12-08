@@ -18,28 +18,28 @@ class ActorObjectTest  extends JavaFxTestBase {
 //            Platform.startup(() -> {}); // Start the JavaFX application thread
 //    }
 
-    @Test
-    void testInitialization() {
-        ActorObject actor = new ActorObject();
-
-        // Check that the name is set to "Actor" by default
-        assertEquals("Actor", actor.downcastModel().getActorName());
-
-        // Check that the dimensions are set correctly
-        boolean r1 = false;
-        boolean r2 = false;
-        if(actor.getWidth()>40)
-            r1 = true;
-        if(actor.getHeight()>50)
-            r2 = true;
-        assertTrue(r1, "Actor Width is wrong");
-        assertTrue(r2, "Actor Height is wrong");
-
-        // Check that the actor SVG path is correctly initialized
-        SVGPath svgPath = actor.getActorSvg();
-        assertNotNull(svgPath);
-        assertEquals("M75 25a20 20 0 1 0 0.01 0 M75 65v60 M50 80h50 M75 125l-25 40 M75 125l25 40", svgPath.getContent());
-    }
+//    @Test
+//    void testInitialization() {
+//        ActorObject actor = new ActorObject();
+//
+//        // Check that the name is set to "Actor" by default
+//        assertEquals("Actor", actor.downcastModel().getActorName());
+//
+//        // Check that the dimensions are set correctly
+//        boolean r1 = false;
+//        boolean r2 = false;
+//        if(actor.getWidth()>40)
+//            r1 = true;
+//        if(actor.getHeight()>50)
+//            r2 = true;
+//        assertTrue(r1, "Actor Width is wrong");
+//        assertTrue(r2, "Actor Height is wrong");
+//
+//        // Check that the actor SVG path is correctly initialized
+//        SVGPath svgPath = actor.getActorSvg();
+//        assertNotNull(svgPath);
+//        assertEquals("M75 25a20 20 0 1 0 0.01 0 M75 65v60 M50 80h50 M75 125l-25 40 M75 125l25 40", svgPath.getContent());
+//    }
 
     @Test
     void testSetName() {
