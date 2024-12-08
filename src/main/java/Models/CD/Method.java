@@ -12,7 +12,7 @@ public class Method implements Serializable {
     private boolean isAbstract;
     private String accessModifier = "public";
 
-    Method() {
+    public Method() {
     }
 
     public Method(Method other) {

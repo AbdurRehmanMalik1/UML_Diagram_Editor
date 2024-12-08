@@ -1,20 +1,15 @@
+package ObjectTests;
+
 import Models.InterfaceModel;
 import UML.Objects.InterfaceObject;
 import Models.CD.Method;
-import javafx.application.Platform;
 import javafx.scene.layout.StackPane;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestInterfaceObject {
-
-    @BeforeAll
-    static void setUpJavaFX() {
-        Platform.startup(() -> {}); // Start the JavaFX application thread
-    }
+class TestInterfaceObject extends JavaFxTestBase {
 
     @Test
     void testInterfaceObjectSetup() {
@@ -102,5 +97,14 @@ class TestInterfaceObject {
         // Assert that the method is removed
         assertEquals(1, model.getMethods().size(), "Expected no methods in the model");
         assertEquals(1, interfaceObject.getMethods().size(), "Expected no methods in the InterfaceObject");
+    }
+    @Test
+    void copyConstructorInterface(){
+        InterfaceModel interfaceModel = new InterfaceModel();
+        interfaceModel.setInterfaceName("Manager");
+        interfaceModel.setMethods(List.of(new Method()));
+        InterfaceModel interfaceModel1 = new InterfaceModel(interfaceModel);
+
+        assertEquals(interfaceModel1.getInterfaceName(),interfaceModel.getInterfaceName(),"Interface Model Copy Constructor not working");
     }
 }

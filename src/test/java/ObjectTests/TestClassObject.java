@@ -1,22 +1,17 @@
+package ObjectTests;
 import UML.Objects.ClassObject;
 import Models.CD.Attribute;
 import Models.CD.Method;
 import Models.ClassModel;
-import javafx.application.Platform;
 import javafx.scene.layout.StackPane;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestClassObject {
+class TestClassObject extends JavaFxTestBase {
 
-    @BeforeAll
-    static void setUpJavaFX() {
-        Platform.startup(() -> {}); // Start the JavaFX application thread
-    }
 
     @Test
     void testClassObjectSetup() {
@@ -134,5 +129,15 @@ class TestClassObject {
         assertEquals(1, model.getMethods().size(), "Expected no methods in the model");
         assertEquals(1, classObject.getAttributes().size(), "Expected no attributes in the ClassObject");
         assertEquals(1, classObject.getMethods().size(), "Expected no methods in the ClassObject");
+    }
+    @Test
+    void copyConstructorClass(){
+        ClassModel classModel = new ClassModel();
+        classModel.setClassName("Manager");
+        classModel.setAttributes(List.of(new Attribute()));
+        classModel.setMethods(List.of(new Method()));
+        ClassModel classModel1 = new ClassModel(classModel);
+
+        assertEquals(classModel1.getClassName(),classModel.getClassName(),"Class Model Copy Constructor not working");
     }
 }

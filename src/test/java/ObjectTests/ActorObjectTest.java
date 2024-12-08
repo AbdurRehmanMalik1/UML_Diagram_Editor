@@ -1,20 +1,22 @@
+package ObjectTests;
+
+import Models.ActorModel;
 import UML.Objects.ActorObject;
-import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ActorObjectTest {
+class ActorObjectTest  extends JavaFxTestBase {
 
-    @BeforeAll
-    static void setUpJavaFX() {
-        Platform.startup(() -> {}); // Start the JavaFX application thread
-    }
+//    @BeforeAll
+//    static void setUpJavaFX() {
+//        if(!Platform.isFxApplicationThread())
+//            Platform.startup(() -> {}); // Start the JavaFX application thread
+//    }
 
     @Test
     void testInitialization() {
@@ -91,5 +93,13 @@ class ActorObjectTest {
         // Check that the color is set correctly
         actor.getColor();
         assertEquals(Color.BLUE,  actor.getColor());
+    }
+    @Test
+    void copyConstructorActor(){
+        ActorModel actorModel = new ActorModel();
+        actorModel.setActorName("Manager");
+        ActorModel actorModel1 = new ActorModel(actorModel);
+
+        assertEquals(actorModel1.getActorName(),actorModel.getActorName(),"Actor Model Copy Constructor not working");
     }
 }

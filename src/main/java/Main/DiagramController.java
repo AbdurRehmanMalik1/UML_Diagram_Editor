@@ -97,6 +97,27 @@ public abstract class DiagramController {
 
 
     }
+    public void setProjectF(Project p){
+        project = p;
+    }
+    public void setModelTree(TreeView<String> m){
+        modelTree = m;
+    }
+    public TreeView<String> getModelTree(){
+        return modelTree;
+    }
+    public Project getProjectF(){
+        return project;
+    }
+    public List<UMLObject> getUMLObjects(){
+        return  umlObjects;
+    }
+    public void setRootNode(TreeItem<String> s){
+        rootNode = s;
+    }
+    public TreeItem<String> getRootNode(){
+        return  rootNode;
+    }
     private void handleKeyEvents(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.DELETE) {
             onDeleteClick();
@@ -194,7 +215,7 @@ public abstract class DiagramController {
         }
     }
 
-    private void addClassDiagram() {
+    public void addClassDiagram() {
         // Create a new Class Diagram
         ClassDiagram newClassDiagram = new ClassDiagram();
 

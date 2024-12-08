@@ -17,6 +17,7 @@ module Main {
     exports Models.CD;
     exports UML.UI_Components;
     exports UML.Diagrams;
+    exports Util;
 
 
 

@@ -1,3 +1,5 @@
+package OtherTests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import Models.AssociationModel;
@@ -5,7 +7,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 
 public class AssociationModelTest {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();

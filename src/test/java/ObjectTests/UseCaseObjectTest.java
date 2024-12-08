@@ -1,22 +1,18 @@
+package ObjectTests;
+
+import Models.UseCaseModel;
 import UML.Objects.UseCaseObject;
-import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class UseCaseObjectTest {
+class UseCaseObjectTest  extends JavaFxTestBase {
 
-
-    @BeforeAll
-    static void setUpJavaFX() {
-        Platform.startup(() -> {}); // Start the JavaFX application thread
-    }
 
     @Test
     void testInitialization() {
@@ -69,5 +65,13 @@ class UseCaseObjectTest {
 
         // Verify if the model updates correctly
         assertEquals("Updated Name", useCase.downcastModel().getUseCaseName());
+    }
+    @Test
+    void copyConstructorUseCase(){
+        UseCaseModel useCaseModel = new UseCaseModel();
+        useCaseModel.setUseCaseName("Login");
+        UseCaseModel useCaseModel1 = new UseCaseModel(useCaseModel);
+
+        assertEquals(useCaseModel1.getUseCaseName(),useCaseModel.getUseCaseName(),"UseCase Model Copy Constructor not working");
     }
 }
