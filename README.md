@@ -19,7 +19,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/yourusername/UML-Diagram-Tool.git
+git clone https://github.com/AbdurRehmanMalik1/UML_Diagram_Editor.git
 cd UML-Diagram-Tool
 Build the project: Compile the project using your preferred Java IDE or build tool (e.g., Maven or Gradle).
 
